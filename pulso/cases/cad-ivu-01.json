@@ -1,0 +1,564 @@
+{
+  "id": "cad-ivu-01",
+  "v": 1,
+  "title": "Mujer de 19 años con vómito y respiración rápida",
+  "specialty": "Endocrinología · Urgencias",
+  "level": "Intermedio",
+  "source": "Caso modelo basado en el consenso ADA/EASD/JBDS 2024 de crisis hiperglucémicas",
+  "setting": "Urgencias adultos, 03:10 h",
+  "patient": {
+    "name": "Daniela R.",
+    "age": 19,
+    "sex": "F",
+    "weight": 55,
+    "cc": "Vómito y dolor abdominal de 2 días"
+  },
+  "intro": "La trae su madre. Está somnolienta pero responde, respira profundo y rápido, y su aliento huele a fruta.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso",
+      "v": {
+        "hr": 124,
+        "sbp": 96,
+        "dbp": 58,
+        "rr": 30,
+        "spo2": 98,
+        "t": 37.4
+      },
+      "d": "Somnolienta, mucosas secas, respiraciones profundas y rápidas.",
+      "worse": {
+        "after": 60,
+        "to": "choque"
+      }
+    },
+    "choque": {
+      "label": "Hipoperfusión",
+      "v": {
+        "hr": 142,
+        "sbp": 78,
+        "dbp": 42,
+        "rr": 34,
+        "spo2": 96,
+        "t": 37.3
+      },
+      "d": "Pálida y fría, llenado capilar de 4 s. Contesta con monosílabos.",
+      "worse": {
+        "after": 45,
+        "to": "paro"
+      }
+    },
+    "hidratado": {
+      "label": "Tras carga de líquidos",
+      "v": {
+        "hr": 108,
+        "sbp": 110,
+        "dbp": 66,
+        "rr": 28,
+        "spo2": 98,
+        "t": 37.2
+      },
+      "d": "Mejor perfusión y empieza a orinar. Sigue con respiración profunda y náusea.",
+      "worse": {
+        "after": 180,
+        "to": "choque"
+      }
+    },
+    "corrigiendo": {
+      "label": "Infusión de insulina",
+      "v": {
+        "hr": 98,
+        "sbp": 114,
+        "dbp": 70,
+        "rr": 22,
+        "spo2": 98,
+        "t": 37.1
+      },
+      "d": "Más despierta, pide agua. Refiere calambres leves en las piernas.",
+      "worse": {
+        "after": 60,
+        "to": "hipokalemia"
+      }
+    },
+    "hipokalemia": {
+      "label": "Hipokalemia",
+      "rhythm": "ectopia",
+      "v": {
+        "hr": 112,
+        "sbp": 108,
+        "dbp": 64,
+        "rr": 20,
+        "spo2": 97,
+        "t": 37.0
+      },
+      "d": "Debilidad marcada en extremidades y extrasístoles frecuentes en el monitor.",
+      "worse": {
+        "after": 40,
+        "to": "paro"
+      }
+    },
+    "estable": {
+      "label": "Corrigiendo acidosis",
+      "v": {
+        "hr": 90,
+        "sbp": 118,
+        "dbp": 72,
+        "rr": 18,
+        "spo2": 99,
+        "t": 37.0
+      },
+      "d": "Alerta, sin náusea. La glucemia sigue bajando.",
+      "worse": {
+        "after": 120,
+        "to": "hipoglucemia"
+      }
+    },
+    "hipoglucemia": {
+      "label": "Hipoglucemia",
+      "v": {
+        "hr": 110,
+        "sbp": 122,
+        "dbp": 76,
+        "rr": 18,
+        "spo2": 99,
+        "t": 36.8
+      },
+      "d": "Diaforética, temblorosa y confusa."
+    },
+    "resuelto": {
+      "label": "CAD en resolución",
+      "goal": true,
+      "v": {
+        "hr": 84,
+        "sbp": 118,
+        "dbp": 74,
+        "rr": 16,
+        "spo2": 99,
+        "t": 36.9
+      },
+      "d": "Alerta, tolera líquidos. pH y bicarbonato en franca mejoría."
+    },
+    "paro": {
+      "label": "Paro cardiorrespiratorio",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 36.5
+      },
+      "d": "Sin pulso. Se inicia RCP sin recuperación de la circulación."
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Desde cuándo y cómo empezó?",
+      "a": "Hace dos días, con náusea y vómito unas 6 veces al día. Después, dolor en todo el abdomen."
+    },
+    {
+      "id": "h2",
+      "q": "¿Enfermedades previas?",
+      "a": "Diabetes tipo 1 desde los 12 años."
+    },
+    {
+      "id": "h3",
+      "q": "¿Qué medicamentos usa y cómo se los ha aplicado?",
+      "a": "Glargina 18 U en la noche y lispro con las comidas. Desde hace 3 días no se pone nada: «como no comía, pensé que no la necesitaba»."
+    },
+    {
+      "id": "h4",
+      "q": "¿Mucha sed u orina mucho?",
+      "a": "Sí, toma agua todo el tiempo y orina muy seguido."
+    },
+    {
+      "id": "h5",
+      "q": "¿Molestias al orinar o fiebre?",
+      "a": "Ardor al orinar desde hace 5 días. Se sintió caliente, no se midió la temperatura."
+    },
+    {
+      "id": "h6",
+      "q": "¿Fecha de última menstruación?",
+      "a": "Hace dos semanas, ciclos regulares."
+    },
+    {
+      "id": "h7",
+      "q": "¿Alcohol o drogas?",
+      "a": "Lo niega."
+    },
+    {
+      "id": "h8",
+      "q": "¿Alergias?",
+      "a": "Ninguna conocida."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Aspecto general y conciencia",
+      "f": "Somnolienta, Glasgow 14 (O3 V5 M6). Aliento afrutado."
+    },
+    {
+      "id": "e2",
+      "n": "Hidratación y piel",
+      "f": "Mucosas orales secas, turgencia disminuida, llenado capilar de 3 s."
+    },
+    {
+      "id": "e3",
+      "n": "Respiratorio",
+      "f": "Respiraciones profundas y regulares (Kussmaul). Campos pulmonares limpios."
+    },
+    {
+      "id": "e4",
+      "n": "Cardiovascular",
+      "f": "Taquicardia rítmica, sin soplos. Pulsos periféricos débiles."
+    },
+    {
+      "id": "e5",
+      "n": "Abdomen",
+      "f": "Dolor difuso a la palpación profunda, sin rebote ni rigidez. Peristalsis disminuida."
+    },
+    {
+      "id": "e6",
+      "n": "Puño percusión",
+      "f": "Puño percusión derecha positiva."
+    },
+    {
+      "id": "e7",
+      "n": "Neurológico",
+      "f": "Sin focalización. Pupilas isocóricas y reactivas."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t_gc",
+      "n": "Glucemia capilar",
+      "min": 2,
+      "r": {
+        "inicial": "512 mg/dL",
+        "choque": "548 mg/dL",
+        "hidratado": "436 mg/dL",
+        "corrigiendo": "318 mg/dL",
+        "hipokalemia": "294 mg/dL",
+        "estable": "224 mg/dL",
+        "hipoglucemia": "52 mg/dL",
+        "resuelto": "168 mg/dL",
+        "*": "510 mg/dL"
+      }
+    },
+    {
+      "id": "t_gaso",
+      "n": "Gasometría venosa",
+      "min": 10,
+      "r": {
+        "inicial": "pH 7.08 · pCO₂ 22 · HCO₃⁻ 11 · lactato 2.1",
+        "choque": "pH 7.02 · pCO₂ 20 · HCO₃⁻ 9 · lactato 4.8",
+        "hidratado": "pH 7.11 · HCO₃⁻ 11",
+        "corrigiendo": "pH 7.19 · HCO₃⁻ 13",
+        "hipokalemia": "pH 7.21 · HCO₃⁻ 14",
+        "estable": "pH 7.26 · HCO₃⁻ 15",
+        "hipoglucemia": "pH 7.30 · HCO₃⁻ 17",
+        "resuelto": "pH 7.33 · HCO₃⁻ 19",
+        "*": "pH 7.08 · HCO₃⁻ 11"
+      }
+    },
+    {
+      "id": "t_elec",
+      "n": "Electrolitos séricos",
+      "min": 20,
+      "r": {
+        "inicial": "Na⁺ 131 · K⁺ 5.6 · Cl⁻ 97 mEq/L · brecha aniónica 23",
+        "choque": "Na⁺ 130 · K⁺ 5.9 · Cl⁻ 96",
+        "hidratado": "Na⁺ 134 · K⁺ 5.3 · Cl⁻ 104",
+        "corrigiendo": "Na⁺ 136 · K⁺ 3.9 · Cl⁻ 106",
+        "hipokalemia": "Na⁺ 137 · K⁺ 2.9 · Cl⁻ 107",
+        "estable": "Na⁺ 137 · K⁺ 4.2 · Cl⁻ 107",
+        "hipoglucemia": "Na⁺ 138 · K⁺ 4.0",
+        "resuelto": "Na⁺ 138 · K⁺ 4.1 · Cl⁻ 106 · brecha aniónica 13",
+        "*": "Na⁺ 131 · K⁺ 5.6"
+      }
+    },
+    {
+      "id": "t_ceto",
+      "n": "β-hidroxibutirato sérico",
+      "min": 20,
+      "r": {
+        "resuelto": "0.5 mmol/L",
+        "estable": "1.4 mmol/L",
+        "*": "5.8 mmol/L"
+      }
+    },
+    {
+      "id": "t_qs",
+      "n": "Química sanguínea (BUN, creatinina)",
+      "min": 30,
+      "r": "BUN 32 mg/dL · creatinina 1.3 mg/dL · osmolaridad efectiva ≈ 290 mOsm/kg"
+    },
+    {
+      "id": "t_bh",
+      "n": "Biometría hemática",
+      "min": 20,
+      "r": "Leucocitos 16 200/µL (84 % neutrófilos) · Hb 14.8 g/dL · plaquetas 310 000"
+    },
+    {
+      "id": "t_ego",
+      "n": "Examen general de orina",
+      "min": 20,
+      "r": "Glucosa ++++ · cetonas +++ · leucocitos 25–30/campo · nitritos positivos · bacterias abundantes"
+    },
+    {
+      "id": "t_ecg",
+      "n": "Electrocardiograma",
+      "min": 5,
+      "r": {
+        "inicial": "Taquicardia sinusal 124 lpm, ondas T ligeramente picudas.",
+        "choque": "Taquicardia sinusal 142 lpm, T picudas.",
+        "hipokalemia": "Aplanamiento de T, ondas U prominentes, extrasístoles ventriculares frecuentes.",
+        "*": "Ritmo sinusal sin alteraciones agudas."
+      }
+    },
+    {
+      "id": "t_hcg",
+      "n": "Prueba de embarazo (hCG)",
+      "min": 15,
+      "r": "Negativa"
+    },
+    {
+      "id": "t_lip",
+      "n": "Lipasa",
+      "min": 30,
+      "r": "58 U/L (normal)"
+    },
+    {
+      "id": "t_rx",
+      "n": "Radiografía de tórax",
+      "min": 20,
+      "r": "Sin consolidaciones ni derrame."
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r_ssn",
+      "n": "Solución salina 0.9 % 1 L en 1 h",
+      "min": 10,
+      "goto": "hidratado",
+      "when": [
+        "inicial",
+        "choque"
+      ],
+      "note": "Pasa la carga. Reevalúa perfusión y diuresis."
+    },
+    {
+      "id": "r_ins",
+      "n": "Insulina regular en infusión 0.1 U/kg/h (5.5 U/h)",
+      "min": 5,
+      "goto": "corrigiendo",
+      "when": [
+        "hidratado"
+      ],
+      "harm": {
+        "when": [
+          "inicial",
+          "choque"
+        ],
+        "msg": "Insulina antes de restituir volumen en una paciente hipovolémica: desplaza agua al intracelular y puede empeorar la hipotensión."
+      },
+      "note": "Infusión iniciada. Glucemia capilar cada hora."
+    },
+    {
+      "id": "r_kcl",
+      "n": "KCl 20–30 mEq por litro de solución",
+      "min": 5,
+      "goto": "estable",
+      "when": [
+        "corrigiendo",
+        "hipokalemia"
+      ],
+      "harm": {
+        "when": [
+          "inicial",
+          "choque",
+          "hidratado"
+        ],
+        "msg": "K⁺ por arriba de 5.0 mEq/L: todavía no se repone potasio."
+      },
+      "note": "Se agrega potasio a las soluciones."
+    },
+    {
+      "id": "r_dx",
+      "n": "Agregar dextrosa 5 % y bajar insulina a 0.05 U/kg/h",
+      "min": 5,
+      "goto": "resuelto",
+      "when": [
+        "estable"
+      ],
+      "harm": {
+        "when": [
+          "inicial",
+          "choque",
+          "hidratado",
+          "corrigiendo",
+          "hipokalemia"
+        ],
+        "msg": "La dextrosa se agrega cuando la glucosa baja de 250 mg/dL; antes retrasa la corrección."
+      },
+      "note": "Mantienes la insulina para seguir cerrando la cetosis sin hipoglucemia."
+    },
+    {
+      "id": "r_d50",
+      "n": "Dextrosa 50 % 25 g IV en bolo",
+      "min": 3,
+      "goto": "resuelto",
+      "when": [
+        "hipoglucemia"
+      ],
+      "harm": {
+        "when": [
+          "inicial",
+          "choque",
+          "hidratado",
+          "corrigiendo",
+          "hipokalemia"
+        ],
+        "msg": "Bolo de glucosa en una paciente hiperglucémica."
+      },
+      "note": "Recupera el estado de alerta en minutos."
+    },
+    {
+      "id": "r_bic",
+      "n": "Bicarbonato de sodio 100 mEq IV",
+      "min": 5,
+      "harm": {
+        "msg": "Con pH ≥ 7.0 el bicarbonato no está indicado: aumenta el riesgo de hipokalemia y no mejora el desenlace."
+      },
+      "note": "Se administra."
+    },
+    {
+      "id": "r_ceft",
+      "n": "Ceftriaxona 1 g IV",
+      "min": 5,
+      "note": "Cubre el foco urinario probable."
+    },
+    {
+      "id": "r_ond",
+      "n": "Ondansetrón 4 mg IV",
+      "min": 3,
+      "note": "Disminuye la náusea."
+    },
+    {
+      "id": "r_alta",
+      "n": "Alta con insulina subcutánea",
+      "min": 5,
+      "harm": {
+        "msg": "Alta con acidosis activa: la CAD no se ha resuelto."
+      },
+      "note": "Se suspende el egreso por indicación del adscrito."
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Cetoacidosis diabética moderada precipitada por pielonefritis y suspensión de insulina",
+      "Estado hiperglucémico hiperosmolar",
+      "Pancreatitis aguda",
+      "Gastroenteritis aguda con deshidratación",
+      "Cetoacidosis alcohólica"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Glucemia capilar en los primeros 15 min",
+        "a": [
+          "t_gc"
+        ],
+        "by": 15
+      },
+      {
+        "label": "Gasometría en los primeros 30 min",
+        "a": [
+          "t_gaso"
+        ],
+        "by": 30
+      },
+      {
+        "label": "Potasio sérico antes de iniciar insulina",
+        "a": [
+          "t_elec"
+        ],
+        "before": "r_ins"
+      },
+      {
+        "label": "Líquidos IV en la primera hora",
+        "a": [
+          "r_ssn"
+        ],
+        "by": 60
+      },
+      {
+        "label": "Insulina en infusión tras reponer volumen",
+        "a": [
+          "r_ins"
+        ]
+      },
+      {
+        "label": "Reponer potasio cuando bajó de 5.0",
+        "a": [
+          "r_kcl"
+        ]
+      },
+      {
+        "label": "Dextrosa al bajar la glucemia",
+        "a": [
+          "r_dx",
+          "r_d50"
+        ]
+      },
+      {
+        "label": "Buscar el precipitante (EGO o síntomas urinarios)",
+        "a": [
+          "t_ego",
+          "h5"
+        ]
+      },
+      {
+        "label": "Tratar el foco infeccioso",
+        "a": [
+          "r_ceft"
+        ]
+      }
+    ],
+    "avoid": [
+      {
+        "state": "choque",
+        "label": "Evitó la hipoperfusión"
+      },
+      {
+        "state": "hipokalemia",
+        "label": "Evitó la hipokalemia por insulina"
+      },
+      {
+        "state": "hipoglucemia",
+        "label": "Evitó la hipoglucemia"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "Paciente con DM1 que suspendió la insulina y desarrolló una pielonefritis: dos precipitantes clásicos. pH 7.08 y HCO₃⁻ 11 la ubican en CAD moderada.",
+    "points": [
+      "Diagnóstico: glucosa ≥ 200 mg/dL o diabetes conocida, cetonemia ≥ 3.0 mmol/L y pH < 7.30 o HCO₃⁻ < 18 mEq/L.",
+      "Gravedad por pH: leve 7.25–7.30, moderada 7.00–7.24, grave < 7.00.",
+      "El orden importa: volumen primero, potasio antes de insulina. Si K⁺ < 3.5, no inicies insulina hasta reponerlo.",
+      "K⁺ entre 3.5 y 5.0: 20–30 mEq por litro de solución. Por arriba de 5.0, solo vigilar.",
+      "Cuando la glucosa baja de 250 mg/dL: dextrosa y menor dosis de insulina, sin suspenderla.",
+      "Bicarbonato solo si pH < 7.0.",
+      "Resolución: pH ≥ 7.30, HCO₃⁻ ≥ 18 y cetonemia < 0.6 mmol/L."
+    ],
+    "refs": [
+      "Umpierrez GE, et al. Hyperglycemic crises in adults with diabetes: a consensus report. Diabetes Care. 2024;47(8):1257–1275."
+    ]
+  }
+}

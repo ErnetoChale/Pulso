@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pulso · casos clínicos</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><rect width='40' height='40' rx='9' fill='%23c8102e'/><path d='M5 22h7l3-8 5 16 4-12 2 4h6' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/><circle cx='34' cy='22' r='3.2' fill='%23fff'/></svg>">
+<style>
+/* VOICE: guardia nocturna: directo, legible a las 4 a. m., con la seriedad de un expediente.
+   IDEA: papel milimétrico de ECG + letrero de urgencias + etiquetas de triaje Manchester.
+   PICTURE: una tira de ECG que se traza al abrir; en el caso, el monitor vivo.
+   COLOUR and TYPE: papel rosa de ECG, tinta casi negra, rojo de alarma; de noche, verde de monitor. Todo en Arial (Arial Black en títulos).
+   LAYOUT: letrero negro arriba, expedientes en fila, caso en dos columnas; todo se apila en móvil. */
+:root{color-scheme:light dark;
+--bg:light-dark(#fbe9e4,#060a09);--g1:light-dark(#f5cfc7,#0c1814);--g2:light-dark(#eeaa9e,#123026);
+--panel:light-dark(#fffaf8,#0c1311);--line:light-dark(#e6b8ae,#1d3a2f);
+--ink:light-dark(#1c0d10,#d8f3e6);--mute:light-dark(#73484e,#84a89a);
+--acc:light-dark(#1c0d10,#3ef07a);--acc-ink:light-dark(#fbe9e4,#03130a);--acc2:light-dark(#f9ddd6,#0f2a1e);
+--red:light-dark(#c8102e,#ff5a6a);--ok:light-dark(#0f7a43,#3ef07a);
+--disp:"Arial Black",Arial,Helvetica,sans-serif;--mono:Arial,Helvetica,sans-serif}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;color:var(--ink);font:17px/1.55 Arial,Helvetica,sans-serif;font-variant-numeric:tabular-nums;overflow-x:clip;min-height:100vh;
+background-color:var(--bg);background-image:linear-gradient(var(--g2) 1px,transparent 1px),linear-gradient(90deg,var(--g2) 1px,transparent 1px),linear-gradient(var(--g1) 1px,transparent 1px),linear-gradient(90deg,var(--g1) 1px,transparent 1px);
+background-size:40px 40px,40px 40px,8px 8px,8px 8px;background-position:-1px -1px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;min-height:44px;border-radius:4px;border:1.5px solid var(--line);background:var(--panel);padding:8px 14px;transition:transform .12s,box-shadow .12s}
+button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--line)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.pri{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-weight:700;box-shadow:3px 3px 0 var(--red)}
+.pri:hover:not(:disabled){box-shadow:5px 5px 0 var(--red)}
+.ghost{background:transparent}
+.band{padding:clamp(22px,3.4vw,48px) max(4vw,16px);max-width:1320px;margin:0 auto}
+header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:10px max(4vw,16px);background:#0b0b0b;color:#f4f4f0;border-bottom:4px solid var(--red)}
+header.top b{font:900 26px/1 var(--disp);letter-spacing:.02em}
+header.top .sp{flex:1}header.top .mute{color:#a9a9a2}
+header.top button{background:transparent;color:#f4f4f0;border-color:#3a3a36;font-family:var(--disp);font-weight:900;font-size:14px;letter-spacing:.03em;text-transform:uppercase}
+header.top button:hover{box-shadow:3px 3px 0 var(--red)}
+.logo{display:block;width:40px;height:40px;line-height:0}
+h1{font:900 clamp(32px,5vw,60px)/1 var(--disp);margin:0 0 14px;text-wrap:balance;text-transform:uppercase;letter-spacing:.005em}
+h2{font:900 20px/1.15 var(--disp);margin:0 0 12px;text-transform:uppercase;letter-spacing:.02em}
+.mute{color:var(--mute)}.small{font-size:14px}
+code{font-family:var(--mono);font-size:.88em}
+.strip{display:block;width:100%;height:96px;margin:4px 0 18px}
+.strip path{fill:none;stroke:var(--red);stroke-width:2.4;stroke-linejoin:round;stroke-dasharray:3000;stroke-dashoffset:3000;animation:draw 2.4s cubic-bezier(.6,.1,.3,1) .15s forwards}
+.lede{max-width:62ch;margin:0;font-size:19px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,310px),1fr));gap:18px;margin-top:24px}
+.card{position:relative;background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:18px 18px 18px 30px;display:flex;flex-direction:column;gap:8px;animation:rise .55s both;animation-delay:calc(var(--i,0)*80ms + .3s);box-shadow:0 1px 0 var(--line)}
+.card::before{content:"";position:absolute;inset:0 auto 0 0;width:12px;border-radius:5px 0 0 5px;background:var(--tri,#999);background-image:repeating-linear-gradient(180deg,transparent 0 10px,#0002 10px 12px)}
+.card h3{margin:0;font:900 19px/1.15 var(--disp);text-transform:uppercase}
+.tag{display:inline-block;font:700 13px/1.4 var(--mono);padding:3px 9px;border-radius:3px;background:var(--acc2);color:var(--ink);text-transform:uppercase;letter-spacing:.02em}
+.tri{display:inline-flex;align-items:center;gap:6px;font:700 13px var(--mono);text-transform:uppercase}.tri i{width:12px;height:12px;border-radius:50%;background:var(--tri)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sim{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:920px){.sim{grid-template-columns:minmax(0,1fr)}}
+.pt{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline;margin-bottom:12px}
+.pt h2{margin:0;font-size:28px}
+.mon{background:radial-gradient(120% 90% at 30% 20%,#0b1714,#020403 70%);border-radius:14px;padding:14px;color:#e8f0ee;border:6px solid #1a1d1c;box-shadow:inset 0 0 0 1px #2a3532,0 18px 36px -20px #000a;animation:rise .5s both}
+.mon .scr{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:12px}
+@media(max-width:520px){.mon .scr{grid-template-columns:minmax(0,1fr)}}
+.wave{position:relative;height:210px;background-image:linear-gradient(#0f2a20 1px,transparent 1px),linear-gradient(90deg,#0f2a20 1px,transparent 1px);background-size:30px 30px}
+.wave canvas{position:absolute;inset:0;width:100%;height:100%}
+.vit{display:grid;gap:6px;grid-template-columns:1fr}
+@media(max-width:520px){.vit{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.v{border-left:3px solid currentColor;padding:2px 0 2px 10px}
+.v small{display:block;font:500 12px var(--mono);opacity:.8;text-transform:uppercase}
+.v span{font:700 clamp(24px,3vw,32px)/1.05 var(--mono);white-space:nowrap;text-shadow:0 0 12px currentColor}
+.v.alarm{animation:blink 1s steps(2) infinite}
+.hr{color:#3ef07a}.bp{color:#ff6b6e}.sp{color:#38d6f5}.rr{color:#ffd23f}.tp{color:#e8f0ee}
+.monbar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font:500 13px var(--mono);color:#9fb3ae;margin-bottom:6px;text-transform:uppercase}
+.state{margin-top:14px;background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:16px}
+.state b{font-family:var(--mono);font-size:13px;text-transform:uppercase;color:var(--mute)}
+.banner{margin-top:12px;border-radius:4px;padding:12px 14px;font-weight:700}
+.banner.bad{background:var(--red);color:#fff}.banner.good{background:light-dark(#d6f1e0,#0f2a1e);color:var(--ok);border:1.5px solid var(--ok)}
+.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1.5px solid var(--line)}
+.tabs button{flex:none;border:0;border-bottom:4px solid transparent;border-radius:0;background:none;white-space:nowrap;color:var(--mute);font:800 18px var(--disp);text-transform:uppercase;letter-spacing:.03em}
+.tabs button:hover{box-shadow:none;transform:none;color:var(--ink)}
+.tabs button{font-size:15px}.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--red)}
+.acts{display:grid;gap:6px;padding:12px 0;max-height:380px;overflow:auto}
+.acts button{text-align:left;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.acts button .m{font:500 13px var(--mono);color:var(--mute);white-space:nowrap}
+.acts button.done{border-color:var(--ink);background:var(--acc2)}
+.acts button.done span:first-child::before{content:"✓ ";color:var(--ok);font-weight:700}
+.panel{background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:6px 16px 16px}
+.feed{display:grid;gap:8px;max-height:420px;overflow:auto;margin-top:6px}
+.ent{border-left:3px solid var(--line);padding:4px 0 4px 12px;animation:rise .35s both}
+.ent .t{font:500 12px var(--mono);color:var(--mute);text-transform:uppercase}
+.ent.k-t{border-color:#2b8fd6}.ent.k-r{border-color:var(--ink)}.ent.k-s{border-color:var(--red)}.ent.k-h,.ent.k-e{border-color:var(--mute)}
+.ent .harm{color:var(--red);font-weight:700}
+.overlay{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:16px;z-index:10;animation:fade .2s both}
+.modal{background:var(--panel);border-radius:6px;border-top:6px solid var(--red);padding:22px;max-width:560px;width:100%;max-height:90vh;overflow:auto;animation:rise .3s both}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1.5px solid var(--line);border-radius:4px;margin:6px 0;cursor:pointer;min-height:44px}
+.opt:has(input:checked){border-color:var(--ink);background:var(--acc2)}
+.opt input{margin-top:5px;width:18px;height:18px;accent-color:var(--red)}
+.score{font:900 clamp(72px,11vw,120px)/.9 var(--disp);color:var(--red)}
+.chk{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.chk li{display:flex;gap:10px;padding:8px 12px;border-radius:4px;background:var(--panel);border:1.5px solid var(--line);animation:rise .4s both}
+.chk li:nth-child(n){animation-delay:calc(var(--i,0)*50ms)}
+.chk .y{color:var(--ok);font-weight:700}.chk .n{color:var(--red);font-weight:700}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+@media(max-width:820px){.two{grid-template-columns:minmax(0,1fr)}}
+textarea{width:100%;min-height:200px;border:1.5px solid var(--line);border-radius:4px;padding:12px;background:var(--panel);font:14px/1.45 var(--mono)}
+input[type=password],#gho,#ghr,#ghb{font-family:var(--mono)}
+pre{overflow-x:auto;background:var(--panel);border:1.5px solid var(--line);border-radius:4px;padding:12px;font:13px/1.45 var(--mono);max-height:340px}
+details summary{font-family:var(--disp);font-size:16px;text-transform:uppercase}
+.msg{min-height:22px;font-weight:700}
+.fld{display:grid;gap:4px;margin:10px 0;font-weight:700}
+.fld input{min-height:44px;padding:8px 12px;border:1.5px solid var(--line);border-radius:4px;background:var(--bg);font-size:16px;font-weight:400}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:18px}
+.stat{background:var(--panel);border:1.5px solid var(--line);border-radius:6px;padding:14px 16px;animation:rise .45s both}
+.stat span{display:block;font:900 clamp(32px,4vw,44px)/1 var(--disp);color:var(--red)}.stat small{font-size:14px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1.5px solid var(--line);border-radius:6px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--mute);font-weight:700}
+td.num{text-align:right;white-space:nowrap}.hist{font-size:15px}
+.mycases{display:grid;gap:10px}.mycases .card{animation:none}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 10px;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;color:var(--mute)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@keyframes fade{from{opacity:0}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes blink{50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.strip path{stroke-dashoffset:0}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="top">
+  <span class="logo"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#c8102e"/><path d="M5 22h7l3-8 5 16 4-12 2 4h6" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="22" r="3.2" fill="#fff"/></svg></span>
+  <b>Pulso</b><span class="mute small">simulador de casos clínicos · código abierto</span>
+  <span class="sp"></span>
+  <button class="ghost" id="nav-lib">Biblioteca</button>
+  <button class="ghost" id="nav-add">Agregar caso</button>
+  <button class="ghost" id="nav-me">Entrar</button>
+</header>
+<main id="app"></main>
+
+<script type="application/json" id="builtin">
+[
+{"id":"cad-ivu-01","v":1,"title":"Mujer de 19 años con vómito y respiración rápida","specialty":"Endocrinología · Urgencias","level":"Intermedio",
+"source":"Caso modelo basado en el consenso ADA/EASD/JBDS 2024 de crisis hiperglucémicas",
+"setting":"Urgencias adultos, 03:10 h",
+"patient":{"name":"Daniela R.","age":19,"sex":"F","weight":55,"cc":"Vómito y dolor abdominal de 2 días"},
+"intro":"La trae su madre. Está somnolienta pero responde, respira profundo y rápido, y su aliento huele a fruta.",
+"start":"inicial",
+"states":{
+"inicial":{"label":"Ingreso","v":{"hr":124,"sbp":96,"dbp":58,"rr":30,"spo2":98,"t":37.4},"d":"Somnolienta, mucosas secas, respiraciones profundas y rápidas.","worse":{"after":60,"to":"choque"}},
+"choque":{"label":"Hipoperfusión","v":{"hr":142,"sbp":78,"dbp":42,"rr":34,"spo2":96,"t":37.3},"d":"Pálida y fría, llenado capilar de 4 s. Contesta con monosílabos.","worse":{"after":45,"to":"paro"}},
+"hidratado":{"label":"Tras carga de líquidos","v":{"hr":108,"sbp":110,"dbp":66,"rr":28,"spo2":98,"t":37.2},"d":"Mejor perfusión y empieza a orinar. Sigue con respiración profunda y náusea.","worse":{"after":180,"to":"choque"}},
+"corrigiendo":{"label":"Infusión de insulina","v":{"hr":98,"sbp":114,"dbp":70,"rr":22,"spo2":98,"t":37.1},"d":"Más despierta, pide agua. Refiere calambres leves en las piernas.","worse":{"after":60,"to":"hipokalemia"}},
+"hipokalemia":{"label":"Hipokalemia","rhythm":"ectopia","v":{"hr":112,"sbp":108,"dbp":64,"rr":20,"spo2":97,"t":37.0},"d":"Debilidad marcada en extremidades y extrasístoles frecuentes en el monitor.","worse":{"after":40,"to":"paro"}},
+"estable":{"label":"Corrigiendo acidosis","v":{"hr":90,"sbp":118,"dbp":72,"rr":18,"spo2":99,"t":37.0},"d":"Alerta, sin náusea. La glucemia sigue bajando.","worse":{"after":120,"to":"hipoglucemia"}},
+"hipoglucemia":{"label":"Hipoglucemia","v":{"hr":110,"sbp":122,"dbp":76,"rr":18,"spo2":99,"t":36.8},"d":"Diaforética, temblorosa y confusa."},
+"resuelto":{"label":"CAD en resolución","goal":true,"v":{"hr":84,"sbp":118,"dbp":74,"rr":16,"spo2":99,"t":36.9},"d":"Alerta, tolera líquidos. pH y bicarbonato en franca mejoría."},
+"paro":{"label":"Paro cardiorrespiratorio","end":"muerte","rhythm":"asistolia","v":{"hr":0,"sbp":0,"dbp":0,"rr":0,"spo2":0,"t":36.5},"d":"Sin pulso. Se inicia RCP sin recuperación de la circulación."}
+},
+"history":[
+{"id":"h1","q":"¿Desde cuándo y cómo empezó?","a":"Hace dos días, con náusea y vómito unas 6 veces al día. Después, dolor en todo el abdomen."},
+{"id":"h2","q":"¿Enfermedades previas?","a":"Diabetes tipo 1 desde los 12 años."},
+{"id":"h3","q":"¿Qué medicamentos usa y cómo se los ha aplicado?","a":"Glargina 18 U en la noche y lispro con las comidas. Desde hace 3 días no se pone nada: «como no comía, pensé que no la necesitaba»."},
+{"id":"h4","q":"¿Mucha sed u orina mucho?","a":"Sí, toma agua todo el tiempo y orina muy seguido."},
+{"id":"h5","q":"¿Molestias al orinar o fiebre?","a":"Ardor al orinar desde hace 5 días. Se sintió caliente, no se midió la temperatura."},
+{"id":"h6","q":"¿Fecha de última menstruación?","a":"Hace dos semanas, ciclos regulares."},
+{"id":"h7","q":"¿Alcohol o drogas?","a":"Lo niega."},
+{"id":"h8","q":"¿Alergias?","a":"Ninguna conocida."}],
+"exam":[
+{"id":"e1","n":"Aspecto general y conciencia","f":"Somnolienta, Glasgow 14 (O3 V5 M6). Aliento afrutado."},
+{"id":"e2","n":"Hidratación y piel","f":"Mucosas orales secas, turgencia disminuida, llenado capilar de 3 s."},
+{"id":"e3","n":"Respiratorio","f":"Respiraciones profundas y regulares (Kussmaul). Campos pulmonares limpios."},
+{"id":"e4","n":"Cardiovascular","f":"Taquicardia rítmica, sin soplos. Pulsos periféricos débiles."},
+{"id":"e5","n":"Abdomen","f":"Dolor difuso a la palpación profunda, sin rebote ni rigidez. Peristalsis disminuida."},
+{"id":"e6","n":"Puño percusión","f":"Puño percusión derecha positiva."},
+{"id":"e7","n":"Neurológico","f":"Sin focalización. Pupilas isocóricas y reactivas."}],
+"tests":[
+{"id":"t_gc","n":"Glucemia capilar","min":2,"r":{"inicial":"512 mg/dL","choque":"548 mg/dL","hidratado":"436 mg/dL","corrigiendo":"318 mg/dL","hipokalemia":"294 mg/dL","estable":"224 mg/dL","hipoglucemia":"52 mg/dL","resuelto":"168 mg/dL","*":"510 mg/dL"}},
+{"id":"t_gaso","n":"Gasometría venosa","min":10,"r":{"inicial":"pH 7.08 · pCO₂ 22 · HCO₃⁻ 11 · lactato 2.1","choque":"pH 7.02 · pCO₂ 20 · HCO₃⁻ 9 · lactato 4.8","hidratado":"pH 7.11 · HCO₃⁻ 11","corrigiendo":"pH 7.19 · HCO₃⁻ 13","hipokalemia":"pH 7.21 · HCO₃⁻ 14","estable":"pH 7.26 · HCO₃⁻ 15","hipoglucemia":"pH 7.30 · HCO₃⁻ 17","resuelto":"pH 7.33 · HCO₃⁻ 19","*":"pH 7.08 · HCO₃⁻ 11"}},
+{"id":"t_elec","n":"Electrolitos séricos","min":20,"r":{"inicial":"Na⁺ 131 · K⁺ 5.6 · Cl⁻ 97 mEq/L · brecha aniónica 23","choque":"Na⁺ 130 · K⁺ 5.9 · Cl⁻ 96","hidratado":"Na⁺ 134 · K⁺ 5.3 · Cl⁻ 104","corrigiendo":"Na⁺ 136 · K⁺ 3.9 · Cl⁻ 106","hipokalemia":"Na⁺ 137 · K⁺ 2.9 · Cl⁻ 107","estable":"Na⁺ 137 · K⁺ 4.2 · Cl⁻ 107","hipoglucemia":"Na⁺ 138 · K⁺ 4.0","resuelto":"Na⁺ 138 · K⁺ 4.1 · Cl⁻ 106 · brecha aniónica 13","*":"Na⁺ 131 · K⁺ 5.6"}},
+{"id":"t_ceto","n":"β-hidroxibutirato sérico","min":20,"r":{"resuelto":"0.5 mmol/L","estable":"1.4 mmol/L","*":"5.8 mmol/L"}},
+{"id":"t_qs","n":"Química sanguínea (BUN, creatinina)","min":30,"r":"BUN 32 mg/dL · creatinina 1.3 mg/dL · osmolaridad efectiva ≈ 290 mOsm/kg"},
+{"id":"t_bh","n":"Biometría hemática","min":20,"r":"Leucocitos 16 200/µL (84 % neutrófilos) · Hb 14.8 g/dL · plaquetas 310 000"},
+{"id":"t_ego","n":"Examen general de orina","min":20,"r":"Glucosa ++++ · cetonas +++ · leucocitos 25–30/campo · nitritos positivos · bacterias abundantes"},
+{"id":"t_ecg","n":"Electrocardiograma","min":5,"r":{"inicial":"Taquicardia sinusal 124 lpm, ondas T ligeramente picudas.","choque":"Taquicardia sinusal 142 lpm, T picudas.","hipokalemia":"Aplanamiento de T, ondas U prominentes, extrasístoles ventriculares frecuentes.","*":"Ritmo sinusal sin alteraciones agudas."}},
+{"id":"t_hcg","n":"Prueba de embarazo (hCG)","min":15,"r":"Negativa"},
+{"id":"t_lip","n":"Lipasa","min":30,"r":"58 U/L (normal)"},
+{"id":"t_rx","n":"Radiografía de tórax","min":20,"r":"Sin consolidaciones ni derrame."}],
+"treatments":[
+{"id":"r_ssn","n":"Solución salina 0.9 % 1 L en 1 h","min":10,"goto":"hidratado","when":["inicial","choque"],"note":"Pasa la carga. Reevalúa perfusión y diuresis."},
+{"id":"r_ins","n":"Insulina regular en infusión 0.1 U/kg/h (5.5 U/h)","min":5,"goto":"corrigiendo","when":["hidratado"],"harm":{"when":["inicial","choque"],"msg":"Insulina antes de restituir volumen en una paciente hipovolémica: desplaza agua al intracelular y puede empeorar la hipotensión."},"note":"Infusión iniciada. Glucemia capilar cada hora."},
+{"id":"r_kcl","n":"KCl 20–30 mEq por litro de solución","min":5,"goto":"estable","when":["corrigiendo","hipokalemia"],"harm":{"when":["inicial","choque","hidratado"],"msg":"K⁺ por arriba de 5.0 mEq/L: todavía no se repone potasio."},"note":"Se agrega potasio a las soluciones."},
+{"id":"r_dx","n":"Agregar dextrosa 5 % y bajar insulina a 0.05 U/kg/h","min":5,"goto":"resuelto","when":["estable"],"harm":{"when":["inicial","choque","hidratado","corrigiendo","hipokalemia"],"msg":"La dextrosa se agrega cuando la glucosa baja de 250 mg/dL; antes retrasa la corrección."},"note":"Mantienes la insulina para seguir cerrando la cetosis sin hipoglucemia."},
+{"id":"r_d50","n":"Dextrosa 50 % 25 g IV en bolo","min":3,"goto":"resuelto","when":["hipoglucemia"],"harm":{"when":["inicial","choque","hidratado","corrigiendo","hipokalemia"],"msg":"Bolo de glucosa en una paciente hiperglucémica."},"note":"Recupera el estado de alerta en minutos."},
+{"id":"r_bic","n":"Bicarbonato de sodio 100 mEq IV","min":5,"harm":{"msg":"Con pH ≥ 7.0 el bicarbonato no está indicado: aumenta el riesgo de hipokalemia y no mejora el desenlace."},"note":"Se administra."},
+{"id":"r_ceft","n":"Ceftriaxona 1 g IV","min":5,"note":"Cubre el foco urinario probable."},
+{"id":"r_ond","n":"Ondansetrón 4 mg IV","min":3,"note":"Disminuye la náusea."},
+{"id":"r_alta","n":"Alta con insulina subcutánea","min":5,"harm":{"msg":"Alta con acidosis activa: la CAD no se ha resuelto."},"note":"Se suspende el egreso por indicación del adscrito."}],
+"diagnosis":{"options":["Cetoacidosis diabética moderada precipitada por pielonefritis y suspensión de insulina","Estado hiperglucémico hiperosmolar","Pancreatitis aguda","Gastroenteritis aguda con deshidratación","Cetoacidosis alcohólica"],"correct":0},
+"scoring":{"critical":[
+{"label":"Glucemia capilar en los primeros 15 min","a":["t_gc"],"by":15},
+{"label":"Gasometría en los primeros 30 min","a":["t_gaso"],"by":30},
+{"label":"Potasio sérico antes de iniciar insulina","a":["t_elec"],"before":"r_ins"},
+{"label":"Líquidos IV en la primera hora","a":["r_ssn"],"by":60},
+{"label":"Insulina en infusión tras reponer volumen","a":["r_ins"]},
+{"label":"Reponer potasio cuando bajó de 5.0","a":["r_kcl"]},
+{"label":"Dextrosa al bajar la glucemia","a":["r_dx","r_d50"]},
+{"label":"Buscar el precipitante (EGO o síntomas urinarios)","a":["t_ego","h5"]},
+{"label":"Tratar el foco infeccioso","a":["r_ceft"]}],
+"avoid":[{"state":"choque","label":"Evitó la hipoperfusión"},{"state":"hipokalemia","label":"Evitó la hipokalemia por insulina"},{"state":"hipoglucemia","label":"Evitó la hipoglucemia"}]},
+"debrief":{"summary":"Paciente con DM1 que suspendió la insulina y desarrolló una pielonefritis: dos precipitantes clásicos. pH 7.08 y HCO₃⁻ 11 la ubican en CAD moderada.",
+"points":["Diagnóstico: glucosa ≥ 200 mg/dL o diabetes conocida, cetonemia ≥ 3.0 mmol/L y pH < 7.30 o HCO₃⁻ < 18 mEq/L.","Gravedad por pH: leve 7.25–7.30, moderada 7.00–7.24, grave < 7.00.","El orden importa: volumen primero, potasio antes de insulina. Si K⁺ < 3.5, no inicies insulina hasta reponerlo.","K⁺ entre 3.5 y 5.0: 20–30 mEq por litro de solución. Por arriba de 5.0, solo vigilar.","Cuando la glucosa baja de 250 mg/dL: dextrosa y menor dosis de insulina, sin suspenderla.","Bicarbonato solo si pH < 7.0.","Resolución: pH ≥ 7.30, HCO₃⁻ ≥ 18 y cetonemia < 0.6 mmol/L."],
+"refs":["Umpierrez GE, et al. Hyperglycemic crises in adults with diabetes: a consensus report. Diabetes Care. 2024;47(8):1257–1275."]}},
+
+{"id":"iamcest-01","v":1,"title":"Hombre de 58 años con dolor opresivo en el pecho","specialty":"Cardiología · Urgencias","level":"Básico",
+"source":"Caso modelo basado en la guía ESC 2023 de síndromes coronarios agudos",
+"setting":"Urgencias de hospital con hemodinamia 24 h, 11:40 h",
+"patient":{"name":"Jorge M.","age":58,"sex":"M","weight":84,"cc":"Dolor torácico desde hace 50 minutos"},
+"intro":"Llega caminando, sudoroso, con el puño cerrado sobre el pecho.",
+"start":"inicial",
+"states":{
+"inicial":{"label":"Ingreso","rhythm":"st","v":{"hr":98,"sbp":150,"dbp":92,"rr":20,"spo2":95,"t":36.6},"d":"Diaforético y ansioso, dolor 8/10 que no cede.","worse":{"after":35,"to":"fv"}},
+"hipotension":{"label":"Hipotensión","rhythm":"st","v":{"hr":114,"sbp":80,"dbp":48,"rr":22,"spo2":94,"t":36.6},"d":"Pálido y mareado, casi se desvanece en la camilla.","worse":{"after":25,"to":"fv"}},
+"fv":{"label":"Fibrilación ventricular","rhythm":"fv","v":{"hr":0,"sbp":0,"dbp":0,"rr":0,"spo2":0,"t":36.5},"d":"Pierde el estado de alerta. No tiene pulso.","worse":{"after":8,"to":"muerte"}},
+"rosc":{"label":"Tras desfibrilación","rhythm":"st","v":{"hr":106,"sbp":116,"dbp":70,"rr":18,"spo2":94,"t":36.5},"d":"Recupera pulso y respira. Sigue con dolor.","worse":{"after":25,"to":"fv"}},
+"hemodinamia":{"label":"ICP primaria","goal":true,"v":{"hr":82,"sbp":128,"dbp":78,"rr":16,"spo2":97,"t":36.6},"d":"Angiografía: oclusión de la descendente anterior proximal. Se coloca stent con flujo TIMI 3. El dolor desaparece."},
+"trombolizado":{"label":"Tras fibrinólisis","goal":true,"v":{"hr":88,"sbp":132,"dbp":80,"rr":17,"spo2":96,"t":36.6},"d":"El dolor baja y el ST se resuelve parcialmente. Debe ir a angiografía en las siguientes 2–24 h."},
+"muerte":{"label":"Muerte","end":"muerte","rhythm":"asistolia","v":{"hr":0,"sbp":0,"dbp":0,"rr":0,"spo2":0,"t":36.4},"d":"Asistolia tras reanimación prolongada."}
+},
+"history":[
+{"id":"h1","q":"¿Cómo es el dolor?","a":"Opresivo, en el centro del pecho, «como si tuviera un peso encima». Se va al brazo izquierdo y a la mandíbula. Empezó en reposo hace 50 minutos."},
+{"id":"h2","q":"¿Qué más siente?","a":"Sudoración, náusea y un poco de falta de aire."},
+{"id":"h3","q":"¿Enfermedades previas y tabaquismo?","a":"Diabetes tipo 2 e hipertensión. Fuma 20 cigarros al día desde hace 30 años."},
+{"id":"h4","q":"¿Qué medicamentos toma?","a":"Metformina 850 mg cada 12 h y losartán 50 mg al día."},
+{"id":"h5","q":"¿Ha tomado otro medicamento en las últimas 48 h, incluido alguno para la erección?","a":"Un poco apenado: tomó sildenafil 50 mg anoche."},
+{"id":"h6","q":"¿Sangrados, cirugías o EVC recientes?","a":"Lo niega."},
+{"id":"h7","q":"¿El dolor es desgarrante o se va a la espalda?","a":"No, no se va a la espalda."},
+{"id":"h8","q":"¿Alergias?","a":"Ninguna conocida."}],
+"exam":[
+{"id":"e1","n":"Aspecto general","f":"Diaforético, ansioso, con el puño sobre el esternón (signo de Levine)."},
+{"id":"e2","n":"Cardiovascular","f":"Ruidos rítmicos, S4, sin soplos ni frote."},
+{"id":"e3","n":"Pulmonar","f":"Murmullo vesicular sin estertores. Killip I."},
+{"id":"e4","n":"Cuello","f":"Sin ingurgitación yugular."},
+{"id":"e5","n":"Presión en ambos brazos y pulsos","f":"150/92 derecho y 148/90 izquierdo. Pulsos simétricos en las cuatro extremidades."},
+{"id":"e6","n":"Extremidades","f":"Sin edema, llenado capilar de 2 s."}],
+"tests":[
+{"id":"t_ecg","n":"ECG de 12 derivaciones","min":3,"r":{"fv":"Fibrilación ventricular.","hemodinamia":"Resolución del ST > 50 %, ondas Q en V1–V3.","trombolizado":"Resolución parcial del ST.","*":"Ritmo sinusal 98 lpm. Elevación del ST de 3–4 mm en V1–V5 con depresión recíproca en II, III y aVF. IAMCEST anterior extenso."}},
+{"id":"t_trop","n":"Troponina I de alta sensibilidad","min":45,"r":"1 840 ng/L (normal < 26). Recuerda: no debe retrasar la reperfusión."},
+{"id":"t_qs","n":"Química y electrolitos","min":30,"r":"Glucosa 168 mg/dL · creatinina 1.0 · K⁺ 4.1 · Na⁺ 139"},
+{"id":"t_bh","n":"Biometría hemática","min":20,"r":"Hb 15.1 g/dL · leucocitos 11 200 · plaquetas 248 000"},
+{"id":"t_coag","n":"Tiempos de coagulación","min":30,"r":"TP 12 s · INR 1.0 · TTPa 29 s"},
+{"id":"t_rx","n":"Radiografía de tórax portátil","min":15,"r":"Sin congestión pulmonar. Mediastino de tamaño normal."},
+{"id":"t_eco","n":"Ecocardiograma a pie de cama","min":10,"r":"Hipocinesia anterior y apical, FEVI ≈ 40 %. Sin derrame pericárdico ni insuficiencia mitral significativa."},
+{"id":"t_dd","n":"Dímero D","min":40,"r":"0.3 µg/mL (normal)"}],
+"treatments":[
+{"id":"r_aas","n":"Ácido acetilsalicílico 300 mg masticable","min":2,"delay":10,"note":"Masticado y deglutido."},
+{"id":"r_tica","n":"Ticagrelor 180 mg VO (carga)","min":2,"delay":5,"note":"Carga de inhibidor P2Y12."},
+{"id":"r_hnf","n":"Heparina no fraccionada 70–100 U/kg IV en bolo","min":3,"delay":5,"note":"Anticoagulación para la ICP."},
+{"id":"r_icp","n":"Activar código infarto: ICP primaria","min":10,"goto":"hemodinamia","when":["inicial","rosc","hipotension"],"needs":["t_ecg"],"note":"Hemodinamia acepta al paciente."},
+{"id":"r_tnk","n":"Fibrinólisis con tenecteplasa","min":10,"goto":"trombolizado","when":["inicial","rosc","hipotension"],"needs":["t_ecg"],"harm":{"msg":"Con ICP disponible en menos de 120 min, la ICP primaria es la estrategia de reperfusión preferente."},"note":"Se administra el fibrinolítico."},
+{"id":"r_ntg","n":"Nitroglicerina 0.4 mg sublingual","min":3,"goto":"hipotension","when":["inicial","rosc"],"harm":{"msg":"Tomó sildenafil hace menos de 24 h: los nitratos están contraindicados por riesgo de hipotensión grave."},"note":"Se administra."},
+{"id":"r_ssn","n":"Bolo de solución salina 0.9 % 250 mL","min":5,"goto":"inicial","when":["hipotension"],"note":"Se pasa el bolo."},
+{"id":"r_mor","n":"Morfina 2–4 mg IV","min":3,"note":"El dolor baja a 6/10."},
+{"id":"r_o2","n":"Oxígeno por puntas nasales 3 L/min","min":2,"harm":{"when":["inicial","rosc","hemodinamia","trombolizado"],"msg":"SpO₂ ≥ 90 %: el oxígeno de rutina no está indicado en el infarto."},"note":"Se coloca oxígeno."},
+{"id":"r_bb","n":"Metoprolol 5 mg IV","min":3,"harm":{"when":["hipotension","fv"],"msg":"Betabloqueador IV en un paciente hipotenso o inestable."},"note":"FC baja ligeramente."},
+{"id":"r_desf","n":"Desfibrilación 200 J bifásica + RCP","min":2,"goto":"rosc","when":["fv"],"harm":{"when":["inicial","hipotension","rosc","hemodinamia","trombolizado"],"msg":"Descarga a un paciente con pulso."},"note":"Descarga entregada."}],
+"diagnosis":{"options":["IAMCEST anterior extenso (descendente anterior), Killip I","Disección aórtica tipo A","Tromboembolia pulmonar masiva","Pericarditis aguda","SICA sin elevación del ST"],"correct":0},
+"scoring":{"critical":[
+{"label":"ECG en los primeros 10 min","a":["t_ecg"],"by":10},
+{"label":"Aspirina","a":["r_aas"]},
+{"label":"Inhibidor P2Y12","a":["r_tica"]},
+{"label":"Anticoagulación","a":["r_hnf"]},
+{"label":"Preguntar por inhibidores de PDE5 antes de nitratos","a":["h5"],"before":"r_ntg"},
+{"label":"Activar ICP primaria en los primeros 30 min","a":["r_icp"],"by":30}],
+"avoid":[{"state":"hipotension","label":"Evitó la hipotensión por nitratos"},{"state":"fv","label":"Llegó a reperfusión antes de una arritmia letal"}]},
+"debrief":{"summary":"IAMCEST anterior en un centro con hemodinamia: la decisión que define el caso es activar la ICP primaria cuanto antes. La trampa es el sildenafil de anoche.",
+"points":["ECG de 12 derivaciones en los primeros 10 min del primer contacto.","ICP primaria si puede hacerse en menos de 120 min desde el diagnóstico; si no, fibrinólisis en los primeros 10 min.","Carga de aspirina (150–300 mg VO) y de un P2Y12 potente (ticagrelor o prasugrel).","HNF 70–100 U/kg en bolo durante la ICP primaria.","Oxígeno solo si SpO₂ < 90 %.","Nitratos contraindicados tras sildenafil o vardenafil (24 h) y tadalafil (48 h).","La troponina no debe retrasar la reperfusión cuando el ECG ya es diagnóstico."],
+"refs":["Byrne RA, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44(38):3720–3826."]}}
+]
+</script>
+
+<script>
+{
+const KEY='guardia.cases.v1',PK='pulso.profiles.v1',AK='pulso.active.v1';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const BUILTIN=JSON.parse($('#builtin').textContent);
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
+/* Perfiles locales: viven en este navegador. El PIN se guarda como hash, pero cualquiera con acceso al dispositivo puede leer los datos. */
+let profiles=ls.get(PK,[]),active=ls.get(AK,null),repo=[],shared=[];
+const me=()=>profiles.find(p=>p.id===active)||null;
+let mine=me()?me().cases:[];
+const saveAll=()=>ls.set(PK,profiles);
+const saveMine=()=>{const p=me();if(p){p.cases=mine;saveAll()}};
+const legacy=ls.get(KEY,[]);
+const othersPublic=()=>profiles.filter(p=>p.id!==active).flatMap(p=>(p.cases||[]).filter(c=>c._pub));
+const all=()=>{const out=[],ids=new Set();for(const c of [...BUILTIN,...repo,...mine,...othersPublic(),...shared])if(!ids.has(c.id)){ids.add(c.id);out.push(c)}return out};
+const clean=c=>{const o={...c};if(c._by)o.author=c._by;for(const k of Object.keys(o))if(k.startsWith('_'))delete o[k];return o};
+async function hashPin(salt,pin){const s=salt+':'+pin;try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let x=5381;for(const ch of s)x=((x<<5)+x+ch.charCodeAt(0))|0;return 'f'+(x>>>0).toString(16)}}
+function login(p){active=p.id;ls.set(AK,active);mine=p.cases=p.cases||[];
+  if(legacy.length&&!p.cases.length){p.cases=mine=legacy.map(c=>({...c,_owner:p.id,_by:p.name,_pub:false}));ls.set(KEY,[]);legacy.length=0}saveAll();nav()}
+function logout(){active=null;ls.set(AK,null);mine=[];nav()}
+function nav(){const b=$('#nav-me');if(b)b.textContent=me()?me().name:'Entrar'}
+/* Enlaces para compartir un caso: el JSON va comprimido en el hash de la URL */
+const toB64u=u8=>btoa(String.fromCharCode(...u8)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const fromB64u=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+async function pack(c){const t=new TextEncoder().encode(JSON.stringify(clean(c)));try{const st=new Blob([t]).stream().pipeThrough(new CompressionStream('deflate-raw'));return 'z'+toB64u(new Uint8Array(await new Response(st).arrayBuffer()))}catch(e){let s='';for(let i=0;i<t.length;i+=8000)s+=String.fromCharCode(...t.subarray(i,i+8000));return 'j'+toB64u(Uint8Array.from(s,ch=>ch.charCodeAt(0)))}}
+async function unpack(s){const u=fromB64u(s.slice(1));if(s[0]==='z'){const st=new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'));return JSON.parse(await new Response(st).text())}return JSON.parse(new TextDecoder().decode(u))}
+async function shareLink(c){return location.href.split('#')[0]+'#caso-'+await pack(c)}
+async function openShared(){const h=location.hash;if(!h.startsWith('#caso-'))return false;
+  try{const c=normalize(await unpack(h.slice(6)));c._shared=true;c._by=c.author||'';shared=[c];history.replaceState(null,'',location.pathname+location.search);play(c.id);return true}catch(e){return false}}
+/* Casos del repositorio: cases/index.json lista los archivos. Solo funciona alojado (GitHub Pages); aquí falla en silencio. */
+async function loadRepo(){try{const r=await fetch('cases/index.json',{cache:'no-store'});if(!r.ok)return;const files=await r.json();
+  const got=await Promise.all(files.map(f=>fetch('cases/'+encodeURIComponent(f),{cache:'no-store'}).then(x=>x.ok?x.json():null).catch(()=>null)));
+  repo=got.filter(Boolean).flatMap(d=>Array.isArray(d)?d:[d]).filter(c=>{try{normalize(c);return true}catch(e){return false}});if(!S&&app.dataset.view==='lib')lib()}catch(e){}}
+/* Guardar en GitHub con la API de contenidos y un token personal guardado solo en este navegador */
+const GHK='guardia.gh.v1';let gh={};try{gh=JSON.parse(localStorage.getItem(GHK)||'{}')}catch(e){}
+const b64=s=>btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+async function ghPut(path,text,msg){
+  const base=`https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${path}`,h={Authorization:'Bearer '+gh.token,Accept:'application/vnd.github+json'};
+  let sha;const g=await fetch(base+'?ref='+encodeURIComponent(gh.branch||'main'),{headers:h});if(g.ok)sha=(await g.json()).sha;
+  const p=await fetch(base,{method:'PUT',headers:h,body:JSON.stringify({message:msg,content:b64(text),branch:gh.branch||'main',sha})});
+  if(!p.ok)throw new Error('GitHub respondió '+p.status+(p.status===401?' (token inválido)':p.status===404?' (repo o permisos)':''));
+}
+async function ghSave(cases){
+  if(!gh.owner||!gh.repo||!gh.token)throw new Error('Configura usuario, repositorio y token primero.');
+  const h={Authorization:'Bearer '+gh.token,Accept:'application/vnd.github+json'};
+  let idx=[];const r=await fetch(`https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/cases/index.json?ref=${encodeURIComponent(gh.branch||'main')}`,{headers:h});
+  if(r.ok){try{idx=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob((await r.json()).content.replace(/\n/g,'')),c=>c.charCodeAt(0))))}catch(e){idx=[]}}
+  for(const c of cases){const f=c.id.replace(/[^a-z0-9_-]/gi,'-')+'.json';await ghPut('cases/'+f,JSON.stringify(clean(c),null,2)+'\n','Agrega caso: '+c.title);if(!idx.includes(f))idx.push(f)}
+  await ghPut('cases/index.json',JSON.stringify(idx,null,2)+'\n','Actualiza índice de casos');
+}
+const app=$('#app');
+let S=null,raf=0;
+
+function normalize(c){
+  if(!c||typeof c!=='object')throw new Error('No es un objeto JSON.');
+  for(const k of['id','title','start','states'])if(!c[k])throw new Error('Falta el campo "'+k+'".');
+  if(!c.states[c.start])throw new Error('El estado inicial "'+c.start+'" no existe en "states".');
+  for(const k of['history','exam','tests','treatments'])c[k]=Array.isArray(c[k])?c[k]:[];
+  c.patient=c.patient||{};c.scoring=c.scoring||{};c.scoring.critical=c.scoring.critical||[];c.scoring.avoid=c.scoring.avoid||[];
+  c.debrief=c.debrief||{};c.diagnosis=c.diagnosis||{options:[],correct:0};
+  for(const [id,s] of Object.entries(c.states)){s.v=s.v||{};if(s.worse&&!c.states[s.worse.to])throw new Error('El estado "'+id+'" empeora hacia "'+s.worse.to+'", que no existe.')}
+  return c;
+}
+
+/* ---------- Biblioteca ---------- */
+const TRI={'Básico':'#2e9d4f','Intermedio':'#f2b705','Avanzado':'#e4572e','Experto':'#c8102e'};
+function stripPath(){let d='M0 60',x=0;const beat=[[18,60],[24,52],[30,60],[44,60],[48,66],[54,8],[60,82],[66,60],[84,60],[96,46],[108,60]];
+  while(x<1200){for(const[a,y] of beat)d+=` L${x+a} ${y}`;d+=` L${x+160} 60`;x+=160}return d}
+function lib(){
+  stopMon();S=null;app.dataset.view='lib';
+  const best=id=>{const s=(me()?.history||[]).filter(x=>x.caseId===id);return s.length?Math.max(...s.map(x=>x.score)):null};
+  const cards=all().map((c,i)=>{const own=mine.some(m=>m.id===c.id),b=best(c.id);return `<article class="card" style="--i:${i};--tri:${TRI[c.level]||'#8a8a8a'}">
+    <div class="row"><span class="tag">${esc(c.specialty||'General')}</span><span class="tri"><i></i>${esc(c.level||'')}</span></div>
+    <h3>${esc(c.title)}</h3>
+    <div class="mute">${esc(c.patient.cc||'')}</div>
+    <div class="small mute">${esc(c.source||'')}${c._by||c.author?` · por ${esc(c._by||c.author)}`:''}${own?(c._pub?' · público':' · privado'):''}${c._shared?' · compartido contigo':''}</div>
+    ${b!=null?`<div class="small"><b>Tu mejor puntaje: ${b}</b></div>`:''}
+    <div class="row" style="margin-top:auto"><button class="pri" data-play="${esc(c.id)}">Iniciar caso</button>${c._shared&&me()?`<button data-keep="${esc(c.id)}">Guardar en mis casos</button>`:''}
+    <button class="ghost" data-copy="${esc(c.id)}">Copiar JSON</button>${own?`<button class="ghost" data-del="${esc(c.id)}">Eliminar</button>`:''}</div></article>`}).join('');
+  app.innerHTML=`<section class="band"><h1>Casos clínicos<br>para la guardia</h1>
+  <svg class="strip" viewBox="0 0 1200 96" preserveAspectRatio="none" aria-hidden="true"><path d="${stripPath()}"/></svg>
+  ${me()?`<p class="lede"><b>Hola, ${esc(me().name)}.</b> Llevas ${(me().history||[]).length} caso(s) resuelto(s).</p>`:`<p class="lede"><b>Crea una cuenta</b> para guardar tu historial de puntajes y tus propios casos. <button id="cta" style="margin-left:6px">Crear cuenta</button></p>`}
+  <p class="lede">Interroga, explora, pide estudios y trata. El paciente evoluciona con el tiempo y con lo que decides. Al terminar recibes retroalimentación con acciones críticas, errores y puntos clave.</p>
+  <div class="row" style="margin-top:16px"><button class="pri" id="rnd">Caso al azar</button><button id="toadd">Agregar un caso nuevo</button><span class="small mute" id="lmsg"></span></div>
+  <div class="legend small mute">Dificultad por color de triaje: ${Object.entries(TRI).map(([k,c])=>`<span class="tri" style="--tri:${c}"><i></i>${k}</span>`).join('')}</div>
+  <div class="grid">${cards}</div></section>`;
+  for(const ns of [mine,BUILTIN])for(const c of ns)normalize(c);
+  $('#rnd').onclick=()=>{const a=all();play(a[Math.floor(Math.random()*a.length)].id)};
+  $('#toadd').onclick=add;$('#cta')&&($('#cta').onclick=()=>auth('new'));
+  app.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>play(b.dataset.play));
+  app.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const c=all().find(x=>x.id===b.dataset.copy);try{await navigator.clipboard.writeText(JSON.stringify(c,null,2));$('#lmsg').textContent='JSON copiado.'}catch(e){$('#lmsg').textContent='No se pudo copiar; usa «Agregar caso» para verlo.'}});
+  app.querySelectorAll('[data-keep]').forEach(b=>b.onclick=()=>{const c=shared.find(x=>x.id===b.dataset.keep);if(c){mine.push({...clean(c),_owner:active,_by:c._by||me().name,_pub:false});shared=[];saveMine();lib()}});
+  app.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(b.dataset.armed){mine=mine.filter(m=>m.id!==b.dataset.del);saveMine();lib()}else{b.dataset.armed=1;b.textContent='¿Seguro? Toca otra vez'}});
+}
+
+/* ---------- Simulación ---------- */
+function play(id){
+  const c=all().find(x=>x.id===id);if(!c)return lib();
+  app.dataset.view='sim';S={c,st:c.start,t:0,tin:0,done:[],log:[],visited:new Set([c.start]),harms:[],tab:'h',over:null,dx:null};
+  addLog('s',`${c.setting||''}. ${c.intro||''}`,'Llegada');
+  renderSim();startMon();
+}
+const cur=()=>S.c.states[S.st];
+function addLog(k,txt,title,harm){S.log.unshift({k,t:S.t,txt,title,harm})}
+function setState(id,auto){
+  S.st=id;S.tin=0;S.visited.add(id);const s=cur();
+  addLog('s',s.d||'',(auto?'Evolución: ':'Respuesta: ')+(s.label||id));
+  if(s.end){S.over=s.end}
+}
+function advance(m){
+  while(m>0&&!S.over){const s=cur();
+    if(s.worse&&S.tin+m>=s.worse.after){const step=Math.max(0,s.worse.after-S.tin);S.t+=step;m-=step;setState(s.worse.to,true)}
+    else{S.t+=m;S.tin+=m;m=0}}
+}
+function resolve(r){if(r&&typeof r==='object')return r[S.st]??r['*']??'';return r??''}
+function act(kind,it){
+  if(S.over)return;
+  const min=it.min??(kind==='h'?2:kind==='e'?3:5);
+  if(it.needs&&!it.needs.every(n=>S.done.some(d=>d.id===n))){addLog('r','Necesitas antes: '+it.needs.map(n=>name(n)).join(', ')+'.',name(it.id));return renderSim()}
+  advance(min);if(S.over)return renderSim();
+  S.done.push({id:it.id,t:S.t});
+  if(kind==='h')addLog('h',it.a,it.q);
+  else if(kind==='e')addLog('e',it.f,it.n);
+  else if(kind==='t')addLog('t',resolve(it.r),it.n);
+  else{
+    let harm='';
+    if(it.harm&&(!it.harm.when||it.harm.when.includes(S.st))){harm=it.harm.msg;S.harms.push({t:S.t,n:it.n,msg:harm})}
+    addLog('r',it.note||'Indicado.',it.n,harm);
+    if(it.delay)S.tin=Math.max(0,S.tin-it.delay);
+    if(it.goto&&(!it.when||it.when.includes(S.st))&&it.goto!==S.st)setState(it.goto,false);
+  }
+  renderSim();
+}
+function name(id){const c=S.c;const x=[...c.history.map(h=>({id:h.id,n:h.q})),...c.exam,...c.tests,...c.treatments].find(a=>a.id===id);return x?x.n:id}
+const hhmm=m=>`T+${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+
+function renderSim(){
+  const c=S.c,p=c.patient,s=cur();
+  const lists={h:c.history.map(x=>[x.id,x.q,x.min??2]),e:c.exam.map(x=>[x.id,x.n,x.min??3]),t:c.tests.map(x=>[x.id,x.n,x.min??5]),r:c.treatments.map(x=>[x.id,x.n,x.min??5])};
+  const tabs=[['h','Interrogatorio'],['e','Exploración'],['t','Estudios'],['r','Tratamiento']];
+  const banner=S.over==='muerte'?`<div class="banner bad">El paciente falleció a los ${S.t} min. Revisa la retroalimentación.</div>`:s.goal?`<div class="banner good">Objetivo terapéutico alcanzado. Puedes cerrar el caso con tu diagnóstico.</div>`:'';
+  app.innerHTML=`<section class="band"><div class="sim">
+  <div>
+    <div class="pt"><h2>${esc(p.name||'Paciente')}</h2><span class="mute">${esc(p.age??'')} años · ${esc(p.sex||'')}${p.weight?` · ${esc(p.weight)} kg`:''}</span><span class="tag">${esc(c.setting||'')}</span></div>
+    <div class="mon" role="img" aria-label="Monitor de signos vitales">
+      <div class="monbar"><span>${esc(s.label||S.st)}</span><span id="clk">${hhmm(S.t)}</span></div>
+      <div class="scr"><div class="wave"><canvas id="cv"></canvas></div><div class="vit" id="vit"></div></div>
+    </div>
+    <div class="state"><b>Motivo de consulta:</b> ${esc(p.cc||'')}<br><b>Ahora:</b> ${esc(s.d||'')}${banner}</div>
+    <div class="row" style="margin-top:12px"><span class="mute small">Reevaluar:</span>
+      ${[5,15,30].map(m=>`<button data-wait="${m}" ${S.over?'disabled':''}>Esperar ${m} min</button>`).join('')}
+      <span style="flex:1"></span><button class="pri" id="fin">${S.over?'Ver retroalimentación':'Terminar caso'}</button></div>
+  </div>
+  <div class="panel">
+    <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${l}</button>`).join('')}</div>
+    <div class="acts">${lists[S.tab].map(([id,n,m])=>`<button data-act="${esc(id)}" class="${S.done.some(d=>d.id===id)?'done':''}" ${S.over?'disabled':''}><span>${esc(n)}</span><span class="m">${m} min</span></button>`).join('')||'<p class="mute">Este caso no tiene opciones aquí.</p>'}</div>
+    <h2 style="font-size:17px;margin:4px 0 0">Expediente</h2>
+    <div class="feed">${S.log.map(e=>`<div class="ent k-${e.k}"><div class="t">${hhmm(e.t)} · ${esc(e.title||'')}</div><div>${esc(e.txt)}</div>${e.harm?`<div class="harm">⚠ ${esc(e.harm)}</div>`:''}</div>`).join('')}</div>
+  </div></div></section>`;
+  app.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;renderSim()});
+  app.querySelectorAll('[data-wait]').forEach(b=>b.onclick=()=>{const m=+b.dataset.wait;advance(m);if(!S.over&&cur().d)addLog('s',cur().d,'Reevaluación');renderSim()});
+  app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const k=S.tab;const pool={h:c.history,e:c.exam,t:c.tests,r:c.treatments}[k];act(k,pool.find(x=>x.id===b.dataset.act))});
+  $('#fin').onclick=()=>S.over?debrief():finishModal();
+  vitals();bindCanvas();
+}
+
+/* ---------- Monitor ---------- */
+let jit={hr:0,sp:0},lastJ=0,cvs=null,ctx=null,x=0,tt=0,lastTs=0,prevY=[null,null];
+function vitals(){
+  const v=cur().v,el=$('#vit');if(!el)return;
+  const hr=v.hr?v.hr+jit.hr:0,sp=v.spo2?Math.min(100,v.spo2+jit.sp):0;
+  const cell=(cls,lab,val,alarm)=>`<div class="v ${cls}${alarm?' alarm':''}"><small>${lab}</small><span>${val}</span></div>`;
+  el.innerHTML=cell('hr','FC lpm',hr||'---',hr<50||hr>130)+cell('bp','PA mmHg',v.sbp?`${v.sbp}/${v.dbp}`:'---',v.sbp<90)+cell('sp','SpO₂ %',sp||'---',sp<90)+cell('rr','FR rpm',v.rr||'---',v.rr<8||v.rr>28)+cell('tp','Temp °C',(v.t??'').toString());
+}
+function bindCanvas(){cvs=$('#cv');if(!cvs)return;ctx=cvs.getContext('2d');const r=cvs.getBoundingClientRect(),d=devicePixelRatio||1;cvs.width=r.width*d;cvs.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);x=0;prevY=[null,null];ctx.fillStyle='#05080a';ctx.fillRect(0,0,r.width,r.height)}
+const g=(p,m,w)=>Math.exp(-((p-m)**2)/(2*w*w));
+function ecg(time){
+  const s=cur(),rh=s.rhythm||'sinus',hr=s.v.hr||0;
+  if(rh==='fv')return 0.45*Math.sin(time*31)+0.3*Math.sin(time*19+1.3)+0.2*Math.sin(time*47);
+  if(rh==='asistolia'||!hr)return 0.02*Math.sin(time*7);
+  const per=60/hr,beat=Math.floor(time/per),ph=(time%per)/per;
+  if(rh==='ectopia'&&beat%4===3)return 1.1*g(ph,.3,.035)-0.6*g(ph,.4,.05)-0.25*g(ph,.6,.06);
+  const st=rh==='st'?0.28*(ph>.33&&ph<.47?1:g(ph,.47,.035)):0;
+  return 0.12*g(ph,.15,.025)-0.12*g(ph,.27,.008)+g(ph,.3,.011)-0.28*g(ph,.325,.01)+st+(rh==='st'?0.42:0.3)*g(ph,.47,.04);
+}
+function pleth(time){const s=cur(),hr=s.v.hr||0;if(!hr||!s.v.spo2)return 0;const ph=((time-0.18)%(60/hr))/(60/hr);return g(ph,.35,.09)+0.35*g(ph,.62,.07)}
+function frame(ts){
+  raf=requestAnimationFrame(frame);if(!ctx||!cvs.isConnected)return;
+  const dt=Math.min(.05,(ts-(lastTs||ts))/1000);lastTs=ts;
+  if(ts-lastJ>2000){lastJ=ts;jit={hr:Math.round(Math.random()*2-1),sp:Math.round(Math.random()*1-0.5)};vitals()}
+  const W=cvs.clientWidth,H=cvs.clientHeight,sp=110;let n=Math.max(1,Math.round(dt*sp));
+  for(let i=0;i<n;i++){tt+=1/sp;x+=1;if(x>W){x=0;prevY=[null,null]}
+    ctx.fillStyle='#05080a';ctx.fillRect(x,0,12,H);
+    const y1=H*.36-ecg(tt)*H*.26,y2=H*.9-pleth(tt)*H*.2;
+    [[y1,'#3ef07a',0],[y2,'#38d6f5',1]].forEach(([y,c,k])=>{ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-1,prevY[k]??y);ctx.lineTo(x,y);ctx.stroke();prevY[k]=y});}
+}
+function staticDraw(){if(!ctx)return;const W=cvs.clientWidth,H=cvs.clientHeight;ctx.fillStyle='#05080a';ctx.fillRect(0,0,W,H);[[t=>H*.36-ecg(t)*H*.26,'#3ef07a'],[t=>H*.9-pleth(t)*H*.2,'#38d6f5']].forEach(([f,c])=>{ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<W;i++){const y=f(i/110);i?ctx.lineTo(i,y):ctx.moveTo(i,y)}ctx.stroke()})}
+const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+function startMon(){stopMon();if(reduce.matches){staticDraw();raf=-1}else raf=requestAnimationFrame(frame)}
+function stopMon(){if(raf>0)cancelAnimationFrame(raf);raf=0}
+const ro=new ResizeObserver(()=>{if(S&&$('#cv')){bindCanvas();if(reduce.matches)staticDraw()}});ro.observe(document.body);
+
+/* ---------- Cierre y retroalimentación ---------- */
+function finishModal(){
+  const o=S.c.diagnosis.options||[];
+  const ov=document.createElement('div');ov.className='overlay';
+  ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><h2 id="mt">¿Cuál es tu diagnóstico?</h2>
+  ${o.map((t,i)=>`<label class="opt"><input type="radio" name="dx" value="${i}"><span>${esc(t)}</span></label>`).join('')||'<p class="mute">Este caso no tiene opciones de diagnóstico.</p>'}
+  <div class="row" style="margin-top:14px"><button class="ghost" id="mc">Seguir con el caso</button><span style="flex:1"></span><button class="pri" id="mo">Cerrar caso</button></div></div>`;
+  document.body.append(ov);
+  ov.querySelector('#mc').onclick=()=>ov.remove();
+  ov.querySelector('#mo').onclick=()=>{const r=ov.querySelector('input[name=dx]:checked');S.dx=r?+r.value:null;ov.remove();S.over=S.over||'fin';debrief()};
+}
+function debrief(){
+  stopMon();app.dataset.view='deb';
+  const c=S.c,when=id=>S.done.find(d=>d.id===id);
+  const items=c.scoring.critical.map(k=>{
+    const hit=(k.a||[]).map(when).filter(Boolean).sort((a,b)=>a.t-b.t)[0];
+    let ok=!!hit,why='';
+    if(ok&&k.by!=null&&hit.t>k.by){ok=false;why=`lo hiciste a los ${hit.t} min`}
+    if(ok&&k.before){const b=when(k.before);if(b&&b.t<hit.t){ok=false;why='lo hiciste después de «'+name(k.before)+'»'}}
+    if(!hit&&k.before&&!when(k.before)&&k.a.some(a=>a.startsWith('h'))){}
+    return{label:k.label,ok,why:why||(hit?`a los ${hit.t} min`:'no se hizo'),w:k.w||1}});
+  const avoid=c.scoring.avoid.map(a=>({label:a.label,ok:!S.visited.has(a.state),why:S.visited.has(a.state)?'ocurrió':'',w:a.w||1}));
+  const list=[...items,...avoid],tot=list.reduce((a,b)=>a+b.w,0)||1,got=list.filter(i=>i.ok).reduce((a,b)=>a+b.w,0);
+  const dxOk=S.dx!=null&&S.dx===c.diagnosis.correct;
+  let score=Math.round(100*got/tot)-10*S.harms.length-(S.over==='muerte'?30:0)+(c.diagnosis.options?.length?(dxOk?0:-10):0);
+  score=Math.max(0,Math.min(100,score));
+  const goal=[...S.visited].some(id=>c.states[id].goal);
+  let saved='';if(!S.saved&&me()){const p=me();p.history=p.history||[];p.history.unshift({caseId:c.id,title:c.title,score,date:new Date().toISOString(),dx:S.dx==null?null:dxOk,harms:S.harms.length,death:S.over==='muerte',min:S.t});saveAll();S.saved=true}
+  saved=me()?'<p class="small mute">Guardado en tu historial.</p>':'<p class="small"><button id="savecta">Crea una cuenta para guardar tus puntajes</button></p>';
+  const li=i=>`<li><span class="${i.ok?'y':'n'}">${i.ok?'✓':'✗'}</span><span>${esc(i.label)} <span class="mute small">${esc(i.why)}</span></span></li>`;
+  app.innerHTML=`<section class="band">
+  <div class="two"><div>
+    <span class="tag">${esc(c.specialty||'')}</span>
+    <h1 style="margin-top:10px">${esc(c.title)}</h1>
+    <div class="row" style="align-items:flex-end;gap:18px"><div class="score">${score}</div><div class="mute" style="padding-bottom:10px">de 100 · ${S.t} min simulados<br>${S.over==='muerte'?'El paciente falleció':goal?'Alcanzaste el objetivo terapéutico':'No se alcanzó el objetivo terapéutico'}</div></div>
+    <p><b>Tu diagnóstico:</b> ${S.dx!=null?esc(c.diagnosis.options[S.dx]):'sin respuesta'} ${S.dx!=null?(dxOk?'<span class="y" style="color:var(--ok)">✓ correcto</span>':'<span style="color:var(--red)">✗</span>'):''}<br>
+    <b>Diagnóstico del caso:</b> ${esc(c.diagnosis.options?.[c.diagnosis.correct]||'')}</p>
+    <p>${esc(c.debrief.summary||'')}</p>
+    <div class="row"><button class="pri" id="again">Repetir caso</button><button id="back">Biblioteca</button></div>${saved}
+  </div><div>
+    <h2>Acciones críticas</h2><ul class="chk">${list.map(li).join('')}</ul>
+    ${S.harms.length?`<h2 style="margin-top:20px">Errores con riesgo (−10 c/u)</h2><ul class="chk">${S.harms.map(h=>`<li><span class="n">⚠</span><span><b>${esc(h.n)}</b> <span class="mute small">${hhmm(h.t)}</span><br>${esc(h.msg)}</span></li>`).join('')}</ul>`:''}
+  </div></div>
+  <div class="two" style="margin-top:28px"><div><h2>Puntos clave</h2><ul>${(c.debrief.points||[]).map(p=>`<li style="margin-bottom:6px">${esc(p)}</li>`).join('')}</ul>
+  <h2 style="font-size:17px">Referencias</h2><ul class="small mute">${(c.debrief.refs||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="small mute">${esc(c.source||'')}</p></div>
+  <div><h2>Tu línea de tiempo</h2><div class="feed" style="max-height:520px">${[...S.log].reverse().map(e=>`<div class="ent k-${e.k}"><div class="t">${hhmm(e.t)} · ${esc(e.title||'')}</div><div>${esc(e.txt)}</div>${e.harm?`<div class="harm">⚠ ${esc(e.harm)}</div>`:''}</div>`).join('')}</div></div></div>
+  </section>`;
+  $('#again').onclick=()=>play(c.id);$('#back').onclick=lib;$('#savecta')&&($('#savecta').onclick=()=>auth('new',()=>{const p=me();p.history=p.history||[];p.history.unshift({caseId:c.id,title:c.title,score,date:new Date().toISOString(),dx:S.dx==null?null:dxOk,harms:S.harms.length,death:S.over==='muerte',min:S.t});saveAll();S.saved=true;debrief()}));scrollTo(0,0);
+}
+
+/* ---------- Cuentas ---------- */
+function auth(mode,then){
+  const ov=document.createElement('div');ov.className='overlay';
+  const draw=()=>{ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="at">
+    <div class="tabs" role="tablist"><button role="tab" aria-selected="${mode==='in'}" data-m="in">Entrar</button><button role="tab" aria-selected="${mode==='new'}" data-m="new">Crear cuenta</button></div>
+    <h2 id="at" style="margin-top:16px">${mode==='in'?'Entrar a Pulso':'Crear cuenta'}</h2>
+    ${mode==='in'?(profiles.length?`<div class="row" id="plist">${profiles.map(p=>`<button data-p="${esc(p.id)}">${esc(p.name)}</button>`).join('')}</div>
+      <label class="fld">PIN<input id="pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="6"></label>`:'<p class="mute">Todavía no hay cuentas en este dispositivo.</p>')
+    :`<label class="fld">Nombre<input id="nm" autocomplete="nickname" maxlength="40"></label>
+      <label class="fld">PIN de 4 a 6 números<input id="pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6"></label>
+      <label class="fld">Repite el PIN<input id="pin2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6"></label>`}
+    <p class="msg" id="am" role="status" style="color:var(--red)"></p>
+    <p class="small mute">Tu cuenta y tus datos se guardan solo en este navegador y dispositivo. Para pasarlos a otro, usa «Respaldar» en tu perfil.</p>
+    <div class="row"><button class="ghost" id="ax">Cancelar</button><span style="flex:1"></span><button class="pri" id="ao">${mode==='in'?'Entrar':'Crear cuenta'}</button></div></div>`;
+    let pick=profiles.length===1?profiles[0].id:null;
+    const mark=()=>ov.querySelectorAll('[data-p]').forEach(b=>b.classList.toggle('pri',b.dataset.p===pick));mark();
+    ov.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{pick=b.dataset.p;mark();ov.querySelector('#pin').focus()});
+    ov.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{mode=b.dataset.m;draw()});
+    ov.querySelector('#ax').onclick=()=>ov.remove();
+    const am=ov.querySelector('#am');
+    ov.querySelector('#ao').onclick=async()=>{
+      const pin=(ov.querySelector('#pin')?.value||'').trim();
+      if(mode==='new'){const nm=ov.querySelector('#nm').value.trim();
+        if(!nm)return am.textContent='Escribe tu nombre.';
+        if(profiles.some(p=>p.name.toLowerCase()===nm.toLowerCase()))return am.textContent='Ya existe una cuenta con ese nombre en este dispositivo.';
+        if(!/^\d{4,6}$/.test(pin))return am.textContent='El PIN debe tener de 4 a 6 números.';
+        if(pin!==ov.querySelector('#pin2').value.trim())return am.textContent='Los PIN no coinciden.';
+        const id='u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+        const p={id,name:nm,pin:await hashPin(id,pin),created:new Date().toISOString(),history:[],cases:[]};
+        profiles.push(p);if(!saveAll()){profiles.pop();return am.textContent='Este navegador no permite guardar datos (modo privado o almacenamiento bloqueado).'}
+        login(p)}
+      else{const p=profiles.find(x=>x.id===pick);if(!p)return am.textContent='Elige tu cuenta.';
+        if(await hashPin(p.id,pin)!==p.pin)return am.textContent='PIN incorrecto.';login(p)}
+      ov.remove();then?then():profile()};
+    ov.querySelector('input')?.focus()};
+  document.body.append(ov);draw();
+}
+const fmtD=s=>{try{return new Date(s).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})}catch(e){return s}};
+function profile(){
+  stopMon();S=null;app.dataset.view='me';const p=me();if(!p)return auth('in');
+  const hs=p.history||[],avg=hs.length?Math.round(hs.reduce((a,b)=>a+b.score,0)/hs.length):null,bestS=hs.length?Math.max(...hs.map(x=>x.score)):null;
+  const ok=hs.filter(x=>x.dx===true).length;
+  app.innerHTML=`<section class="band"><h1>${esc(p.name)}</h1><p class="mute" style="margin-top:-6px">Cuenta creada el ${fmtD(p.created)}</p>
+  <div class="stats">${[['Casos resueltos',hs.length],['Promedio',avg??'—'],['Mejor puntaje',bestS??'—'],['Diagnósticos correctos',hs.length?ok+'/'+hs.length:'—']].map(([k,v])=>`<div class="stat"><span>${v}</span><small>${k}</small></div>`).join('')}</div>
+  <div class="two" style="margin-top:28px"><div>
+    <h2>Historial</h2>
+    ${hs.length?`<table class="stack hist"><thead><tr><th>Fecha</th><th>Caso</th><th>Puntaje</th><th>Dx</th><th>Errores</th></tr></thead><tbody>${hs.map(x=>`<tr><td>${fmtD(x.date)}</td><td>${esc(x.title)}${x.death?' <span style="color:var(--red)">(falleció)</span>':''}</td><td class="num"><b>${x.score}</b></td><td>${x.dx===true?'✓':x.dx===false?'✗':'—'}</td><td class="num">${x.harms}</td></tr>`).join('')}</tbody></table>`:'<p class="mute">Aún no resuelves ningún caso. Tus puntajes aparecerán aquí.</p>'}
+  </div><div>
+    <h2>Mis casos</h2>
+    ${mine.length?`<div class="mycases">${mine.map(c=>`<div class="card" style="--tri:${TRI[c.level]||'#8a8a8a'}"><h3>${esc(c.title)}</h3>
+      <label class="row small" style="min-height:44px"><input type="checkbox" data-pub="${esc(c.id)}" ${c._pub?'checked':''} style="width:20px;height:20px"> Público</label>
+      <div class="row"><button class="pri" data-play="${esc(c.id)}">Jugar</button>${c._pub?`<button data-share="${esc(c.id)}">Enlace para compartir</button>`:''}${c._pub&&gh.token?`<button data-gh="${esc(c.id)}">Publicar en GitHub</button>`:''}<button class="ghost" data-del="${esc(c.id)}">Eliminar</button></div></div>`).join('')}</div>`:'<p class="mute">No has agregado casos.</p>'}
+    <button style="margin-top:10px" id="pnew">Agregar un caso</button>
+    <div id="shbox" hidden style="margin-top:14px"><p class="small"><b>Enlace del caso.</b> Quien lo abra puede jugarlo sin cuenta. Funciona con la app publicada en GitHub Pages.</p><textarea id="shl" readonly style="min-height:90px"></textarea><button id="shc">Copiar enlace</button></div>
+    <p class="msg" id="pm" role="status"></p>
+    <h2 style="margin-top:26px">Cuenta</h2>
+    <div class="row"><button id="bk">Respaldar mi cuenta</button><button id="rs">Restaurar respaldo</button><button class="ghost" id="lo">Cerrar sesión</button><button class="ghost" id="dl" style="color:var(--red)">Eliminar cuenta</button></div>
+    <div id="bkbox" hidden style="margin-top:12px"><textarea id="bkt" placeholder="Pega aquí un respaldo para restaurarlo"></textarea><div class="row" style="margin-top:8px"><button id="bkc">Copiar</button><button class="pri" id="bki" hidden>Restaurar</button></div></div>
+  </div></div></section>`;
+  const pm=$('#pm'),say=(t,c)=>{pm.style.color=c||'var(--ok)';pm.textContent=t};
+  app.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>play(b.dataset.play));
+  app.querySelectorAll('[data-pub]').forEach(b=>b.onchange=()=>{const c=mine.find(x=>x.id===b.dataset.pub);c._pub=b.checked;saveMine();profile()});
+  app.querySelectorAll('[data-share]').forEach(b=>b.onclick=async()=>{const c=mine.find(x=>x.id===b.dataset.share);const l=await shareLink(c);$('#shbox').hidden=false;$('#shl').value=l;try{await navigator.clipboard.writeText(l);say('Enlace copiado.')}catch(e){say('Copia el enlace del recuadro.')}});
+  $('#shc').onclick=async()=>{try{await navigator.clipboard.writeText($('#shl').value);say('Enlace copiado.')}catch(e){$('#shl').select()}};
+  app.querySelectorAll('[data-gh]').forEach(b=>b.onclick=()=>{const c=mine.find(x=>x.id===b.dataset.gh);say('Subiendo…','var(--ink)');ghSave([c]).then(()=>say('Publicado en GitHub. Aparece para todos en 1–2 min.')).catch(e=>say(e.message,'var(--red)'))});
+  app.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(b.dataset.armed){mine=mine.filter(m=>m.id!==b.dataset.del);saveMine();profile()}else{b.dataset.armed=1;b.textContent='¿Seguro?'}});
+  $('#pnew').onclick=add;$('#lo').onclick=()=>{logout();lib()};
+  $('#dl').onclick=e=>{if(e.target.dataset.armed){profiles=profiles.filter(x=>x.id!==p.id);saveAll();logout();lib()}else{e.target.dataset.armed=1;e.target.textContent='Se borran historial y casos. Toca otra vez'}};
+  $('#bk').onclick=()=>{$('#bkbox').hidden=false;$('#bki').hidden=true;$('#bkc').hidden=false;$('#bkt').value=JSON.stringify({pulso:1,profile:p},null,1)};
+  $('#bkc').onclick=async()=>{try{await navigator.clipboard.writeText($('#bkt').value);say('Respaldo copiado. Guárdalo en un lugar seguro.')}catch(e){$('#bkt').select();say('Selecciona el texto y cópialo.')}};
+  $('#rs').onclick=()=>{$('#bkbox').hidden=false;$('#bki').hidden=false;$('#bkc').hidden=true;$('#bkt').value='';$('#bkt').focus()};
+  $('#bki').onclick=()=>{try{const d=JSON.parse($('#bkt').value);if(!d.pulso||!d.profile?.id||!d.profile?.pin)throw 0;const q=d.profile;q.cases=(q.cases||[]).filter(c=>{try{normalize(c);return true}catch(e){return false}});profiles=profiles.filter(x=>x.id!==q.id);profiles.push(q);saveAll();login(q);profile();say('Cuenta restaurada.')}catch(e){say('Ese texto no es un respaldo válido de Pulso.','var(--red)')}};
+}
+
+/* ---------- Agregar caso ---------- */
+const PROMPT=`Convierte este material en un caso para Pulso (formato v1, JSON). Incluye estados que evolucionen con el tiempo, interrogatorio, exploración, estudios con resultados por estado, tratamientos con efectos y errores, acciones críticas, diagnóstico con distractores y retroalimentación con referencias. Material:`;
+function add(){
+  stopMon();S=null;app.dataset.view='add';
+  if(!me()){app.innerHTML=`<section class="band"><h1>Agregar un caso</h1><p class="lede">Para agregar casos necesitas una cuenta. Así quedan guardados en tu perfil y puedes elegir si son públicos o privados.</p><div class="row" style="margin-top:16px"><button class="pri" id="a1">Crear cuenta</button><button id="a2">Ya tengo cuenta</button></div></section>`;$('#a1').onclick=()=>auth('new',add);$('#a2').onclick=()=>auth('in',add);return}
+  const tpl=JSON.stringify({id:'mi-caso-01',v:1,title:'Título visible',specialty:'Área',level:'Básico',source:'Artículo o libro de donde sale',setting:'Urgencias',
+  patient:{name:'Nombre',age:40,sex:'F',weight:70,cc:'Motivo de consulta'},intro:'Cómo llega.',start:'inicial',
+  states:{inicial:{label:'Ingreso',rhythm:'sinus',v:{hr:110,sbp:100,dbp:60,rr:24,spo2:94,t:38.5},d:'Lo que se ve.',worse:{after:30,to:'grave'}},grave:{label:'Deterioro',v:{hr:140,sbp:80,dbp:45,rr:30,spo2:88,t:38.9},d:'...',worse:{after:20,to:'muerte'}},mejor:{label:'Mejoría',goal:true,v:{hr:90,sbp:118,dbp:72,rr:18,spo2:97,t:37.6},d:'...'},muerte:{label:'Muerte',end:'muerte',rhythm:'asistolia',v:{hr:0,sbp:0,dbp:0,rr:0,spo2:0,t:37}}},
+  history:[{id:'h1',q:'Pregunta',a:'Respuesta'}],exam:[{id:'e1',n:'Sistema',f:'Hallazgo'}],
+  tests:[{id:'t1',n:'Estudio',min:20,r:{inicial:'Resultado al ingreso','*':'Resultado en otros estados'}}],
+  treatments:[{id:'r1',n:'Tratamiento correcto',min:10,goto:'mejor',when:['inicial','grave'],delay:0,needs:['t1'],note:'Qué pasa'},{id:'r2',n:'Tratamiento dañino',min:5,harm:{msg:'Por qué es un error'}}],
+  diagnosis:{options:['Correcto','Distractor 1','Distractor 2'],correct:0},
+  scoring:{critical:[{label:'Pedir el estudio en 15 min',a:['t1'],by:15},{label:'Estudio antes del tratamiento',a:['t1'],before:'r1'}],avoid:[{state:'grave',label:'Evitó el deterioro'}]},
+  debrief:{summary:'Resumen',points:['Punto clave'],refs:['Referencia']}},null,2);
+  app.innerHTML=`<section class="band"><h1>Agregar un caso</h1>
+  <p class="mute" style="max-width:70ch">Mándale a Claude un artículo, capítulo o caso clínico con la instrucción de abajo; te devuelve el JSON listo. Pégalo aquí o sube el archivo .json. Los casos se guardan en tu perfil. Los públicos se pueden compartir con un enlace desde «Mi perfil».</p>
+  <div class="two"><div>
+    <h2>1 · Instrucción para Claude</h2><pre id="pr">${esc(PROMPT)}</pre><button id="cpr">Copiar instrucción</button>
+    <h2 style="margin-top:22px">2 · Pegar o subir el caso</h2>
+    <textarea id="ta" placeholder="Pega aquí el JSON del caso (o una lista de casos)" aria-label="JSON del caso"></textarea>
+    <div class="row" style="margin-top:10px"><button class="pri" id="imp">Agregar a la biblioteca</button><label class="row" style="min-height:44px"><span>o archivo:</span> <input type="file" id="fi" accept=".json,application/json"></label></div>
+    <label class="row small" style="min-height:44px"><input type="checkbox" id="pub" checked style="width:20px;height:20px"> Hacerlo público: otros pueden jugarlo con un enlace${gh.token?' y se publica en la biblioteca de GitHub':''}</label>
+    <p class="msg" id="im" role="status"></p>
+    <details style="margin-top:14px"><summary style="cursor:pointer;min-height:44px;font-weight:600">Conectar mi repositorio de GitHub</summary>
+      <p class="small mute">Funciona cuando la app está publicada en GitHub Pages. Crea un token «fine-grained» con permiso <i>Contents: Read and write</i> solo para este repositorio. Se guarda únicamente en este navegador.</p>
+      <div class="two" style="gap:10px"><input id="gho" placeholder="Usuario de GitHub" value="${esc(gh.owner||'')}" style="min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">
+      <input id="ghr" placeholder="Repositorio (p. ej. guardia)" value="${esc(gh.repo||'')}" style="min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">
+      <input id="ghb" placeholder="Rama (main)" value="${esc(gh.branch||'')}" style="min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)">
+      <input id="ght" type="password" placeholder="Token" value="${esc(gh.token||'')}" style="min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg)"></div>
+      <div class="row" style="margin-top:10px"><button id="ghs">Guardar conexión</button><button class="ghost" id="ghx">Olvidar token</button><button class="ghost" id="ghall">Subir mis casos públicos</button></div>
+    </details>
+  </div><div>
+    <h2>Formato del caso</h2>
+    <ul class="small" style="padding-left:18px">
+    <li><b>states</b>: cada estado tiene signos (<code>v</code>), ritmo (<code>sinus</code>, <code>st</code>, <code>ectopia</code>, <code>fv</code>, <code>asistolia</code>) y <code>worse</code>: a cuántos minutos empeora y hacia dónde. <code>goal</code> marca el objetivo; <code>end: "muerte"</code> termina el caso.</li>
+    <li><b>tests.r</b>: texto fijo o un resultado por estado, con <code>"*"</code> por defecto.</li>
+    <li><b>treatments</b>: <code>goto</code> + <code>when</code> cambian el estado; <code>harm</code> marca un error (con <code>when</code> opcional); <code>delay</code> retrasa el deterioro; <code>needs</code> exige acciones previas.</li>
+    <li><b>scoring.critical</b>: acciones esperadas, con plazo (<code>by</code>, minutos) u orden (<code>before</code>).</li></ul>
+    <pre>${esc(tpl)}</pre><button id="ctp">Copiar plantilla</button></div></div></section>`;
+  const im=$('#im');
+  const take=txt=>{try{let d=JSON.parse(txt);d=Array.isArray(d)?d:[d];d.forEach(normalize);for(const c of d){if(BUILTIN.some(b=>b.id===c.id))throw new Error('El id "'+c.id+'" ya existe en los casos incluidos.');const pub=$('#pub').checked;if(othersPublic().some(o=>o.id===c.id)||repo.some(o=>o.id===c.id))c.id+='-'+Date.now().toString(36);c._owner=active;c._by=me().name;c._pub=pub;mine=mine.filter(m=>m.id!==c.id);mine.push(c)}saveMine();im.style.color='var(--ok)';im.textContent=`Listo: ${d.length} caso(s) agregado(s) a tu perfil. Compártelos desde «Mi perfil».`;$('#ta').value='';
+    if($('#pub').checked&&gh.token){im.textContent+=' Subiendo a GitHub…';ghSave(d).then(()=>{im.textContent=`Listo: ${d.length} caso(s) guardado(s) en GitHub. Aparecen para todos en 1–2 min.`}).catch(e=>{im.style.color='var(--red)';im.textContent='Se guardó en el navegador, pero no en GitHub: '+e.message})}
+  }catch(e){im.style.color='var(--red)';im.textContent='No se pudo agregar: '+e.message}};
+  const rd=()=>({owner:$('#gho').value.trim(),repo:$('#ghr').value.trim(),branch:$('#ghb').value.trim()||'main',token:$('#ght').value.trim()});
+  $('#ghs').onclick=()=>{gh=rd();try{localStorage.setItem(GHK,JSON.stringify(gh))}catch(e){}im.style.color='var(--ok)';im.textContent='Conexión guardada.'};
+  $('#ghx').onclick=()=>{gh={};try{localStorage.removeItem(GHK)}catch(e){}$('#ght').value='';im.textContent='Token borrado de este navegador.'};
+  $('#ghall').onclick=()=>{if(!mine.length){im.textContent='No tienes casos locales.';return}gh=rd();im.style.color='var(--ink)';im.textContent='Subiendo…';ghSave(mine.filter(c=>c._pub)).then(()=>{im.style.color='var(--ok)';im.textContent=`${mine.filter(c=>c._pub).length} caso(s) público(s) subido(s) a GitHub.`}).catch(e=>{im.style.color='var(--red)';im.textContent=e.message})};
+  $('#imp').onclick=()=>take($('#ta').value);
+  $('#fi').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(take)};
+  const cp=async(t,b)=>{try{await navigator.clipboard.writeText(t);b.textContent='Copiado'}catch(e){b.textContent='Selecciónalo y copia a mano'}};
+  $('#cpr').onclick=e=>cp(PROMPT,e.target);$('#ctp').onclick=e=>cp(tpl,e.target);
+}
+
+$('#nav-lib').onclick=lib;$('#nav-add').onclick=add;$('#nav-me').onclick=()=>me()?profile():auth('in');
+nav();openShared().then(ok=>{if(!ok)lib()});loadRepo();
+}
+</script>
+</body>
+</html>

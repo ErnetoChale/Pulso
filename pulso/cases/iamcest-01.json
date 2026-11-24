@@ -1,0 +1,469 @@
+{
+  "id": "iamcest-01",
+  "v": 1,
+  "title": "Hombre de 58 años con dolor opresivo en el pecho",
+  "specialty": "Cardiología · Urgencias",
+  "level": "Básico",
+  "source": "Caso modelo basado en la guía ESC 2023 de síndromes coronarios agudos",
+  "setting": "Urgencias de hospital con hemodinamia 24 h, 11:40 h",
+  "patient": {
+    "name": "Jorge M.",
+    "age": 58,
+    "sex": "M",
+    "weight": 84,
+    "cc": "Dolor torácico desde hace 50 minutos"
+  },
+  "intro": "Llega caminando, sudoroso, con el puño cerrado sobre el pecho.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso",
+      "rhythm": "st",
+      "v": {
+        "hr": 98,
+        "sbp": 150,
+        "dbp": 92,
+        "rr": 20,
+        "spo2": 95,
+        "t": 36.6
+      },
+      "d": "Diaforético y ansioso, dolor 8/10 que no cede.",
+      "worse": {
+        "after": 35,
+        "to": "fv"
+      }
+    },
+    "hipotension": {
+      "label": "Hipotensión",
+      "rhythm": "st",
+      "v": {
+        "hr": 114,
+        "sbp": 80,
+        "dbp": 48,
+        "rr": 22,
+        "spo2": 94,
+        "t": 36.6
+      },
+      "d": "Pálido y mareado, casi se desvanece en la camilla.",
+      "worse": {
+        "after": 25,
+        "to": "fv"
+      }
+    },
+    "fv": {
+      "label": "Fibrilación ventricular",
+      "rhythm": "fv",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 36.5
+      },
+      "d": "Pierde el estado de alerta. No tiene pulso.",
+      "worse": {
+        "after": 8,
+        "to": "muerte"
+      }
+    },
+    "rosc": {
+      "label": "Tras desfibrilación",
+      "rhythm": "st",
+      "v": {
+        "hr": 106,
+        "sbp": 116,
+        "dbp": 70,
+        "rr": 18,
+        "spo2": 94,
+        "t": 36.5
+      },
+      "d": "Recupera pulso y respira. Sigue con dolor.",
+      "worse": {
+        "after": 25,
+        "to": "fv"
+      }
+    },
+    "hemodinamia": {
+      "label": "ICP primaria",
+      "goal": true,
+      "v": {
+        "hr": 82,
+        "sbp": 128,
+        "dbp": 78,
+        "rr": 16,
+        "spo2": 97,
+        "t": 36.6
+      },
+      "d": "Angiografía: oclusión de la descendente anterior proximal. Se coloca stent con flujo TIMI 3. El dolor desaparece."
+    },
+    "trombolizado": {
+      "label": "Tras fibrinólisis",
+      "goal": true,
+      "v": {
+        "hr": 88,
+        "sbp": 132,
+        "dbp": 80,
+        "rr": 17,
+        "spo2": 96,
+        "t": 36.6
+      },
+      "d": "El dolor baja y el ST se resuelve parcialmente. Debe ir a angiografía en las siguientes 2–24 h."
+    },
+    "muerte": {
+      "label": "Muerte",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 36.4
+      },
+      "d": "Asistolia tras reanimación prolongada."
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Cómo es el dolor?",
+      "a": "Opresivo, en el centro del pecho, «como si tuviera un peso encima». Se va al brazo izquierdo y a la mandíbula. Empezó en reposo hace 50 minutos."
+    },
+    {
+      "id": "h2",
+      "q": "¿Qué más siente?",
+      "a": "Sudoración, náusea y un poco de falta de aire."
+    },
+    {
+      "id": "h3",
+      "q": "¿Enfermedades previas y tabaquismo?",
+      "a": "Diabetes tipo 2 e hipertensión. Fuma 20 cigarros al día desde hace 30 años."
+    },
+    {
+      "id": "h4",
+      "q": "¿Qué medicamentos toma?",
+      "a": "Metformina 850 mg cada 12 h y losartán 50 mg al día."
+    },
+    {
+      "id": "h5",
+      "q": "¿Ha tomado otro medicamento en las últimas 48 h, incluido alguno para la erección?",
+      "a": "Un poco apenado: tomó sildenafil 50 mg anoche."
+    },
+    {
+      "id": "h6",
+      "q": "¿Sangrados, cirugías o EVC recientes?",
+      "a": "Lo niega."
+    },
+    {
+      "id": "h7",
+      "q": "¿El dolor es desgarrante o se va a la espalda?",
+      "a": "No, no se va a la espalda."
+    },
+    {
+      "id": "h8",
+      "q": "¿Alergias?",
+      "a": "Ninguna conocida."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Aspecto general",
+      "f": "Diaforético, ansioso, con el puño sobre el esternón (signo de Levine)."
+    },
+    {
+      "id": "e2",
+      "n": "Cardiovascular",
+      "f": "Ruidos rítmicos, S4, sin soplos ni frote."
+    },
+    {
+      "id": "e3",
+      "n": "Pulmonar",
+      "f": "Murmullo vesicular sin estertores. Killip I."
+    },
+    {
+      "id": "e4",
+      "n": "Cuello",
+      "f": "Sin ingurgitación yugular."
+    },
+    {
+      "id": "e5",
+      "n": "Presión en ambos brazos y pulsos",
+      "f": "150/92 derecho y 148/90 izquierdo. Pulsos simétricos en las cuatro extremidades."
+    },
+    {
+      "id": "e6",
+      "n": "Extremidades",
+      "f": "Sin edema, llenado capilar de 2 s."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t_ecg",
+      "n": "ECG de 12 derivaciones",
+      "min": 3,
+      "r": {
+        "fv": "Fibrilación ventricular.",
+        "hemodinamia": "Resolución del ST > 50 %, ondas Q en V1–V3.",
+        "trombolizado": "Resolución parcial del ST.",
+        "*": "Ritmo sinusal 98 lpm. Elevación del ST de 3–4 mm en V1–V5 con depresión recíproca en II, III y aVF. IAMCEST anterior extenso."
+      }
+    },
+    {
+      "id": "t_trop",
+      "n": "Troponina I de alta sensibilidad",
+      "min": 45,
+      "r": "1 840 ng/L (normal < 26). Recuerda: no debe retrasar la reperfusión."
+    },
+    {
+      "id": "t_qs",
+      "n": "Química y electrolitos",
+      "min": 30,
+      "r": "Glucosa 168 mg/dL · creatinina 1.0 · K⁺ 4.1 · Na⁺ 139"
+    },
+    {
+      "id": "t_bh",
+      "n": "Biometría hemática",
+      "min": 20,
+      "r": "Hb 15.1 g/dL · leucocitos 11 200 · plaquetas 248 000"
+    },
+    {
+      "id": "t_coag",
+      "n": "Tiempos de coagulación",
+      "min": 30,
+      "r": "TP 12 s · INR 1.0 · TTPa 29 s"
+    },
+    {
+      "id": "t_rx",
+      "n": "Radiografía de tórax portátil",
+      "min": 15,
+      "r": "Sin congestión pulmonar. Mediastino de tamaño normal."
+    },
+    {
+      "id": "t_eco",
+      "n": "Ecocardiograma a pie de cama",
+      "min": 10,
+      "r": "Hipocinesia anterior y apical, FEVI ≈ 40 %. Sin derrame pericárdico ni insuficiencia mitral significativa."
+    },
+    {
+      "id": "t_dd",
+      "n": "Dímero D",
+      "min": 40,
+      "r": "0.3 µg/mL (normal)"
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r_aas",
+      "n": "Ácido acetilsalicílico 300 mg masticable",
+      "min": 2,
+      "delay": 10,
+      "note": "Masticado y deglutido."
+    },
+    {
+      "id": "r_tica",
+      "n": "Ticagrelor 180 mg VO (carga)",
+      "min": 2,
+      "delay": 5,
+      "note": "Carga de inhibidor P2Y12."
+    },
+    {
+      "id": "r_hnf",
+      "n": "Heparina no fraccionada 70–100 U/kg IV en bolo",
+      "min": 3,
+      "delay": 5,
+      "note": "Anticoagulación para la ICP."
+    },
+    {
+      "id": "r_icp",
+      "n": "Activar código infarto: ICP primaria",
+      "min": 10,
+      "goto": "hemodinamia",
+      "when": [
+        "inicial",
+        "rosc",
+        "hipotension"
+      ],
+      "needs": [
+        "t_ecg"
+      ],
+      "note": "Hemodinamia acepta al paciente."
+    },
+    {
+      "id": "r_tnk",
+      "n": "Fibrinólisis con tenecteplasa",
+      "min": 10,
+      "goto": "trombolizado",
+      "when": [
+        "inicial",
+        "rosc",
+        "hipotension"
+      ],
+      "needs": [
+        "t_ecg"
+      ],
+      "harm": {
+        "msg": "Con ICP disponible en menos de 120 min, la ICP primaria es la estrategia de reperfusión preferente."
+      },
+      "note": "Se administra el fibrinolítico."
+    },
+    {
+      "id": "r_ntg",
+      "n": "Nitroglicerina 0.4 mg sublingual",
+      "min": 3,
+      "goto": "hipotension",
+      "when": [
+        "inicial",
+        "rosc"
+      ],
+      "harm": {
+        "msg": "Tomó sildenafil hace menos de 24 h: los nitratos están contraindicados por riesgo de hipotensión grave."
+      },
+      "note": "Se administra."
+    },
+    {
+      "id": "r_ssn",
+      "n": "Bolo de solución salina 0.9 % 250 mL",
+      "min": 5,
+      "goto": "inicial",
+      "when": [
+        "hipotension"
+      ],
+      "note": "Se pasa el bolo."
+    },
+    {
+      "id": "r_mor",
+      "n": "Morfina 2–4 mg IV",
+      "min": 3,
+      "note": "El dolor baja a 6/10."
+    },
+    {
+      "id": "r_o2",
+      "n": "Oxígeno por puntas nasales 3 L/min",
+      "min": 2,
+      "harm": {
+        "when": [
+          "inicial",
+          "rosc",
+          "hemodinamia",
+          "trombolizado"
+        ],
+        "msg": "SpO₂ ≥ 90 %: el oxígeno de rutina no está indicado en el infarto."
+      },
+      "note": "Se coloca oxígeno."
+    },
+    {
+      "id": "r_bb",
+      "n": "Metoprolol 5 mg IV",
+      "min": 3,
+      "harm": {
+        "when": [
+          "hipotension",
+          "fv"
+        ],
+        "msg": "Betabloqueador IV en un paciente hipotenso o inestable."
+      },
+      "note": "FC baja ligeramente."
+    },
+    {
+      "id": "r_desf",
+      "n": "Desfibrilación 200 J bifásica + RCP",
+      "min": 2,
+      "goto": "rosc",
+      "when": [
+        "fv"
+      ],
+      "harm": {
+        "when": [
+          "inicial",
+          "hipotension",
+          "rosc",
+          "hemodinamia",
+          "trombolizado"
+        ],
+        "msg": "Descarga a un paciente con pulso."
+      },
+      "note": "Descarga entregada."
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "IAMCEST anterior extenso (descendente anterior), Killip I",
+      "Disección aórtica tipo A",
+      "Tromboembolia pulmonar masiva",
+      "Pericarditis aguda",
+      "SICA sin elevación del ST"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "ECG en los primeros 10 min",
+        "a": [
+          "t_ecg"
+        ],
+        "by": 10
+      },
+      {
+        "label": "Aspirina",
+        "a": [
+          "r_aas"
+        ]
+      },
+      {
+        "label": "Inhibidor P2Y12",
+        "a": [
+          "r_tica"
+        ]
+      },
+      {
+        "label": "Anticoagulación",
+        "a": [
+          "r_hnf"
+        ]
+      },
+      {
+        "label": "Preguntar por inhibidores de PDE5 antes de nitratos",
+        "a": [
+          "h5"
+        ],
+        "before": "r_ntg"
+      },
+      {
+        "label": "Activar ICP primaria en los primeros 30 min",
+        "a": [
+          "r_icp"
+        ],
+        "by": 30
+      }
+    ],
+    "avoid": [
+      {
+        "state": "hipotension",
+        "label": "Evitó la hipotensión por nitratos"
+      },
+      {
+        "state": "fv",
+        "label": "Llegó a reperfusión antes de una arritmia letal"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "IAMCEST anterior en un centro con hemodinamia: la decisión que define el caso es activar la ICP primaria cuanto antes. La trampa es el sildenafil de anoche.",
+    "points": [
+      "ECG de 12 derivaciones en los primeros 10 min del primer contacto.",
+      "ICP primaria si puede hacerse en menos de 120 min desde el diagnóstico; si no, fibrinólisis en los primeros 10 min.",
+      "Carga de aspirina (150–300 mg VO) y de un P2Y12 potente (ticagrelor o prasugrel).",
+      "HNF 70–100 U/kg en bolo durante la ICP primaria.",
+      "Oxígeno solo si SpO₂ < 90 %.",
+      "Nitratos contraindicados tras sildenafil o vardenafil (24 h) y tadalafil (48 h).",
+      "La troponina no debe retrasar la reperfusión cuando el ECG ya es diagnóstico."
+    ],
+    "refs": [
+      "Byrne RA, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44(38):3720–3826."
+    ]
+  }
+}
