@@ -1,0 +1,284 @@
+{
+  "id": "pulso-nefro-itu-01",
+  "v": 1,
+  "title": "Fiebre y dolor lumbar en paciente diabética: evolución de pielonefritis aguda",
+  "specialty": "Nefrología / Urgencias",
+  "level": "Intermedio",
+  "source": "González Monte E. Infecciones del tracto urinario. En: Nefrología al día, Cap. 5, pp. 97-118.",
+  "setting": "Urgencias",
+  "patient": {
+    "name": "Carmen Morales Vega",
+    "age": 58,
+    "sex": "F",
+    "weight": 74,
+    "cc": "Fiebre alta, escalofríos y dolor intenso en fosa lumbar derecha"
+  },
+  "intro": "Acude a Urgencias tras 48 horas con fiebre de hasta 39.2 °C, escalofríos intensos y dolor continuo en flanco derecho, precedidos de 3 días de disuria y polaquiuria.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso en Urgencias",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 114,
+        "sbp": 104,
+        "dbp": 62,
+        "rr": 22,
+        "spo2": 96,
+        "t": 39.2
+      },
+      "d": "Febril, diaforética, con afectación moderada del estado general y dolor intenso en flanco derecho.",
+      "worse": {
+        "after": 35,
+        "to": "sepsis_grave"
+      }
+    },
+    "sin_respuesta_72h": {
+      "label": "Hospitalización (72 h sin mejoría)",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 120,
+        "sbp": 94,
+        "dbp": 54,
+        "rr": 25,
+        "spo2": 93,
+        "t": 39
+      },
+      "d": "Tras 72 horas de antibioterapia parenteral y sueroterapia, persisten picos febriles >38.8 °C, postración y empeoramiento del dolor lumbar derecho.",
+      "worse": {
+        "after": 30,
+        "to": "sepsis_grave"
+      }
+    },
+    "sepsis_grave": {
+      "label": "Deterioro séptico",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 138,
+        "sbp": 78,
+        "dbp": 44,
+        "rr": 30,
+        "spo2": 88,
+        "t": 39.6
+      },
+      "d": "Hipotensión refractaria, obnubilación, oliguria y frialdad acra por progresión de necrosis infecciosa renal.",
+      "worse": {
+        "after": 20,
+        "to": "muerte"
+      }
+    },
+    "mejor": {
+      "label": "Estabilización y resolución",
+      "goal": true,
+      "rhythm": "sinus",
+      "v": {
+        "hr": 84,
+        "sbp": 122,
+        "dbp": 74,
+        "rr": 16,
+        "spo2": 98,
+        "t": 37.1
+      },
+      "d": "Afebril tras drenaje urgente del foco necrótico-enfisematoso y antibioterapia intensiva de amplio espectro."
+    },
+    "muerte": {
+      "label": "Muerte",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 35.8
+      }
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Cómo empezaron los síntomas?",
+      "a": "Hace 5 días comencé con ardor al orinar y ganas frecuentes de ir al baño. Hace 2 días apareció dolor fuerte en la espalda baja del lado derecho, fiebre alta y escalofríos."
+    },
+    {
+      "id": "h2",
+      "q": "¿Padece alguna enfermedad crónica o toma medicamentos?",
+      "a": "Tengo diabetes mellitus tipo 2 desde hace 12 años en tratamiento con metformina, aunque últimamente mis glucemias han estado altas. También tomo enalapril para la presión."
+    },
+    {
+      "id": "h3",
+      "q": "¿Ha tenido infecciones urinarias previas o cálculos renales?",
+      "a": "Tuve dos episodios de cistitis el año pasado que se quitaron con antibiótico tomado. Nunca me han detectado piedras ni me han puesto sonda."
+    },
+    {
+      "id": "h4",
+      "q": "¿Tolera líquidos o medicamentos por boca?",
+      "a": "Tengo muchas náuseas desde ayer y hoy vomité dos veces el agua que intenté tomar."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Estado general",
+      "f": "Postrada, diaforética, mucosas secas, febril."
+    },
+    {
+      "id": "e2",
+      "n": "Abdomen y fosas lumbares",
+      "f": "Abdomen blando, doloroso en flanco derecho sin defensa peritoneal. Puñopercusión y digitopresión lumbar derecha francamente positivas."
+    },
+    {
+      "id": "e3",
+      "n": "Cardiopulmonar",
+      "f": "Taquicardia rítmica sin soplos; murmullo vesicular conservado sin agregados."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t_sedimento",
+      "n": "Sedimento urinario y tira reactiva",
+      "min": 10,
+      "r": {
+        "inicial": "Piuria intensa (>50 leucocitos/campo 40x), nitritos positivos, microhematuria y cilindros leucocitarios.",
+        "*": "Piuria persistente con cilindros leucocitarios y abundante bacteriuria."
+      }
+    },
+    {
+      "id": "t_analitica",
+      "n": "Biometría hemática, química sanguínea y lactato",
+      "min": 15,
+      "r": {
+        "inicial": "Leucocitos 18,400/µL (88% neutrófilos, desviación izquierda), Plaquetas 210,000/µL, Glucosa 312 mg/dL, Creatinina 1.4 mg/dL, Lactato 2.1 mmol/L.",
+        "sin_respuesta_72h": "Leucocitos 23,600/µL (92% neutrófilos), Plaquetas 112,000/µL, Glucosa 295 mg/dL, Creatinina 2.2 mg/dL, Lactato 3.4 mmol/L.",
+        "*": "Leucocitos 25,800/µL, Plaquetas 84,000/µL, Creatinina 2.8 mg/dL, Lactato 4.8 mmol/L."
+      }
+    },
+    {
+      "id": "t_cultivos",
+      "n": "Urocultivo y hemocultivos (x2)",
+      "min": 10,
+      "r": {
+        "inicial": "Muestras tomadas y enviadas a incubación (pendiente de resultado definitivo).",
+        "*": "Urocultivo >10^5 UFC/mL y hemocultivos (2/2) positivos para Escherichia coli multisensible (sensible a cefotaxima, ceftriaxona, aminoglucósidos y carbapenémicos)."
+      }
+    },
+    {
+      "id": "t_eco_tac",
+      "n": "Ecografía renal urgente y TAC abdominopélvica",
+      "min": 20,
+      "r": {
+        "inicial": "Riñón derecho aumentado de tamaño con cambios inflamatorios agudos, sin dilatación de vía excretora ni colecciones organizadas aún.",
+        "*": "Riñón derecho aumentado de volumen con extensas áreas de necrosis parenquimatosa y gas intrarrenal con extensión al espacio perirrenal (pielonefritis enfisematosa), sin litiasis obstructiva."
+      }
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r_ingreso_iv",
+      "n": "Hospitalización + Cefotaxima IV + Aminoglucósido + Sueroterapia",
+      "min": 10,
+      "goto": "sin_respuesta_72h",
+      "when": [
+        "inicial"
+      ],
+      "delay": 0,
+      "needs": [
+        "t_cultivos"
+      ],
+      "note": "Se inicia manejo hospitalario parenteral correcto para pielonefritis complicada (diabética), pero a las 72 h persiste fiebre y deterioro clínico."
+    },
+    {
+      "id": "r_drenaje_intensivo",
+      "n": "Antibioterapia intensiva amplio espectro + Drenaje quirúrgico urgente + Control glucémico",
+      "min": 15,
+      "goto": "mejor",
+      "when": [
+        "sin_respuesta_72h",
+        "sepsis_grave"
+      ],
+      "delay": 0,
+      "needs": [
+        "t_eco_tac"
+      ],
+      "note": "El drenaje urgente del gas y tejido necrótico junto con cobertura antibiótica intensiva resuelve el foco séptico."
+    },
+    {
+      "id": "r_alta_3dias",
+      "n": "Alta con cotrimoxazol o ciprofloxacino oral por 3 días",
+      "min": 5,
+      "harm": {
+        "msg": "Error grave: pauta corta de cistitis simple en una paciente diabética con pielonefritis aguda e intolerancia oral; conlleva alto riesgo de sepsis."
+      }
+    },
+    {
+      "id": "r_mantener_sin_drenaje",
+      "n": "Mantener solo antibiótico sin drenaje quirúrgico tras hallar gas renal",
+      "min": 5,
+      "harm": {
+        "msg": "Error crítico: la pielonefritis enfisematosa tiene una mortalidad del 9-40% y requiere drenaje quirúrgico o nefrectomía además de antibióticos intensivos."
+      }
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Pielonefritis enfisematosa derecha secundaria a pielonefritis aguda complicada",
+      "Cistitis aguda no complicada recurrente",
+      "Pielonefritis xantogranulomatosa crónica",
+      "Malacoplaquia renal bilateral"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Obtener sedimento urinario en los primeros 15 min",
+        "a": [
+          "t_sedimento"
+        ],
+        "by": 15
+      },
+      {
+        "label": "Tomar urocultivo y hemocultivos antes de iniciar antibiótico IV",
+        "a": [
+          "t_cultivos"
+        ],
+        "before": "r_ingreso_iv"
+      },
+      {
+        "label": "Realizar ecografía y TAC urgentes ante falta de respuesta a las 72 h",
+        "a": [
+          "t_eco_tac"
+        ],
+        "before": "r_drenaje_intensivo"
+      }
+    ],
+    "avoid": [
+      {
+        "state": "sepsis_grave",
+        "label": "Evitó la progresión a deterioro séptico grave"
+      },
+      {
+        "state": "muerte",
+        "label": "Evitó el desenlace fatal"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "La diabetes mellitus convierte toda ITU en complicada, exigiendo hospitalización y antibioterapia parenteral inicial ante pielonefritis aguda, previa toma de urocultivo y hemocultivos. La ausencia de mejoría a las 72 horas obliga a realizar ecografía y TAC urgentes, confirmando una pielonefritis enfisematosa que requiere antibióticos intensivos y drenaje quirúrgico.",
+    "points": [
+      "La diabetes mellitus es criterio de ITU complicada con alto riesgo de afectación renal, fallo terapéutico y sepsis.",
+      "Los cilindros leucocitarios en el sedimento urinario son diagnósticos de pielonefritis aguda.",
+      "Ante toda pielonefritis aguda es obligada la toma de urocultivo y hemocultivos antes de iniciar tratamiento.",
+      "Si una pielonefritis no mejora en 72 horas, deben realizarse ecografía urgente y TAC para descartar obstrucción o complicaciones supuradas/necrosantes.",
+      "La pielonefritis enfisematosa ocurre exclusivamente en diabéticos, su agente principal es E. coli, tiene mortalidad del 9-40% y requiere antibióticos intensivos más drenaje quirúrgico o nefrectomía."
+    ],
+    "refs": [
+      "González Monte E. Infecciones del tracto urinario. En: Lorenzo V, López Gómez JM (Eds). Nefrología al día. Capítulo 5, pp. 97-118.",
+      "Stamm WE, Hooton TM. Management of urinary tract infection in adults. N Engl J Med 1993;329:1328-34.",
+      "Tolkoff-Rubin NE, Cotran RS, Rubin RH. Infecciones del tracto urinario, pielonefritis y nefropatía por reflujo. En: Brenner BM, ed. The kidney. 7th ed. Philadelphia: Saunders; 2005. p. 1513-69."
+    ]
+  },
+  "author": "Ernesto",
+  "submittedBy": "ErnetoChale"
+}
