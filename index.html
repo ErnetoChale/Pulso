@@ -61,7 +61,7 @@ code{font-family:var(--mono);font-size:.88em}
 @media(max-width:920px){.sim{grid-template-columns:minmax(0,1fr)}}
 .pt{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline;margin-bottom:12px}
 .pt h2{margin:0;font-size:38px}
-.mon{background:#030605;border-radius:18px;padding:14px;color:#e8f0ee;border:6px solid #1a1d1c;box-shadow:inset 0 0 0 1px #2a3532,0 18px 36px -20px #000a;animation:rise .5s both}
+.mon{background:#030605;border-radius:18px;padding:14px;color:#e8f0ee;border:6px solid #1a1d1c;box-shadow:inset 0 0 0 1px #2a3532,0 18px 36px -20px #000a}
 .mon .scr{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:12px}
 @media(max-width:520px){.mon .scr{grid-template-columns:minmax(0,1fr)}}
 .wave{position:relative;height:210px;background-image:linear-gradient(#0f2a20 1px,transparent 1px),linear-gradient(90deg,#0f2a20 1px,transparent 1px);background-size:30px 30px}
@@ -89,7 +89,8 @@ code{font-family:var(--mono);font-size:.88em}
 .acts button.done span:first-child::before{content:"✓ ";color:var(--ok);font-weight:700}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:0;padding:6px 16px 16px}
 .feed{display:grid;gap:8px;max-height:420px;overflow:auto;margin-top:6px}
-.ent{border-left:3px solid var(--line);padding:4px 0 4px 12px;animation:rise .35s both}
+.ent{border-left:3px solid var(--line);padding:4px 0 4px 12px}
+.panel .feed .ent:first-child{animation:rise .35s both}
 .ent .t{font:500 12px var(--mono);color:var(--mute);text-transform:uppercase}
 .ent.k-t{border-color:#2b8fd6}.ent.k-r{border-color:var(--ink)}.ent.k-s{border-color:var(--red)}.ent.k-h,.ent.k-e{border-color:var(--mute)}
 .ent .harm{color:var(--red);font-weight:700}
@@ -156,6 +157,9 @@ td.num{text-align:right;white-space:nowrap}.hist{font-size:15px}
 .card .row button{font-size:15px}
 @media(max-width:860px){.hero{grid-template-columns:minmax(0,1fr);padding-right:0}.hero h1{margin-right:0}.hero-vis{min-height:0;margin-top:40px}.bignum{left:auto;right:6%;top:auto;bottom:-58px;font-size:110px;z-index:2}.bignum-l{display:none}
 .libhead{grid-template-columns:minmax(0,1fr)}.libhead .legend{justify-content:flex-start}.bento .card,.bento .card.big,.bento .card.wide{grid-column:1/-1;grid-row:auto}}
+.sndbtn{min-height:32px;padding:4px 12px;font:500 11px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:#cfe3dc;border-color:#2c3b37;display:inline-flex;gap:6px;align-items:center}
+.sndbtn[aria-pressed=false]{color:#7d8c88}
+.pill{display:inline-flex;align-items:center;min-height:44px;padding:8px 20px;border-radius:999px;background:var(--acc);color:var(--acc-ink);font-weight:700;text-decoration:none;transition:transform .2s,background-color .2s}.pill:hover{transform:translateY(-2px) scale(1.02);background:var(--red);color:#fff}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes draw{to{stroke-dashoffset:0}}
@@ -343,6 +347,11 @@ const toB64u=u8=>btoa(String.fromCharCode(...u8)).replace(/\+/g,'-').replace(/\/
 const fromB64u=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
 async function pack(c){const t=new TextEncoder().encode(JSON.stringify(clean(c)));try{const st=new Blob([t]).stream().pipeThrough(new CompressionStream('deflate-raw'));return 'z'+toB64u(new Uint8Array(await new Response(st).arrayBuffer()))}catch(e){let s='';for(let i=0;i<t.length;i+=8000)s+=String.fromCharCode(...t.subarray(i,i+8000));return 'j'+toB64u(Uint8Array.from(s,ch=>ch.charCodeAt(0)))}}
 async function unpack(s){const u=fromB64u(s.slice(1));if(s[0]==='z'){const st=new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'));return JSON.parse(await new Response(st).text())}return JSON.parse(new TextDecoder().decode(u))}
+const LIB=(()=>{const m=location.hostname.match(/^([^.]+)\.github\.io$/i);if(m){const r=location.pathname.split('/').filter(Boolean)[0];if(r)return m[1]+'/'+r}return 'ErnetoChale/Pulso'})();
+async function submitLink(c){const code=await pack({...c,_by:c._by||me()?.name});
+  const body=`Caso enviado desde Pulso por ${c._by||me()?.name||'un usuario'}.\n\nNo edites el bloque de abajo: contiene el caso completo.\n\n\`\`\`pulso\n${code}\n\`\`\`\n`;
+  const base=`https://github.com/${LIB}/issues/new?title=${encodeURIComponent('[Caso] '+c.title)}`;
+  const full=base+'&body='+encodeURIComponent(body);return{url:full.length<7800?full:base,body,long:full.length>=7800}}
 async function shareLink(c){return location.href.split('#')[0]+'#caso-'+await pack(c)}
 async function openShared(){const h=location.hash;if(!h.startsWith('#caso-'))return false;
   try{const c=normalize(await unpack(h.slice(6)));c._shared=true;c._by=c.author||'';shared=[c];history.replaceState(null,'',location.pathname+location.search);play(c.id);return true}catch(e){return false}}
@@ -440,11 +449,31 @@ function play(id){
   renderSim();startMon();
 }
 const cur=()=>S.c.states[S.st];
+/* ---------- Sonido (Web Audio, sin archivos) ---------- */
+const SK='pulso.sound.v1',snd={on:ls.get(SK,true),ctx:null,iv:0,lastBeat:-1,lastAlarm:0,t0:0};
+function actx(){if(!snd.ctx){try{snd.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(snd.ctx.state==='suspended')snd.ctx.resume().catch(()=>{});return snd.ctx}
+function tone(f,d,type,vol,when){if(!snd.on)return;const c=actx();if(!c)return;const t=c.currentTime+(when||0),o=c.createOscillator(),g=c.createGain();
+  o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||.08,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.03)}
+const sfx={
+  tick:()=>tone(1320,.05,'triangle',.035),
+  harm:()=>{tone(196,.28,'sawtooth',.05);tone(185,.28,'sawtooth',.04,.02)},
+  goal:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.35,'sine',.07,i*.13)),
+  death:()=>tone(440,2.6,'sine',.06),
+  alarmMed:()=>[0,.22,.44].forEach(w=>tone(660,.16,'square',.035,w)),
+  alarmHigh:()=>[0,.13,.26,.62,.75].forEach(w=>tone(880,.1,'square',.045,w))};
+function alarmLevel(){if(!S||!S.c)return 0;const s=cur(),v=s.v||{};if(S.over==='muerte'||s.rhythm==='fv'||s.rhythm==='asistolia'||!v.hr)return 2;
+  return(v.hr>130||v.hr<50||(v.sbp&&v.sbp<90)||(v.spo2&&v.spo2<90)||v.rr>28||v.rr<8)?1:0}
+function soundLoop(){if(!S||S.over==='fin'||!snd.on)return;const s=cur(),v=s.v||{},now=performance.now()/1000-snd.t0;
+  if(v.hr&&s.rhythm!=='fv'&&s.rhythm!=='asistolia'&&!S.over){const b=Math.floor(now/(60/v.hr));if(b!==snd.lastBeat){snd.lastBeat=b;tone(Math.max(300,440+(v.spo2-80)*14),.07,'sine',.05)}}
+  const lv=alarmLevel(),gap=lv===2?2.6:4.5;if(lv&&now-snd.lastAlarm>gap){snd.lastAlarm=now;lv===2?sfx.alarmHigh():sfx.alarmMed()}}
+function startSound(){stopSound();snd.t0=performance.now()/1000;snd.lastBeat=-1;snd.lastAlarm=-10;snd.iv=setInterval(soundLoop,40)}
+function stopSound(){clearInterval(snd.iv);snd.iv=0}
 function addLog(k,txt,title,harm){S.log.unshift({k,t:S.t,txt,title,harm})}
 function setState(id,auto){
   S.st=id;S.tin=0;S.visited.add(id);const s=cur();
   addLog('s',s.d||'',(auto?'Evolución: ':'Respuesta: ')+(s.label||id));
-  if(s.end){S.over=s.end}
+  if(s.end){S.over=s.end;if(s.end==='muerte')sfx.death()}
+  else if(s.goal&&!auto)sfx.goal();
 }
 function advance(m){
   while(m>0&&!S.over){const s=cur();
@@ -460,11 +489,11 @@ function act(kind,it){
   S.done.push({id:it.id,t:S.t});
   if(kind==='h')addLog('h',it.a,it.q);
   else if(kind==='e')addLog('e',it.f,it.n);
-  else if(kind==='t')addLog('t',resolve(it.r),it.n);
+  else if(kind==='t'){addLog('t',resolve(it.r),it.n);sfx.tick()}
   else{
     let harm='';
     if(it.harm&&(!it.harm.when||it.harm.when.includes(S.st))){harm=it.harm.msg;S.harms.push({t:S.t,n:it.n,msg:harm})}
-    addLog('r',it.note||'Indicado.',it.n,harm);
+    addLog('r',it.note||'Indicado.',it.n,harm);harm?sfx.harm():sfx.tick();
     if(it.delay)S.tin=Math.max(0,S.tin-it.delay);
     if(it.goto&&(!it.when||it.when.includes(S.st))&&it.goto!==S.st)setState(it.goto,false);
   }
@@ -482,7 +511,7 @@ function renderSim(){
   <div>
     <div class="pt"><h2>${esc(p.name||'Paciente')}</h2><span class="mute">${esc(p.age??'')} años · ${esc(p.sex||'')}${p.weight?` · ${esc(p.weight)} kg`:''}</span><span class="tag">${esc(c.setting||'')}</span></div>
     <div class="mon" role="img" aria-label="Monitor de signos vitales">
-      <div class="monbar"><span>${esc(s.label||S.st)}</span><span id="clk">${hhmm(S.t)}</span></div>
+      <div class="monbar"><span>${esc(s.label||S.st)}</span><span class="row" style="gap:10px"><button class="sndbtn" id="snd" aria-pressed="${snd.on}" title="${snd.on?'Silenciar':'Activar sonido'}">${snd.on?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>Sonido':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6M16 9l6 6"/></svg>Silencio'}</button><span id="clk">${hhmm(S.t)}</span></span></div>
       <div class="scr"><div class="wave"><canvas id="cv"></canvas></div><div class="vit" id="vit"></div></div>
     </div>
     <div class="state"><b>Motivo de consulta:</b> ${esc(p.cc||'')}<br><b>Ahora:</b> ${esc(s.d||'')}${banner}</div>
@@ -500,6 +529,7 @@ function renderSim(){
   app.querySelectorAll('[data-wait]').forEach(b=>b.onclick=()=>{const m=+b.dataset.wait;advance(m);if(!S.over&&cur().d)addLog('s',cur().d,'Reevaluación');renderSim()});
   app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const k=S.tab;const pool={h:c.history,e:c.exam,t:c.tests,r:c.treatments}[k];act(k,pool.find(x=>x.id===b.dataset.act))});
   $('#fin').onclick=()=>S.over?debrief():finishModal();
+  $('#snd').onclick=()=>{snd.on=!snd.on;ls.set(SK,snd.on);if(snd.on){actx();sfx.tick()}renderSim()};
   vitals();bindCanvas();
 }
 
@@ -535,8 +565,8 @@ function frame(ts){
 }
 function staticDraw(){if(!ctx)return;const W=cvs.clientWidth,H=cvs.clientHeight;ctx.fillStyle='#05080a';ctx.fillRect(0,0,W,H);[[t=>H*.36-ecg(t)*H*.26,'#3ef07a'],[t=>H*.9-pleth(t)*H*.2,'#38d6f5']].forEach(([f,c])=>{ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<W;i++){const y=f(i/110);i?ctx.lineTo(i,y):ctx.moveTo(i,y)}ctx.stroke()})}
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-function startMon(){stopMon();if(reduce.matches){staticDraw();raf=-1}else raf=requestAnimationFrame(frame)}
-function stopMon(){if(raf>0)cancelAnimationFrame(raf);raf=0}
+function startMon(){stopMon();startSound();if(reduce.matches){staticDraw();raf=-1}else raf=requestAnimationFrame(frame)}
+function stopMon(){if(raf>0)cancelAnimationFrame(raf);raf=0;stopSound()}
 const ro=new ResizeObserver(()=>{if(S&&$('#cv')){bindCanvas();if(reduce.matches)staticDraw()}});ro.observe(document.body);
 
 /* ---------- Cierre y retroalimentación ---------- */
@@ -640,9 +670,12 @@ function profile(){
     <h2>Mis casos</h2>
     ${mine.length?`<div class="mycases">${mine.map(c=>`<div class="card" style="--tri:${TRI[c.level]||'#8a8a8a'}"><h3>${esc(c.title)}</h3>
       <label class="row small" style="min-height:44px"><input type="checkbox" data-pub="${esc(c.id)}" ${c._pub?'checked':''} style="width:20px;height:20px"> Público</label>
-      <div class="row"><button class="pri" data-play="${esc(c.id)}">Jugar</button>${c._pub?`<button data-share="${esc(c.id)}">Enlace para compartir</button>`:''}${c._pub&&gh.token?`<button data-gh="${esc(c.id)}">Publicar en GitHub</button>`:''}<button class="ghost" data-del="${esc(c.id)}">Eliminar</button></div></div>`).join('')}</div>`:'<p class="mute">No has agregado casos.</p>'}
+      <div class="row"><button class="pri" data-play="${esc(c.id)}">Jugar</button>${c._pub?`<button data-share="${esc(c.id)}">Enlace para compartir</button><button data-sub="${esc(c.id)}">Enviar a la biblioteca</button>`:''}${c._pub&&gh.token?`<button data-gh="${esc(c.id)}">Publicar en GitHub</button>`:''}<button class="ghost" data-del="${esc(c.id)}">Eliminar</button></div></div>`).join('')}</div>`:'<p class="mute">No has agregado casos.</p>'}
     <button style="margin-top:10px" id="pnew">Agregar un caso</button>
     <div id="shbox" hidden style="margin-top:14px"><p class="small"><b>Enlace del caso.</b> Quien lo abra puede jugarlo sin cuenta. Funciona con la app publicada en GitHub Pages.</p><textarea id="shl" readonly style="min-height:90px"></textarea><button id="shc">Copiar enlace</button></div>
+    <div id="subbox" hidden style="margin-top:14px;border:1px solid var(--line);padding:14px"><p class="small" style="margin-top:0"><b>Enviar a la biblioteca pública.</b> Se abre GitHub con tu caso ya escrito (necesitas una cuenta gratis de GitHub). Da clic en «Submit new issue». Cuando el dueño lo apruebe, aparece para todos.</p>
+      <p class="small" id="sublong" hidden>Tu caso es muy largo para ir en el enlace: ya copiamos el texto; pégalo en la descripción del issue.</p>
+      <div class="row"><a class="pill" id="subgo" target="_blank" rel="noopener">Abrir GitHub</a><button class="ghost" id="subcp">Copiar texto del envío</button></div></div>
     <p class="msg" id="pm" role="status"></p>
     <h2 style="margin-top:26px">Cuenta</h2>
     <div class="row"><button id="bk">Respaldar mi cuenta</button><button id="rs">Restaurar respaldo</button><button class="ghost" id="lo">Cerrar sesión</button><button class="ghost" id="dl" style="color:var(--red)">Eliminar cuenta</button></div>
@@ -652,6 +685,9 @@ function profile(){
   app.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>play(b.dataset.play));
   app.querySelectorAll('[data-pub]').forEach(b=>b.onchange=()=>{const c=mine.find(x=>x.id===b.dataset.pub);c._pub=b.checked;saveMine();profile()});
   app.querySelectorAll('[data-share]').forEach(b=>b.onclick=async()=>{const c=mine.find(x=>x.id===b.dataset.share);const l=await shareLink(c);$('#shbox').hidden=false;$('#shl').value=l;try{await navigator.clipboard.writeText(l);say('Enlace copiado.')}catch(e){say('Copia el enlace del recuadro.')}});
+  let subBody='';
+  app.querySelectorAll('[data-sub]').forEach(b=>b.onclick=async()=>{const c=mine.find(x=>x.id===b.dataset.sub);const s=await submitLink(c);subBody=s.body;$('#subbox').hidden=false;$('#subgo').href=s.url;$('#sublong').hidden=!s.long;if(s.long){try{await navigator.clipboard.writeText(s.body)}catch(e){}}$('#subbox').scrollIntoView({block:'nearest'})});
+  $('#subcp').onclick=async()=>{try{await navigator.clipboard.writeText(subBody);say('Texto copiado.')}catch(e){say('No se pudo copiar.','var(--red)')}};
   $('#shc').onclick=async()=>{try{await navigator.clipboard.writeText($('#shl').value);say('Enlace copiado.')}catch(e){$('#shl').select()}};
   app.querySelectorAll('[data-gh]').forEach(b=>b.onclick=()=>{const c=mine.find(x=>x.id===b.dataset.gh);say('Subiendo…','var(--ink)');ghSave([c]).then(()=>say('Publicado en GitHub. Aparece para todos en 1–2 min.')).catch(e=>say(e.message,'var(--red)'))});
   app.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(b.dataset.armed){mine=mine.filter(m=>m.id!==b.dataset.del);saveMine();profile()}else{b.dataset.armed=1;b.textContent='¿Seguro?'}});
@@ -703,7 +739,7 @@ function add(){
     <li><b>scoring.critical</b>: acciones esperadas, con plazo (<code>by</code>, minutos) u orden (<code>before</code>).</li></ul>
     <pre>${esc(tpl)}</pre><button id="ctp">Copiar plantilla</button></div></div></section>`;
   const im=$('#im');
-  const take=txt=>{try{let d=JSON.parse(txt);d=Array.isArray(d)?d:[d];d.forEach(normalize);for(const c of d){if(BUILTIN.some(b=>b.id===c.id))throw new Error('El id "'+c.id+'" ya existe en los casos incluidos.');const pub=$('#pub').checked;if(othersPublic().some(o=>o.id===c.id)||repo.some(o=>o.id===c.id))c.id+='-'+Date.now().toString(36);c._owner=active;c._by=me().name;c._pub=pub;mine=mine.filter(m=>m.id!==c.id);mine.push(c)}saveMine();im.style.color='var(--ok)';im.textContent=`Listo: ${d.length} caso(s) agregado(s) a tu perfil. Compártelos desde «Mi perfil».`;$('#ta').value='';
+  const take=txt=>{try{let d=JSON.parse(txt);d=Array.isArray(d)?d:[d];d.forEach(normalize);for(const c of d){if(BUILTIN.some(b=>b.id===c.id))throw new Error('El id "'+c.id+'" ya existe en los casos incluidos.');const pub=$('#pub').checked;if(othersPublic().some(o=>o.id===c.id)||repo.some(o=>o.id===c.id))c.id+='-'+Date.now().toString(36);c._owner=active;c._by=me().name;c._pub=pub;mine=mine.filter(m=>m.id!==c.id);mine.push(c)}saveMine();im.style.color='var(--ok)';im.textContent=`Listo: ${d.length} caso(s) agregado(s) a tu perfil. Desde «Mi perfil» puedes compartirlos con un enlace o enviarlos a la biblioteca pública.`;$('#ta').value='';
     if($('#pub').checked&&gh.token){im.textContent+=' Subiendo a GitHub…';ghSave(d).then(()=>{im.textContent=`Listo: ${d.length} caso(s) guardado(s) en GitHub. Aparecen para todos en 1–2 min.`}).catch(e=>{im.style.color='var(--red)';im.textContent='Se guardó en el navegador, pero no en GitHub: '+e.message})}
   }catch(e){im.style.color='var(--red)';im.textContent='No se pudo agregar: '+e.message}};
   const rd=()=>({owner:$('#gho').value.trim(),repo:$('#ghr').value.trim(),branch:$('#ghb').value.trim()||'main',token:$('#ght').value.trim()});

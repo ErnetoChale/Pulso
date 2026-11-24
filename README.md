@@ -21,10 +21,14 @@ Las cuentas son **locales**: viven en el navegador y el dispositivo donde se cre
 
 ### Casos públicos
 
-Un caso público se puede jugar de dos formas:
+Un caso público se puede jugar de tres formas:
 
 1. **Con un enlace:** en «Mi perfil» → «Enlace para compartir». El caso va comprimido dentro del enlace; quien lo abra lo juega sin cuenta y puede guardarlo en sus casos.
-2. **En la biblioteca del sitio:** si conectas tu repositorio de GitHub (ver abajo), el botón «Publicar en GitHub» lo sube a `cases/` y aparece para todos los visitantes.
+2. **Enviándolo a la biblioteca (para cualquier usuario):** en «Mi perfil» → «Enviar a la biblioteca». Se abre GitHub con un issue ya escrito; el usuario solo da clic en «Submit new issue» (necesita una cuenta gratis de GitHub). La automatización `.github/workflows/casos.yml`:
+   - revisa el caso y responde en el issue si es válido o qué le falta;
+   - cuando quien administra el repo agrega la etiqueta **`aprobado`**, lo guarda en `cases/`, actualiza `cases/index.json`, cierra el issue y el caso aparece para todos en 1–2 minutos;
+   - los casos que envía el dueño del repositorio se publican sin esperar aprobación.
+3. **Publicación directa (solo el dueño):** conectando un token en «Agregar caso» → «Conectar mi repositorio de GitHub».
 
 ## Agregar casos
 
@@ -35,6 +39,10 @@ Hay tres formas:
 - **A mano:** sube el `.json` a la carpeta `cases/` y agrega su nombre a `cases/index.json`.
 
 El token se guarda solo en el navegador donde lo escribes. No lo pongas en ningún archivo del repositorio.
+
+## Sonido
+
+El monitor hace un pitido por latido cuyo tono baja con la saturación, como un oxímetro real, y suena alarma media cuando algún signo sale de rango y alarma alta en paro. También hay tonos al recibir resultados, al cometer un error, al alcanzar el objetivo y si el paciente fallece. Se apaga con el botón «Sonido» del monitor. Todo se genera con Web Audio, sin archivos de audio.
 
 ## Crear casos a partir de artículos, libros o casos
 

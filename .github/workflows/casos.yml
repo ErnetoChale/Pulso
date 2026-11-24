@@ -1,0 +1,37 @@
+# Recibe casos enviados desde la app como issues «[Caso] ...»,
+# los valida y, al aprobarlos, los publica en cases/.
+name: Casos enviados
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: casos
+  cancel-in-progress: false
+
+jobs:
+  caso:
+    if: startsWith(github.event.issue.title, '[Caso]') && github.event.issue.state == 'open'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validar o publicar
+        run: node .github/scripts/caso.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          ACTION: ${{ github.event.action }}
+          LABEL: ${{ github.event.label.name }}
+          NUM: ${{ github.event.issue.number }}
+          AUTHOR: ${{ github.event.issue.user.login }}
+          BODY: ${{ github.event.issue.body }}
