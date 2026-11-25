@@ -700,6 +700,37 @@ function profile(){
 }
 
 /* ---------- Agregar caso ---------- */
+/* ---------- DOI: metadatos y extracción sin IA ---------- */
+const txt=s=>{const d=document.createElement('div');d.innerHTML=String(s||'').replace(/<\/?(jats:)?(p|sec|title)[^>]*>/gi,' ');return(d.textContent||'').replace(/\s+/g,' ').trim()};
+const normDoi=s=>{const m=String(s||'').match(/10\.\d{4,9}\/[^\s"'<>]+/);return m?m[0].replace(/[.,;)]+$/,''):null};
+async function fetchDoi(doi){
+  let a=null;
+  try{const r=await fetch('https://www.ebi.ac.uk/europepmc/webservices/rest/search?format=json&resultType=core&pageSize=1&query='+encodeURIComponent('DOI:"'+doi+'"'));
+    if(r.ok){const x=(await r.json())?.resultList?.result?.[0];
+      if(x)a={title:txt(x.title),authors:x.authorString||'',journal:x.journalInfo?.journal?.title||x.journalTitle||'',year:x.pubYear||x.journalInfo?.yearOfPublication||'',abstract:txt(x.abstractText),
+        oa:x.isOpenAccess==='Y',url:(x.fullTextUrlList?.fullTextUrl||[]).find(u=>/open|free/i.test(u.availability||''))?.url||(x.pmcid?'https://europepmc.org/article/PMC/'+x.pmcid:''),pmid:x.pmid||''}}}catch(e){}
+  if(!a||!a.abstract){try{const r=await fetch('https://api.crossref.org/works/'+encodeURIComponent(doi));
+    if(r.ok){const m=(await r.json()).message;const b={title:txt(m.title?.[0]),authors:(m.author||[]).map(p=>[p.family,(p.given||'').split(/\s+/).map(g=>g[0]).join('')].filter(Boolean).join(' ')).join(', '),
+      journal:m['container-title']?.[0]||'',year:m.issued?.['date-parts']?.[0]?.[0]||'',abstract:txt(m.abstract),oa:false,url:'',pmid:''};
+      a=a?{...b,...Object.fromEntries(Object.entries(a).filter(([k,v])=>v))}:b}}catch(e){}}
+  if(!a)throw new Error(location.protocol==='file:'||!/github\.io$/i.test(location.hostname)&&location.hostname.includes('claude')?'Esta versión no puede consultar internet. Usa la app publicada en GitHub Pages.':'No encontré ese DOI en Europe PMC ni en Crossref.');
+  a.doi=doi;return a}
+function cite(a){const au=a.authors.split(/,\s*/).filter(Boolean);return `${au.length>3?au.slice(0,3).join(', ')+', et al':au.join(', ')}. ${a.title.replace(/\.$/,'')}. ${a.journal}${a.year?'. '+a.year:''}. doi:${a.doi}`}
+function extract(t){const o={},n=s=>parseFloat(String(s).replace(',','.'));let m;
+  if(m=t.match(/(\d{1,3})[- ](?:year|yr)s?[- ]old\s+(man|woman|male|female|boy|girl|patient)/i)){o.age=+m[1];o.sex=/wom|fem|girl/i.test(m[2])?'F':/man|male|boy/i.test(m[2])?'M':''}
+  else if(m=t.match(/(mujer|hombre|femenino|masculino|niña|niño|paciente)\s+de\s+(\d{1,3})\s+años/i)){o.age=+m[2];o.sex=/mujer|fem|niña/i.test(m[1])?'F':/hombre|masc|niño/i.test(m[1])?'M':''}
+  if(m=t.match(/(?:heart rate|pulse(?: rate)?|\bHR\b|frecuencia card[ií]aca|\bFC\b)\D{0,18}(\d{2,3})/i))o.hr=+m[1];
+  if(m=t.match(/(\d{2,3})\s*\/\s*(\d{2,3})\s*mm\s*Hg/i)){o.sbp=+m[1];o.dbp=+m[2]}
+  if(m=t.match(/(?:respiratory rate|\bRR\b|frecuencia respiratoria|\bFR\b)\D{0,18}(\d{1,2})/i))o.rr=+m[1];
+  if(m=t.match(/(?:SpO2|SpO₂|SaO2|oxygen saturation|saturaci[oó]n(?: de ox[ií]geno)?)\D{0,22}(\d{2,3})\s*%/i))o.spo2=+m[1];
+  if(m=t.match(/(\d{2}(?:[.,]\d)?)\s*°\s*C/i))o.t=n(m[1]);
+  return o}
+function draft(a){const x=extract(a.abstract||''),first=(a.authors.split(/[ ,]/)[0]||'caso').toLowerCase().normalize('NFD').replace(/[^a-z]/g,'');
+  return{id:`${first||'caso'}-${a.year||'sf'}`,v:1,title:a.title.length>90?a.title.slice(0,87)+'…':a.title,specialty:'',level:'Intermedio',source:'Basado en: '+cite(a),setting:'Urgencias',
+    patient:{name:'Paciente',age:x.age??40,sex:x.sex||'',weight:70,cc:''},intro:'',start:'inicial',
+    states:{inicial:{label:'Ingreso',v:{hr:x.hr??90,sbp:x.sbp??120,dbp:x.dbp??75,rr:x.rr??18,spo2:x.spo2??97,t:x.t??36.8},d:''}},
+    history:[],exam:[],tests:[],treatments:[],diagnosis:{options:[],correct:0},scoring:{critical:[],avoid:[]},
+    debrief:{summary:'',points:[],refs:[cite(a)]},_found:x}}
 const PROMPT=`Convierte este material en un caso para Pulso (formato v1, JSON). Incluye estados que evolucionen con el tiempo, interrogatorio, exploración, estudios con resultados por estado, tratamientos con efectos y errores, acciones críticas, diagnóstico con distractores y retroalimentación con referencias. Material:`;
 function add(){
   stopMon();S=null;app.dataset.view='add';
@@ -716,7 +747,12 @@ function add(){
   app.innerHTML=`<section class="band"><h1>Agregar un caso</h1>
   <p class="mute" style="max-width:70ch">Mándale a Claude un artículo, capítulo o caso clínico con la instrucción de abajo; te devuelve el JSON listo. Pégalo aquí o sube el archivo .json. Los casos se guardan en tu perfil. Los públicos se pueden compartir con un enlace desde «Mi perfil».</p>
   <div class="two"><div>
-    <h2>1 · Instrucción para Claude</h2><pre id="pr">${esc(PROMPT)}</pre><button id="cpr">Copiar instrucción</button>
+    <h2>Desde un DOI</h2>
+    <p class="small mute" style="margin-top:-6px">Busca el artículo, extrae los datos que se pueden leer directo (edad, sexo, signos vitales) y arma el borrador con la referencia. Convertirlo en un caso jugable lo haces tú o Claude.</p>
+    <div class="row"><input id="doi" placeholder="10.1186/s13256-023-..." aria-label="DOI" style="flex:1;min-width:220px;min-height:44px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font-size:16px"><button class="pri" id="doigo">Buscar</button></div>
+    <p class="msg" id="doim" role="status"></p>
+    <div id="doibox"></div>
+    <h2 style="margin-top:26px">1 · Instrucción para Claude</h2><pre id="pr">${esc(PROMPT)}</pre><button id="cpr">Copiar instrucción</button>
     <h2 style="margin-top:22px">2 · Pegar o subir el caso</h2>
     <textarea id="ta" placeholder="Pega aquí el JSON del caso (o una lista de casos)" aria-label="JSON del caso"></textarea>
     <div class="row" style="margin-top:10px"><button class="pri" id="imp">Agregar a la biblioteca</button><label class="row" style="min-height:44px"><span>o archivo:</span> <input type="file" id="fi" accept=".json,application/json"></label></div>
@@ -739,6 +775,23 @@ function add(){
     <li><b>scoring.critical</b>: acciones esperadas, con plazo (<code>by</code>, minutos) u orden (<code>before</code>).</li></ul>
     <pre>${esc(tpl)}</pre><button id="ctp">Copiar plantilla</button></div></div></section>`;
   const im=$('#im');
+  $('#doigo').onclick=async()=>{const dm=$('#doim'),box=$('#doibox'),doi=normDoi($('#doi').value);box.innerHTML='';
+    if(!doi){dm.style.color='var(--red)';dm.textContent='Eso no parece un DOI. Empieza con 10. seguido de una diagonal.';return}
+    dm.style.color='var(--mute)';dm.textContent='Buscando '+doi+'…';
+    try{const a=await fetchDoi(doi),d=draft(a),f=d._found;delete d._found;dm.textContent='';
+      const lbl={age:'Edad',sex:'Sexo',hr:'FC',sbp:'PAS',dbp:'PAD',rr:'FR',spo2:'SpO₂',t:'Temp'},found=Object.entries(f).filter(([k,v])=>v!==''&&v!=null);
+      const full=PROMPT+'\n\nArtículo: '+cite(a)+(a.url?'\nTexto completo: '+a.url:'')+'\n\nResumen: '+(a.abstract||'(no disponible: adjunto el texto del artículo)');
+      box.innerHTML=`<article style="border:1px solid var(--line);border-top:4px solid var(--red);background:var(--panel);padding:18px">
+        <span class="meta">${esc(a.journal)}${a.year?' · '+esc(a.year):''}${a.oa?' · acceso abierto':''}</span>
+        <h3 style="font:800 22px/1.15 var(--disp);margin:6px 0">${esc(a.title)}</h3><p class="small mute" style="margin:0 0 10px">${esc(a.authors)}</p>
+        ${a.abstract?`<details><summary>Resumen</summary><p class="small">${esc(a.abstract)}</p></details>`:'<p class="small mute">Este artículo no tiene resumen disponible; necesitarás el texto.</p>'}
+        <p class="small"><b>Datos extraídos:</b> ${found.length?found.map(([k,v])=>`${lbl[k]} ${esc(v)}`).join(' · '):'ninguno; se usan valores por defecto'}</p>
+        ${a.url?`<p class="small"><a href="${esc(a.url)}" target="_blank" rel="noopener">Abrir texto completo</a></p>`:''}
+        <div class="row"><button class="pri" id="dcp">Copiar instrucción con el artículo</button><button id="ddr">Usar borrador abajo</button></div></article>`;
+      $('#dcp').onclick=async e=>{try{await navigator.clipboard.writeText(full);e.target.textContent='Copiado: pégalo en Claude'}catch(er){$('#ta').value=full;e.target.textContent='Quedó en el recuadro de abajo'}};
+      $('#ddr').onclick=()=>{$('#ta').value=JSON.stringify(d,null,2);$('#ta').scrollIntoView({block:'center'});im.style.color='var(--mute)';im.textContent='Borrador listo: agrega interrogatorio, exploración, estudios, tratamientos y diagnóstico antes de guardarlo.'};
+    }catch(e){dm.style.color='var(--red)';dm.textContent=e.message}};
+  $('#doi').onkeydown=e=>{if(e.key==='Enter')$('#doigo').click()};
   const take=txt=>{try{let d=JSON.parse(txt);d=Array.isArray(d)?d:[d];d.forEach(normalize);for(const c of d){if(BUILTIN.some(b=>b.id===c.id))throw new Error('El id "'+c.id+'" ya existe en los casos incluidos.');const pub=$('#pub').checked;if(othersPublic().some(o=>o.id===c.id)||repo.some(o=>o.id===c.id))c.id+='-'+Date.now().toString(36);c._owner=active;c._by=me().name;c._pub=pub;mine=mine.filter(m=>m.id!==c.id);mine.push(c)}saveMine();im.style.color='var(--ok)';im.textContent=`Listo: ${d.length} caso(s) agregado(s) a tu perfil. Desde «Mi perfil» puedes compartirlos con un enlace o enviarlos a la biblioteca pública.`;$('#ta').value='';
     if($('#pub').checked&&gh.token){im.textContent+=' Subiendo a GitHub…';ghSave(d).then(()=>{im.textContent=`Listo: ${d.length} caso(s) guardado(s) en GitHub. Aparecen para todos en 1–2 min.`}).catch(e=>{im.style.color='var(--red)';im.textContent='Se guardó en el navegador, pero no en GitHub: '+e.message})}
   }catch(e){im.style.color='var(--red)';im.textContent='No se pudo agregar: '+e.message}};

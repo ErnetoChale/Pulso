@@ -44,6 +44,17 @@ El token se guarda solo en el navegador donde lo escribes. No lo pongas en ning�
 
 El monitor hace un pitido por latido cuyo tono baja con la saturación, como un oxímetro real, y suena alarma media cuando algún signo sale de rango y alarma alta en paro. También hay tonos al recibir resultados, al cometer un error, al alcanzar el objetivo y si el paciente fallece. Se apaga con el botón «Sonido» del monitor. Todo se genera con Web Audio, sin archivos de audio.
 
+## Agregar desde un DOI
+
+En «Agregar caso» → «Desde un DOI», pega el DOI (o el enlace doi.org). La app, sin IA:
+
+- busca el artículo en Europe PMC y, si no está, en Crossref (título, autores, revista, año, resumen y enlace al texto completo si es de acceso abierto);
+- extrae del resumen, por patrones, edad, sexo, FC, PA, FR, SpO₂ y temperatura;
+- arma un borrador del caso con esos datos y la referencia ya citada;
+- copia la instrucción para Claude con el artículo y el resumen incluidos.
+
+Convertir el artículo en un caso jugable (estados, decisiones, errores, retroalimentación) requiere que alguien lo interprete: tú completando el borrador o Claude con la instrucción. Esta función necesita internet, así que solo funciona en la app publicada en GitHub Pages.
+
 ## Crear casos a partir de artículos, libros o casos
 
 Mándale el material a Claude con esta instrucción:
