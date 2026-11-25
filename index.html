@@ -185,6 +185,9 @@ footer.foot a{color:var(--ink)}
 .bar .track{height:10px;background:var(--acc2);border-radius:999px;overflow:hidden}.bar .track i{display:block;height:100%;border-radius:999px}
 .bar b{text-align:right;font:800 18px var(--disp)}
 @media(max-width:520px){.bar{grid-template-columns:minmax(0,1fr) 40px}.bar .track{grid-column:1/-1;grid-row:2}}
+.code{font:700 clamp(24px,6vw,34px)/1.2 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;padding:16px;border:1px dashed var(--ink);background:var(--bg);text-align:center;margin:12px 0;user-select:all;overflow-wrap:anywhere}
+.linkbtn{border:0;background:none;padding:0;min-height:44px;color:var(--red);text-decoration:underline;text-underline-offset:3px;font-size:15px}.linkbtn:hover{transform:none}
+.sec{border:1px solid var(--line);padding:16px;background:var(--bg)}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes draw{to{stroke-dashoffset:0}}
@@ -2551,40 +2554,78 @@ function debrief(){
 }
 
 /* ---------- Cuentas ---------- */
+const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const newCode=()=>{const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',u=new Uint32Array(12);crypto.getRandomValues(u);const s=[...u].map(x=>A[x%A.length]).join('');return s.slice(0,4)+'-'+s.slice(4,8)+'-'+s.slice(8)};
+const normCode=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+const findAcct=q=>{q=String(q||'').trim().toLowerCase();return profiles.find(p=>p.name.toLowerCase()===q||(p.email||'').toLowerCase()===q)};
+async function setRecovery(p){const code=newCode();p.rec=await hashPin(p.id,'rec:'+normCode(code));saveAll();return code}
+function showCode(code,then){
+  const ov=document.createElement('div');ov.className='overlay';
+  ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ct"><p class="eyebrow" style="margin-bottom:10px">Importante</p><h2 id="ct">Tu código de recuperación</h2>
+    <p>Si olvidas tu contraseña, este código es la única forma de recuperarla. Guárdalo fuera de esta app: una nota, una foto o tu correo.</p>
+    <div class="code" id="cv">${esc(code)}</div>
+    <div class="row"><button id="cc">Copiar código</button></div>
+    <label class="row small" style="min-height:44px;margin-top:10px"><input type="checkbox" id="ck" style="width:20px;height:20px"> Ya lo guardé en un lugar seguro</label>
+    <div class="row" style="justify-content:flex-end"><button class="pri" id="cok" disabled>Continuar</button></div></div>`;
+  document.body.append(ov);
+  ov.querySelector('#cc').onclick=async e=>{try{await navigator.clipboard.writeText(code);e.target.textContent='Copiado'}catch(er){const r=document.createRange();r.selectNodeContents(ov.querySelector('#cv'));getSelection().removeAllRanges();getSelection().addRange(r);e.target.textContent='Selecciónalo y cópialo'}};
+  ov.querySelector('#ck').onchange=e=>ov.querySelector('#cok').disabled=!e.target.checked;
+  ov.querySelector('#cok').onclick=()=>{ov.remove();then&&then()};
+}
 function auth(mode,then){
   const ov=document.createElement('div');ov.className='overlay';
-  const draw=()=>{ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="at">
-    <div class="tabs" role="tablist"><button role="tab" aria-selected="${mode==='in'}" data-m="in">Entrar</button><button role="tab" aria-selected="${mode==='new'}" data-m="new">Crear cuenta</button></div>
-    <h2 id="at" style="margin-top:16px">${mode==='in'?'Entrar a Pulso':'Crear cuenta'}</h2>
-    ${mode==='in'?(profiles.length?`<div class="row" id="plist">${profiles.map(p=>`<button data-p="${esc(p.id)}">${esc(p.name)}</button>`).join('')}</div>
-      <label class="fld">PIN<input id="pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="6"></label>`:'<p class="mute">Todavía no hay cuentas en este dispositivo.</p>')
-    :`<label class="fld">Nombre<input id="nm" autocomplete="nickname" maxlength="40"></label>
-      <label class="fld">PIN de 4 a 6 números<input id="pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6"></label>
-      <label class="fld">Repite el PIN<input id="pin2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6"></label>`}
-    <p class="msg" id="am" role="status" style="color:var(--red)"></p>
-    <p class="small mute">Tu cuenta y tus datos se guardan solo en este navegador y dispositivo. Para pasarlos a otro, usa «Respaldar» en tu perfil.</p>
-    <div class="row"><button class="ghost" id="ax">Cancelar</button><span style="flex:1"></span><button class="pri" id="ao">${mode==='in'?'Entrar':'Crear cuenta'}</button></div></div>`;
-    let pick=profiles.length===1?profiles[0].id:null;
-    const mark=()=>ov.querySelectorAll('[data-p]').forEach(b=>b.classList.toggle('pri',b.dataset.p===pick));mark();
-    ov.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{pick=b.dataset.p;mark();ov.querySelector('#pin').focus()});
+  let pick=profiles.length===1?profiles[0].id:null;
+  const fld=(id,label,type,extra)=>`<label class="fld">${label}<input id="${id}" type="${type||'text'}" ${extra||''}></label>`;
+  const draw=()=>{
+    const body=mode==='in'?(profiles.length?`<p class="small mute" style="margin:0 0 6px">Elige tu cuenta</p><div class="row" id="plist">${profiles.map(p=>`<button data-p="${esc(p.id)}">${esc(p.name)}</button>`).join('')}</div>
+        ${fld('pw','Contraseña','password','autocomplete="current-password"')}
+        <button class="linkbtn" id="forgot">¿Olvidaste tu contraseña?</button>`:'<p class="mute">Todavía no hay cuentas en este dispositivo. Crea una o restaura un respaldo desde tu perfil.</p>')
+      :mode==='new'?`${fld('nm','Nombre','text','autocomplete="nickname" maxlength="40"')}
+        ${fld('em','Correo electrónico <span class="mute small">(opcional)</span>','email','autocomplete="email" maxlength="120"')}
+        ${fld('pw','Contraseña <span class="mute small">(mínimo 6 caracteres)</span>','password','autocomplete="new-password"')}
+        ${fld('pw2','Repite la contraseña','password','autocomplete="new-password"')}`
+      :`<p class="small" style="margin-top:0">Escribe tu nombre o correo y el código de recuperación que guardaste al crear la cuenta.</p>
+        ${fld('who','Nombre o correo','text','autocomplete="username"')}
+        ${fld('rc','Código de recuperación','text','autocomplete="one-time-code" placeholder="XXXX-XXXX-XXXX" style="text-transform:uppercase;letter-spacing:.12em"')}
+        ${fld('pw','Nueva contraseña <span class="mute small">(mínimo 6 caracteres)</span>','password','autocomplete="new-password"')}
+        ${fld('pw2','Repite la nueva contraseña','password','autocomplete="new-password"')}`;
+    ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="at">
+      ${mode==='rec'?'':`<div class="tabs" role="tablist"><button role="tab" aria-selected="${mode==='in'}" data-m="in">Entrar</button><button role="tab" aria-selected="${mode==='new'}" data-m="new">Crear cuenta</button></div>`}
+      <h2 id="at" style="margin-top:16px">${mode==='in'?'Entrar a Pulso':mode==='new'?'Crear cuenta':'Recuperar contraseña'}</h2>
+      <form id="af" novalidate>${body}
+      <p class="msg" id="am" role="status" style="color:var(--red)"></p>
+      <p class="small mute">Tu cuenta se guarda en este navegador y dispositivo. Para usarla en otro, usa «Respaldar» en tu perfil.</p>
+      <div class="row">${mode==='rec'?'<button type="button" class="ghost" id="back">Volver</button>':'<button type="button" class="ghost" id="ax">Cancelar</button>'}<span style="flex:1"></span><button class="pri" id="ao" type="submit">${mode==='in'?'Entrar':mode==='new'?'Crear cuenta':'Restablecer contraseña'}</button></div></form></div>`;
+    const mark=()=>ov.querySelectorAll('[data-p]').forEach(b=>{b.classList.toggle('pri',b.dataset.p===pick);b.setAttribute('aria-pressed',b.dataset.p===pick)});mark();
+    ov.querySelectorAll('[data-p]').forEach(b=>b.onclick=e=>{e.preventDefault();pick=b.dataset.p;mark();ov.querySelector('#pw').focus()});
     ov.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{mode=b.dataset.m;draw()});
-    ov.querySelector('#ax').onclick=()=>ov.remove();
-    const am=ov.querySelector('#am');
-    ov.querySelector('#ao').onclick=async()=>{
-      const pin=(ov.querySelector('#pin')?.value||'').trim();
-      if(mode==='new'){const nm=ov.querySelector('#nm').value.trim();
-        if(!nm)return am.textContent='Escribe tu nombre.';
-        if(profiles.some(p=>p.name.toLowerCase()===nm.toLowerCase()))return am.textContent='Ya existe una cuenta con ese nombre en este dispositivo.';
-        if(!/^\d{4,6}$/.test(pin))return am.textContent='El PIN debe tener de 4 a 6 números.';
-        if(pin!==ov.querySelector('#pin2').value.trim())return am.textContent='Los PIN no coinciden.';
+    const q=s=>ov.querySelector(s),am=q('#am'),err=t=>{am.textContent=t;return false};
+    q('#ax')&&(q('#ax').onclick=()=>ov.remove());
+    q('#back')&&(q('#back').onclick=()=>{mode='in';draw()});
+    q('#forgot')&&(q('#forgot').onclick=e=>{e.preventDefault();mode='rec';draw();if(pick){const p=profiles.find(x=>x.id===pick);if(p)q('#who').value=p.email||p.name}});
+    q('#af').onsubmit=async e=>{e.preventDefault();
+      const pw=(q('#pw')?.value||'');
+      if(mode==='new'){const nm=q('#nm').value.trim(),em=q('#em').value.trim().toLowerCase();
+        if(!nm)return err('Escribe tu nombre.');
+        if(profiles.some(p=>p.name.toLowerCase()===nm.toLowerCase()))return err('Ya existe una cuenta con ese nombre en este dispositivo.');
+        if(em&&!EMAIL_RE.test(em))return err('Ese correo no parece válido.');
+        if(em&&profiles.some(p=>(p.email||'')===em))return err('Ese correo ya está registrado en este dispositivo.');
+        if(pw.length<6)return err('La contraseña debe tener al menos 6 caracteres.');
+        if(pw!==q('#pw2').value)return err('Las contraseñas no coinciden.');
         const id='u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-        const p={id,name:nm,pin:await hashPin(id,pin),created:new Date().toISOString(),history:[],cases:[]};
-        profiles.push(p);if(!saveAll()){profiles.pop();return am.textContent='Este navegador no permite guardar datos (modo privado o almacenamiento bloqueado).'}
-        login(p)}
-      else{const p=profiles.find(x=>x.id===pick);if(!p)return am.textContent='Elige tu cuenta.';
-        if(await hashPin(p.id,pin)!==p.pin)return am.textContent='PIN incorrecto.';login(p)}
-      ov.remove();then?then():profile()};
-    ov.querySelector('input')?.focus()};
+        const p={id,name:nm,email:em,pin:await hashPin(id,pw),created:new Date().toISOString(),history:[],cases:[]};
+        profiles.push(p);if(!saveAll()){profiles.pop();return err('Este navegador no permite guardar datos (modo privado o almacenamiento bloqueado).')}
+        const code=await setRecovery(p);login(p);ov.remove();showCode(code,()=>then?then():profile());return}
+      if(mode==='in'){const p=profiles.find(x=>x.id===pick);if(!p)return err('Elige tu cuenta.');
+        if(await hashPin(p.id,pw)!==p.pin)return err('Contraseña incorrecta.');login(p);ov.remove();then?then():profile();return}
+      const p=findAcct(q('#who').value);if(!p)return err('No hay una cuenta con ese nombre o correo en este dispositivo.');
+      if(!p.rec)return err('Esta cuenta no tiene código de recuperación. Si tienes un respaldo, restáuralo desde un perfil; si no, crea una cuenta nueva.');
+      if(await hashPin(p.id,'rec:'+normCode(q('#rc').value))!==p.rec)return err('El código de recuperación no es correcto.');
+      if(pw.length<6)return err('La nueva contraseña debe tener al menos 6 caracteres.');
+      if(pw!==q('#pw2').value)return err('Las contraseñas no coinciden.');
+      p.pin=await hashPin(p.id,pw);const code=await setRecovery(p);login(p);ov.remove();
+      showCode(code,()=>{profile();const m=$('#pm');if(m){m.style.color='var(--ok)';m.textContent='Contraseña restablecida. Tu código anterior ya no sirve; usa el nuevo.'}})};
+    (ov.querySelector('#plist')&&!pick?ov.querySelector('[data-p]'):ov.querySelector('form input'))?.focus()};
   document.body.append(ov);draw();
 }
 const fmtD=s=>{try{return new Date(s).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})}catch(e){return s}};
@@ -2594,7 +2635,7 @@ function profile(){
   const ok=hs.filter(x=>x.dx===true).length;
   const bySpec={};for(const x of hs){const sp=String(x.spec||all().find(c=>c.id===x.caseId)?.specialty||'General').split('·')[0].trim();(bySpec[sp]=bySpec[sp]||[]).push(x.score)}
   const specRows=Object.entries(bySpec).map(([k,v])=>[k,Math.round(v.reduce((a,b)=>a+b,0)/v.length),v.length]).sort((a,b)=>a[1]-b[1]);
-  app.innerHTML=`<section class="band"><h1>${esc(p.name)}</h1><p class="mute" style="margin-top:-6px">Cuenta creada el ${fmtD(p.created)}</p>
+  app.innerHTML=`<section class="band"><h1>${esc(p.name)}</h1><p class="mute" style="margin-top:-6px">${p.email?esc(p.email)+' · ':''}Cuenta creada el ${fmtD(p.created)}</p>
   <div class="stats">${[['Casos resueltos',hs.length],['Promedio',avg??'—'],['Mejor puntaje',bestS??'—'],['Diagnósticos correctos',hs.length?ok+'/'+hs.length:'—']].map(([k,v])=>`<div class="stat"><span>${v}</span><small>${k}</small></div>`).join('')}</div>
   <div class="two" style="margin-top:28px"><div>
     ${specRows.length?`<h2>Por especialidad</h2><div class="bars">${specRows.map(([k,a,n])=>`<div class="bar"><span>${esc(k)} <small class="mute">${n} caso${n>1?'s':''}</small></span><div class="track"><i style="width:${a}%;background:${a>=80?'var(--ok)':a>=60?'#d99a00':'var(--red)'}"></i></div><b>${a}</b></div>`).join('')}</div>
@@ -2612,7 +2653,15 @@ function profile(){
       <p class="small" id="sublong" hidden>Tu caso es muy largo para ir en el enlace: ya copiamos el texto; pégalo en la descripción del issue.</p>
       <div class="row"><a class="pill" id="subgo" target="_blank" rel="noopener">Abrir GitHub</a><button class="ghost" id="subcp">Copiar texto del envío</button></div></div>
     <p class="msg" id="pm" role="status"></p>
-    <h2 style="margin-top:26px">Cuenta</h2>
+    <h2 style="margin-top:26px">Cuenta y seguridad</h2>
+    ${!p.rec?'<p class="banner bad" style="margin:0 0 12px">Tu cuenta no tiene código de recuperación. Genéralo para poder recuperar tu contraseña.</p>':''}
+    <form id="secf" class="sec" novalidate>
+      <label class="fld">Correo electrónico<input id="sem" type="email" value="${esc(p.email||'')}" placeholder="tu@correo.com" autocomplete="email"></label>
+      <label class="fld">Contraseña actual <span class="mute small">(necesaria para cualquier cambio)</span><input id="scur" type="password" autocomplete="current-password"></label>
+      <label class="fld">Nueva contraseña <span class="mute small">(déjala vacía para no cambiarla)</span><input id="snew" type="password" autocomplete="new-password"></label>
+      <div class="row"><button class="pri" type="submit">Guardar cambios</button><button type="button" id="srec">${p.rec?'Generar nuevo código de recuperación':'Generar código de recuperación'}</button></div>
+    </form>
+    <h2 style="margin-top:22px;font-size:22px">Datos</h2>
     <div class="row"><button id="bk">Respaldar mi cuenta</button><button id="rs">Restaurar respaldo</button><button class="ghost" id="lo">Cerrar sesión</button><button class="ghost" id="dl" style="color:var(--red)">Eliminar cuenta</button></div>
     <div id="bkbox" hidden style="margin-top:12px"><textarea id="bkt" placeholder="Pega aquí un respaldo para restaurarlo"></textarea><div class="row" style="margin-top:8px"><button id="bkc">Copiar</button><button class="pri" id="bki" hidden>Restaurar</button></div></div>
   </div></div></section>`;
@@ -2626,7 +2675,14 @@ function profile(){
   $('#shc').onclick=async()=>{try{await navigator.clipboard.writeText($('#shl').value);say('Enlace copiado.')}catch(e){$('#shl').select()}};
   app.querySelectorAll('[data-gh]').forEach(b=>b.onclick=()=>{const c=mine.find(x=>x.id===b.dataset.gh);say('Subiendo…','var(--ink)');ghSave([c]).then(()=>say('Publicado en GitHub. Aparece para todos en 1–2 min.')).catch(e=>say(e.message,'var(--red)'))});
   app.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(b.dataset.armed){mine=mine.filter(m=>m.id!==b.dataset.del);saveMine();profile()}else{b.dataset.armed=1;b.textContent='¿Seguro?'}});
-  $('#pnew').onclick=add;$('#lo').onclick=()=>{logout();lib()};
+  $('#pnew').onclick=add;
+  const chk=async()=>{if(await hashPin(p.id,$('#scur').value)!==p.pin){say('La contraseña actual no es correcta.','var(--red)');$('#scur').focus();return false}return true};
+  $('#secf').onsubmit=async e=>{e.preventDefault();if(!await chk())return;const em=$('#sem').value.trim().toLowerCase(),nw=$('#snew').value;
+    if(em&&!EMAIL_RE.test(em))return say('Ese correo no parece válido.','var(--red)');
+    if(em&&profiles.some(x=>x.id!==p.id&&(x.email||'')===em))return say('Ese correo ya está en otra cuenta de este dispositivo.','var(--red)');
+    if(nw&&nw.length<6)return say('La nueva contraseña debe tener al menos 6 caracteres.','var(--red)');
+    p.email=em;if(nw)p.pin=await hashPin(p.id,nw);saveAll();profile();$('#pm').style.color='var(--ok)';$('#pm').textContent=nw?'Correo y contraseña actualizados.':'Datos actualizados.'};
+  $('#srec').onclick=async()=>{if(!await chk())return;const code=await setRecovery(p);showCode(code,()=>{profile();$('#pm').style.color='var(--ok)';$('#pm').textContent='Nuevo código generado. El anterior ya no sirve.'})};$('#lo').onclick=()=>{logout();lib()};
   $('#dl').onclick=e=>{if(e.target.dataset.armed){profiles=profiles.filter(x=>x.id!==p.id);saveAll();logout();lib()}else{e.target.dataset.armed=1;e.target.textContent='Se borran historial y casos. Toca otra vez'}};
   $('#bk').onclick=()=>{$('#bkbox').hidden=false;$('#bki').hidden=true;$('#bkc').hidden=false;$('#bkt').value=JSON.stringify({pulso:1,profile:p},null,1)};
   $('#bkc').onclick=async()=>{try{await navigator.clipboard.writeText($('#bkt').value);say('Respaldo copiado. Guárdalo en un lugar seguro.')}catch(e){$('#bkt').select();say('Selecciona el texto y cópialo.')}};

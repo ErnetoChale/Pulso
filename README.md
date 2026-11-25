@@ -21,12 +21,14 @@ Es un solo archivo (`index.html`), sin servidor ni base de datos.
 
 ## Cuentas
 
-Cada persona crea una cuenta con su nombre y un PIN de 4 a 6 números. La cuenta guarda:
+Cada persona crea una cuenta con su nombre, su correo (opcional) y una contraseña de al menos 6 caracteres. La cuenta guarda:
 
 - **Historial de puntajes:** cada caso resuelto con fecha, puntaje, si acertó el diagnóstico y los errores.
 - **Casos propios:** los que agrega cada quien. Cada caso puede ser **público** o **privado**.
 
-Las cuentas son **locales**: viven en el navegador y el dispositivo donde se crearon, sin servidor. El PIN se guarda cifrado con un hash, pero no es una medida de seguridad fuerte: no guardes datos de pacientes reales. Para pasar una cuenta a otro dispositivo, usa «Respaldar mi cuenta» y «Restaurar respaldo» en el perfil.
+**Recuperar la contraseña.** Al crear la cuenta, la app muestra un **código de recuperación** (formato `XXXX-XXXX-XXXX`) que hay que guardar fuera de la app. Con «¿Olvidaste tu contraseña?» se escribe el nombre o correo y ese código, y se elige una contraseña nueva; en ese momento se genera un código nuevo y el anterior deja de servir. Desde «Mi perfil» → «Cuenta y seguridad» se puede cambiar el correo y la contraseña, o generar un código nuevo (pide la contraseña actual).
+
+Las cuentas son **locales**: viven en el navegador y el dispositivo donde se crearon, sin servidor. Por eso la app no envía correos; el correo sirve para identificar la cuenta al recuperarla. La contraseña y el código se guardan como hash SHA-256, pero no es una medida de seguridad fuerte: no guardes datos de pacientes reales. Para pasar una cuenta a otro dispositivo, usa «Respaldar mi cuenta» y «Restaurar respaldo». Las cuentas creadas con PIN siguen funcionando; su PIN es su contraseña.
 
 ### Casos públicos
 
