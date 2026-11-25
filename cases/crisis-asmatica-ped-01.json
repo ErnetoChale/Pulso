@@ -1,0 +1,474 @@
+{
+  "id": "crisis-asmatica-ped-01",
+  "v": 1,
+  "title": "Niño de 7 años que no puede terminar las frases",
+  "specialty": "Pediatría · Neumología",
+  "level": "Intermedio",
+  "source": "Caso modelo basado en la estrategia GINA 2024 para crisis asmáticas en niños de 6 a 11 años",
+  "setting": "Urgencias pediátricas, 02:15 h",
+  "patient": {
+    "name": "Mateo L.",
+    "age": 7,
+    "sex": "M",
+    "weight": 22,
+    "cc": "Dificultad para respirar desde hace 6 horas"
+  },
+  "intro": "Lo trae su mamá en brazos. Está sentado inclinado hacia adelante y se le oye silbar el pecho desde la puerta.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso",
+      "v": {
+        "hr": 142,
+        "sbp": 102,
+        "dbp": 64,
+        "rr": 40,
+        "spo2": 89,
+        "t": 37.2
+      },
+      "d": "Habla en frases cortas, tiraje intercostal y supraclavicular, sibilancias espiratorias audibles.",
+      "worse": {
+        "after": 30,
+        "to": "grave"
+      }
+    },
+    "grave": {
+      "label": "Crisis que empeora",
+      "v": {
+        "hr": 158,
+        "sbp": 104,
+        "dbp": 66,
+        "rr": 48,
+        "spo2": 85,
+        "t": 37.3
+      },
+      "d": "Solo dice palabras sueltas, está agitado y usa todos los músculos accesorios. Entra poco aire.",
+      "worse": {
+        "after": 25,
+        "to": "agotamiento"
+      }
+    },
+    "agotamiento": {
+      "label": "Agotamiento respiratorio",
+      "v": {
+        "hr": 168,
+        "sbp": 96,
+        "dbp": 58,
+        "rr": 18,
+        "spo2": 78,
+        "t": 37.3
+      },
+      "d": "Somnoliento, tórax silencioso, respiraciones superficiales y lentas.",
+      "worse": {
+        "after": 15,
+        "to": "paro"
+      }
+    },
+    "respuesta": {
+      "label": "Respuesta inicial",
+      "v": {
+        "hr": 134,
+        "sbp": 100,
+        "dbp": 62,
+        "rr": 32,
+        "spo2": 93,
+        "t": 37.2
+      },
+      "d": "Habla en frases, menos tiraje. Persisten sibilancias en ambos campos.",
+      "worse": {
+        "after": 60,
+        "to": "inicial"
+      }
+    },
+    "estable": {
+      "label": "Crisis controlada",
+      "goal": true,
+      "v": {
+        "hr": 118,
+        "sbp": 100,
+        "dbp": 62,
+        "rr": 26,
+        "spo2": 95,
+        "t": 37.1
+      },
+      "d": "Habla con normalidad y juega con el celular de su mamá. Sibilancias leves aisladas."
+    },
+    "uci": {
+      "label": "Intubado en UCIP",
+      "v": {
+        "hr": 132,
+        "sbp": 94,
+        "dbp": 56,
+        "rr": 22,
+        "spo2": 92,
+        "t": 37.2
+      },
+      "d": "Intubado con ventilación mecánica y trasladado a terapia intensiva pediátrica."
+    },
+    "paro": {
+      "label": "Paro respiratorio",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 37.0
+      },
+      "d": "Paro respiratorio que evoluciona a paro cardiaco pese a la reanimación."
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Desde cuándo y cómo empezó?",
+      "a": "Hace dos días empezó con mocos y tos. Desde la medianoche respira cada vez más rápido y no ha podido dormir."
+    },
+    {
+      "id": "h2",
+      "q": "¿Tiene asma diagnosticada?",
+      "a": "Sí, desde los 4 años."
+    },
+    {
+      "id": "h3",
+      "q": "¿Qué tratamiento usa todos los días?",
+      "a": "Usaba budesonida inhalada, pero la suspendieron hace 3 meses porque «ya estaba bien». Solo usa salbutamol cuando lo necesita."
+    },
+    {
+      "id": "h4",
+      "q": "¿Qué le dieron en casa?",
+      "a": "4 disparos de salbutamol hace 2 horas, sin mejoría."
+    },
+    {
+      "id": "h5",
+      "q": "¿Hospitalizaciones o intubaciones por asma?",
+      "a": "Una hospitalización el año pasado. Nunca lo han intubado ni ha estado en terapia intensiva."
+    },
+    {
+      "id": "h6",
+      "q": "¿Alergias a medicamentos o alimentos?",
+      "a": "Ninguna."
+    },
+    {
+      "id": "h7",
+      "q": "¿Pudo haberse atragantado con algo?",
+      "a": "No, empezó poco a poco con la gripa."
+    },
+    {
+      "id": "h8",
+      "q": "¿Vacunas al día?",
+      "a": "Sí, completas para su edad."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Aspecto y estado de alerta",
+      "f": "Alerta pero ansioso, sentado inclinado hacia adelante. Habla en frases cortas."
+    },
+    {
+      "id": "e2",
+      "n": "Trabajo respiratorio",
+      "f": "Tiraje intercostal, subcostal y supraclavicular. Aleteo nasal."
+    },
+    {
+      "id": "e3",
+      "n": "Auscultación pulmonar",
+      "f": "Sibilancias espiratorias difusas, espiración prolongada y entrada de aire disminuida en ambas bases. Sin estertores."
+    },
+    {
+      "id": "e4",
+      "n": "Cardiovascular",
+      "f": "Taquicardia rítmica, pulsos periféricos presentes, llenado capilar de 2 s."
+    },
+    {
+      "id": "e5",
+      "n": "Piel",
+      "f": "Sin cianosis central, sin urticaria ni angioedema."
+    },
+    {
+      "id": "e6",
+      "n": "Vía aérea superior",
+      "f": "Sin estridor, sin sialorrea, orofaringe hiperémica."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t_gaso",
+      "n": "Gasometría capilar",
+      "min": 10,
+      "r": {
+        "inicial": "pH 7.45 · pCO₂ 32 · HCO₃⁻ 22",
+        "grave": "pH 7.37 · pCO₂ 42 · HCO₃⁻ 23. Una pCO₂ «normal» en un niño taquipneico indica fatiga.",
+        "agotamiento": "pH 7.21 · pCO₂ 58 · HCO₃⁻ 23",
+        "respuesta": "pH 7.43 · pCO₂ 33",
+        "estable": "pH 7.41 · pCO₂ 36",
+        "*": "pH 7.45 · pCO₂ 32"
+      }
+    },
+    {
+      "id": "t_pef",
+      "n": "Flujo espiratorio máximo (PEF)",
+      "min": 3,
+      "r": {
+        "inicial": "No logra hacer la maniobra completa.",
+        "grave": "No logra hacer la maniobra.",
+        "agotamiento": "No coopera.",
+        "respuesta": "52 % del predicho.",
+        "estable": "74 % del predicho.",
+        "*": "No logra hacer la maniobra."
+      }
+    },
+    {
+      "id": "t_rx",
+      "n": "Radiografía de tórax",
+      "min": 20,
+      "r": "Hiperinsuflación bilateral, engrosamiento peribronquial. Sin consolidación ni neumotórax."
+    },
+    {
+      "id": "t_bh",
+      "n": "Biometría hemática",
+      "min": 20,
+      "r": "Leucocitos 11 200/µL sin bandas · Hb 13.4 g/dL · plaquetas 290 000"
+    },
+    {
+      "id": "t_viral",
+      "n": "Panel viral respiratorio",
+      "min": 60,
+      "r": "Rinovirus/enterovirus positivo."
+    },
+    {
+      "id": "t_glu",
+      "n": "Glucemia capilar",
+      "min": 2,
+      "r": "112 mg/dL"
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r_o2",
+      "n": "Oxígeno con meta de SpO₂ 94–98 %",
+      "min": 2,
+      "note": "Mascarilla simple; la SpO₂ sube unos puntos."
+    },
+    {
+      "id": "r_saba",
+      "n": "Salbutamol IDM 100 µg con espaciador: 6 disparos cada 20 min por 1 h",
+      "min": 5,
+      "effects": [
+        {
+          "when": [
+            "inicial"
+          ],
+          "goto": "respuesta"
+        },
+        {
+          "when": [
+            "grave"
+          ],
+          "goto": "inicial",
+          "note": "Mejora parcial: sigue con trabajo respiratorio importante."
+        },
+        {
+          "when": [
+            "respuesta"
+          ],
+          "note": "Se repite la dosis; mantiene la mejoría."
+        }
+      ],
+      "note": "Se administra con espaciador y mascarilla."
+    },
+    {
+      "id": "r_ipra",
+      "n": "Bromuro de ipratropio 250 µg nebulizado con el salbutamol",
+      "min": 3,
+      "delay": 10,
+      "note": "Se agrega en la primera hora por ser una crisis moderada a grave."
+    },
+    {
+      "id": "r_pred",
+      "n": "Prednisolona 2 mg/kg VO (máx. 40 mg): 40 mg",
+      "min": 3,
+      "delay": 20,
+      "effects": [
+        {
+          "when": [
+            "respuesta"
+          ],
+          "goto": "estable"
+        }
+      ],
+      "note": "El efecto del esteroide empieza en horas; evita la recaída."
+    },
+    {
+      "id": "r_mg",
+      "n": "Sulfato de magnesio 40 mg/kg IV en 20 min (880 mg)",
+      "min": 20,
+      "effects": [
+        {
+          "when": [
+            "grave"
+          ],
+          "goto": "inicial",
+          "note": "Mejora el trabajo respiratorio."
+        }
+      ],
+      "harm": {
+        "when": [
+          "estable"
+        ],
+        "msg": "Sin indicación: el magnesio IV es para crisis graves que no responden al tratamiento inicial."
+      },
+      "note": "Se administra en infusión."
+    },
+    {
+      "id": "r_ventila",
+      "n": "Intubación y ventilación mecánica",
+      "min": 15,
+      "effects": [
+        {
+          "when": [
+            "agotamiento"
+          ],
+          "goto": "uci"
+        }
+      ],
+      "harm": {
+        "when": [
+          "inicial",
+          "respuesta",
+          "estable",
+          "grave"
+        ],
+        "msg": "Intubar sin agotamiento ni falla al tratamiento máximo expone a barotrauma e hipotensión."
+      },
+      "note": "Secuencia rápida de intubación."
+    },
+    {
+      "id": "r_midaz",
+      "n": "Midazolam 0.1 mg/kg IV para la agitación",
+      "min": 3,
+      "harm": {
+        "msg": "En una crisis asmática la agitación es hipoxemia: los sedantes deprimen el impulso respiratorio y están contraindicados."
+      },
+      "effects": [
+        {
+          "when": [
+            "inicial",
+            "grave"
+          ],
+          "goto": "agotamiento"
+        }
+      ],
+      "note": "Se administra."
+    },
+    {
+      "id": "r_amox",
+      "n": "Amoxicilina 90 mg/kg/día",
+      "min": 3,
+      "harm": {
+        "msg": "Sin datos de infección bacteriana: los antibióticos no están indicados de rutina en la crisis asmática."
+      },
+      "note": "Se indica."
+    },
+    {
+      "id": "r_alta",
+      "n": "Alta con salbutamol a demanda",
+      "min": 5,
+      "harm": {
+        "when": [
+          "inicial",
+          "grave",
+          "agotamiento",
+          "respuesta"
+        ],
+        "msg": "Egreso sin estabilidad clínica y sin esteroide sistémico ni tratamiento controlador."
+      },
+      "note": "Se suspende el egreso por indicación del adscrito."
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Crisis asmática grave desencadenada por infección viral",
+      "Bronquiolitis",
+      "Neumonía bacteriana",
+      "Cuerpo extraño en la vía aérea",
+      "Anafilaxia"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Valorar el trabajo respiratorio al llegar",
+        "a": [
+          "e2",
+          "e1"
+        ],
+        "by": 10
+      },
+      {
+        "label": "Oxígeno con meta de 94–98 % en los primeros 10 min",
+        "a": [
+          "r_o2"
+        ],
+        "by": 10
+      },
+      {
+        "label": "Salbutamol en los primeros 10 min",
+        "a": [
+          "r_saba"
+        ],
+        "by": 10
+      },
+      {
+        "label": "Ipratropio en la primera hora",
+        "a": [
+          "r_ipra"
+        ],
+        "by": 60
+      },
+      {
+        "label": "Esteroide sistémico en la primera hora",
+        "a": [
+          "r_pred"
+        ],
+        "by": 60
+      },
+      {
+        "label": "Preguntar por el tratamiento controlador",
+        "a": [
+          "h3"
+        ]
+      }
+    ],
+    "avoid": [
+      {
+        "state": "grave",
+        "label": "Evitó que la crisis empeorara"
+      },
+      {
+        "state": "agotamiento",
+        "label": "Evitó el agotamiento respiratorio"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "Crisis asmática grave (habla en frases cortas, SpO₂ 89 %, FC 142, uso de músculos accesorios) en un niño que suspendió su controlador. El tratamiento de la primera hora decide la evolución: oxígeno, salbutamol repetido con ipratropio y esteroide sistémico.",
+    "points": [
+      "Gravedad en niños de 6 a 11 años: habla en palabras, se sienta inclinado, agitación, FR > 30, uso de músculos accesorios, FC > 120 y SpO₂ < 90 % indican crisis grave.",
+      "Salbutamol 4 a 10 disparos con espaciador cada 20 min durante la primera hora.",
+      "Ipratropio añadido en crisis moderadas a graves reduce las hospitalizaciones.",
+      "Oxígeno con meta de SpO₂ 94–98 % en niños.",
+      "Prednisolona 1–2 mg/kg (máximo 40 mg en 6–11 años) en la primera hora.",
+      "Sulfato de magnesio IV si no responde al tratamiento inicial.",
+      "Señales de alarma: tórax silencioso, somnolencia y pCO₂ normal o alta en un niño taquipneico.",
+      "No sedes y no des antibióticos de rutina. Al egreso: reiniciar el controlador y plan de acción por escrito."
+    ],
+    "refs": [
+      "Global Initiative for Asthma (GINA). Global Strategy for Asthma Management and Prevention, 2024 update. www.ginasthma.org"
+    ]
+  }
+}

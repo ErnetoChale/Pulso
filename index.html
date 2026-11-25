@@ -81,7 +81,7 @@ code{font-family:var(--mono);font-size:.88em}
 .tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1.5px solid var(--line)}
 .tabs button{flex:none;border:0;border-bottom:4px solid transparent;border-radius:0;background:none;white-space:nowrap;color:var(--mute);font:800 18px var(--disp);text-transform:uppercase;letter-spacing:.03em}
 .tabs button:hover{box-shadow:none;transform:none;color:var(--ink)}
-.tabs button{font:500 12px Arial,sans-serif;letter-spacing:.14em}.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--red)}
+.tabs button{font:500 12px Arial,sans-serif;letter-spacing:.06em;padding:8px 10px}.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--red)}
 .acts{display:grid;gap:6px;padding:12px 0;max-height:380px;overflow:auto}
 .acts button{border-radius:4px;border-color:var(--line);text-align:left;display:flex;justify-content:space-between;gap:10px;align-items:center}
 .acts button .m{font:500 13px var(--mono);color:var(--mute);white-space:nowrap}
@@ -160,6 +160,31 @@ td.num{text-align:right;white-space:nowrap}.hist{font-size:15px}
 .sndbtn{min-height:32px;padding:4px 12px;font:500 11px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:#cfe3dc;border-color:#2c3b37;display:inline-flex;gap:6px;align-items:center}
 .sndbtn[aria-pressed=false]{color:#7d8c88}
 .pill{display:inline-flex;align-items:center;min-height:44px;padding:8px 20px;border-radius:999px;background:var(--acc);color:var(--acc-ink);font-weight:700;text-decoration:none;transition:transform .2s,background-color .2s}.pill:hover{transform:translateY(-2px) scale(1.02);background:var(--red);color:#fff}
+.pend{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 0;margin:6px 0 10px}
+.pchip{display:inline-flex;gap:6px;align-items:center;font-size:13px;padding:4px 10px;border-radius:999px;border:1px dashed var(--ink);background:var(--bg)}
+.libhead .search{display:flex;align-items:center;gap:10px;border:1px solid var(--ink);border-radius:999px;padding:0 16px;background:var(--bg);min-height:48px;align-self:end}
+.search input{border:0;background:transparent;min-height:46px;font-size:16px;width:100%;outline:none}
+.search:focus-within{outline:3px solid var(--red);outline-offset:2px}
+.filters{display:grid;gap:10px;margin-top:22px;max-width:1240px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.chips .meta{width:110px;flex:none}
+.chip{min-height:36px;padding:4px 14px;font-size:14px;border-color:var(--line);background:transparent;display:inline-flex;gap:6px;align-items:center}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--tri)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.empty{grid-column:1/-1;border:1px dashed var(--line);padding:40px;text-align:left}
+footer.foot{border-top:1px solid var(--line);background:var(--panel);padding:36px max(10vw,16px);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;font-size:14px;color:var(--mute)}
+footer.foot b{font:800 22px var(--disp);color:var(--ink)}
+footer.foot a{color:var(--ink)}
+@media(max-width:700px){footer.foot{grid-template-columns:minmax(0,1fr)}.chips .meta{width:100%}}
+:root{--c-hr:light-dark(#0f7a43,#3ef07a);--c-bp:light-dark(#c8102e,#ff6b6e);--c-sp:light-dark(#1b6fa8,#38d6f5);--c-rr:light-dark(#b07800,#ffd23f)}
+.trendbox{margin-top:34px;border:1px solid var(--line);background:var(--panel);padding:22px}
+.trendbox .fig{position:relative;height:260px;margin-top:14px;color:var(--ink)}
+.lg{display:inline-flex;align-items:center;gap:6px;font-weight:700}.lg::before{content:"";width:18px;height:3px;background:var(--c)}
+.states{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}
+.states span{font-weight:700;margin-right:6px;color:var(--mute)}
+.bars{display:grid;gap:10px}.bar{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr) 40px;gap:12px;align-items:center}
+.bar .track{height:10px;background:var(--acc2);border-radius:999px;overflow:hidden}.bar .track i{display:block;height:100%;border-radius:999px}
+.bar b{text-align:right;font:800 18px var(--disp)}
+@media(max-width:520px){.bar{grid-template-columns:minmax(0,1fr) 40px}.bar .track{grid-column:1/-1;grid-row:2}}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes draw{to{stroke-dashoffset:0}}
@@ -178,145 +203,1998 @@ td.num{text-align:right;white-space:nowrap}.hist{font-size:15px}
   <button class="ghost" id="nav-me">Entrar</button>
 </header>
 <main id="app"></main>
+<footer class="foot"><div><b>Pulso</b><p style="margin:6px 0 0">Simulador de casos clínicos de código abierto. Licencia MIT.</p><p style="margin:6px 0 0"><a id="repolink" href="https://github.com/ErnetoChale/Pulso" target="_blank" rel="noopener">Código y biblioteca en GitHub</a></p></div>
+<div><p style="margin:0"><b style="font:700 14px Arial,sans-serif">Uso educativo.</b> Los casos son simulaciones para practicar el razonamiento clínico. No sustituyen las guías clínicas vigentes, el juicio médico ni la supervisión docente. Las dosis y decisiones deben verificarse en fuentes primarias antes de aplicarse a pacientes reales.</p></div></footer>
 
 <script type="application/json" id="builtin">
 [
-{"id":"cad-ivu-01","v":1,"title":"Mujer de 19 años con vómito y respiración rápida","specialty":"Endocrinología · Urgencias","level":"Intermedio",
-"source":"Caso modelo basado en el consenso ADA/EASD/JBDS 2024 de crisis hiperglucémicas",
-"setting":"Urgencias adultos, 03:10 h",
-"patient":{"name":"Daniela R.","age":19,"sex":"F","weight":55,"cc":"Vómito y dolor abdominal de 2 días"},
-"intro":"La trae su madre. Está somnolienta pero responde, respira profundo y rápido, y su aliento huele a fruta.",
-"start":"inicial",
-"states":{
-"inicial":{"label":"Ingreso","v":{"hr":124,"sbp":96,"dbp":58,"rr":30,"spo2":98,"t":37.4},"d":"Somnolienta, mucosas secas, respiraciones profundas y rápidas.","worse":{"after":60,"to":"choque"}},
-"choque":{"label":"Hipoperfusión","v":{"hr":142,"sbp":78,"dbp":42,"rr":34,"spo2":96,"t":37.3},"d":"Pálida y fría, llenado capilar de 4 s. Contesta con monosílabos.","worse":{"after":45,"to":"paro"}},
-"hidratado":{"label":"Tras carga de líquidos","v":{"hr":108,"sbp":110,"dbp":66,"rr":28,"spo2":98,"t":37.2},"d":"Mejor perfusión y empieza a orinar. Sigue con respiración profunda y náusea.","worse":{"after":180,"to":"choque"}},
-"corrigiendo":{"label":"Infusión de insulina","v":{"hr":98,"sbp":114,"dbp":70,"rr":22,"spo2":98,"t":37.1},"d":"Más despierta, pide agua. Refiere calambres leves en las piernas.","worse":{"after":60,"to":"hipokalemia"}},
-"hipokalemia":{"label":"Hipokalemia","rhythm":"ectopia","v":{"hr":112,"sbp":108,"dbp":64,"rr":20,"spo2":97,"t":37.0},"d":"Debilidad marcada en extremidades y extrasístoles frecuentes en el monitor.","worse":{"after":40,"to":"paro"}},
-"estable":{"label":"Corrigiendo acidosis","v":{"hr":90,"sbp":118,"dbp":72,"rr":18,"spo2":99,"t":37.0},"d":"Alerta, sin náusea. La glucemia sigue bajando.","worse":{"after":120,"to":"hipoglucemia"}},
-"hipoglucemia":{"label":"Hipoglucemia","v":{"hr":110,"sbp":122,"dbp":76,"rr":18,"spo2":99,"t":36.8},"d":"Diaforética, temblorosa y confusa."},
-"resuelto":{"label":"CAD en resolución","goal":true,"v":{"hr":84,"sbp":118,"dbp":74,"rr":16,"spo2":99,"t":36.9},"d":"Alerta, tolera líquidos. pH y bicarbonato en franca mejoría."},
-"paro":{"label":"Paro cardiorrespiratorio","end":"muerte","rhythm":"asistolia","v":{"hr":0,"sbp":0,"dbp":0,"rr":0,"spo2":0,"t":36.5},"d":"Sin pulso. Se inicia RCP sin recuperación de la circulación."}
+{
+"id": "cad-ivu-01",
+"v": 1,
+"title": "Mujer de 19 años con vómito y respiración rápida",
+"specialty": "Endocrinología · Urgencias",
+"level": "Intermedio",
+"source": "Caso modelo basado en el consenso ADA/EASD/JBDS 2024 de crisis hiperglucémicas",
+"setting": "Urgencias adultos, 03:10 h",
+"patient": {
+"name": "Daniela R.",
+"age": 19,
+"sex": "F",
+"weight": 55,
+"cc": "Vómito y dolor abdominal de 2 días"
 },
-"history":[
-{"id":"h1","q":"¿Desde cuándo y cómo empezó?","a":"Hace dos días, con náusea y vómito unas 6 veces al día. Después, dolor en todo el abdomen."},
-{"id":"h2","q":"¿Enfermedades previas?","a":"Diabetes tipo 1 desde los 12 años."},
-{"id":"h3","q":"¿Qué medicamentos usa y cómo se los ha aplicado?","a":"Glargina 18 U en la noche y lispro con las comidas. Desde hace 3 días no se pone nada: «como no comía, pensé que no la necesitaba»."},
-{"id":"h4","q":"¿Mucha sed u orina mucho?","a":"Sí, toma agua todo el tiempo y orina muy seguido."},
-{"id":"h5","q":"¿Molestias al orinar o fiebre?","a":"Ardor al orinar desde hace 5 días. Se sintió caliente, no se midió la temperatura."},
-{"id":"h6","q":"¿Fecha de última menstruación?","a":"Hace dos semanas, ciclos regulares."},
-{"id":"h7","q":"¿Alcohol o drogas?","a":"Lo niega."},
-{"id":"h8","q":"¿Alergias?","a":"Ninguna conocida."}],
-"exam":[
-{"id":"e1","n":"Aspecto general y conciencia","f":"Somnolienta, Glasgow 14 (O3 V5 M6). Aliento afrutado."},
-{"id":"e2","n":"Hidratación y piel","f":"Mucosas orales secas, turgencia disminuida, llenado capilar de 3 s."},
-{"id":"e3","n":"Respiratorio","f":"Respiraciones profundas y regulares (Kussmaul). Campos pulmonares limpios."},
-{"id":"e4","n":"Cardiovascular","f":"Taquicardia rítmica, sin soplos. Pulsos periféricos débiles."},
-{"id":"e5","n":"Abdomen","f":"Dolor difuso a la palpación profunda, sin rebote ni rigidez. Peristalsis disminuida."},
-{"id":"e6","n":"Puño percusión","f":"Puño percusión derecha positiva."},
-{"id":"e7","n":"Neurológico","f":"Sin focalización. Pupilas isocóricas y reactivas."}],
-"tests":[
-{"id":"t_gc","n":"Glucemia capilar","min":2,"r":{"inicial":"512 mg/dL","choque":"548 mg/dL","hidratado":"436 mg/dL","corrigiendo":"318 mg/dL","hipokalemia":"294 mg/dL","estable":"224 mg/dL","hipoglucemia":"52 mg/dL","resuelto":"168 mg/dL","*":"510 mg/dL"}},
-{"id":"t_gaso","n":"Gasometría venosa","min":10,"r":{"inicial":"pH 7.08 · pCO₂ 22 · HCO₃⁻ 11 · lactato 2.1","choque":"pH 7.02 · pCO₂ 20 · HCO₃⁻ 9 · lactato 4.8","hidratado":"pH 7.11 · HCO₃⁻ 11","corrigiendo":"pH 7.19 · HCO₃⁻ 13","hipokalemia":"pH 7.21 · HCO₃⁻ 14","estable":"pH 7.26 · HCO₃⁻ 15","hipoglucemia":"pH 7.30 · HCO₃⁻ 17","resuelto":"pH 7.33 · HCO₃⁻ 19","*":"pH 7.08 · HCO₃⁻ 11"}},
-{"id":"t_elec","n":"Electrolitos séricos","min":20,"r":{"inicial":"Na⁺ 131 · K⁺ 5.6 · Cl⁻ 97 mEq/L · brecha aniónica 23","choque":"Na⁺ 130 · K⁺ 5.9 · Cl⁻ 96","hidratado":"Na⁺ 134 · K⁺ 5.3 · Cl⁻ 104","corrigiendo":"Na⁺ 136 · K⁺ 3.9 · Cl⁻ 106","hipokalemia":"Na⁺ 137 · K⁺ 2.9 · Cl⁻ 107","estable":"Na⁺ 137 · K⁺ 4.2 · Cl⁻ 107","hipoglucemia":"Na⁺ 138 · K⁺ 4.0","resuelto":"Na⁺ 138 · K⁺ 4.1 · Cl⁻ 106 · brecha aniónica 13","*":"Na⁺ 131 · K⁺ 5.6"}},
-{"id":"t_ceto","n":"β-hidroxibutirato sérico","min":20,"r":{"resuelto":"0.5 mmol/L","estable":"1.4 mmol/L","*":"5.8 mmol/L"}},
-{"id":"t_qs","n":"Química sanguínea (BUN, creatinina)","min":30,"r":"BUN 32 mg/dL · creatinina 1.3 mg/dL · osmolaridad efectiva ≈ 290 mOsm/kg"},
-{"id":"t_bh","n":"Biometría hemática","min":20,"r":"Leucocitos 16 200/µL (84 % neutrófilos) · Hb 14.8 g/dL · plaquetas 310 000"},
-{"id":"t_ego","n":"Examen general de orina","min":20,"r":"Glucosa ++++ · cetonas +++ · leucocitos 25–30/campo · nitritos positivos · bacterias abundantes"},
-{"id":"t_ecg","n":"Electrocardiograma","min":5,"r":{"inicial":"Taquicardia sinusal 124 lpm, ondas T ligeramente picudas.","choque":"Taquicardia sinusal 142 lpm, T picudas.","hipokalemia":"Aplanamiento de T, ondas U prominentes, extrasístoles ventriculares frecuentes.","*":"Ritmo sinusal sin alteraciones agudas."}},
-{"id":"t_hcg","n":"Prueba de embarazo (hCG)","min":15,"r":"Negativa"},
-{"id":"t_lip","n":"Lipasa","min":30,"r":"58 U/L (normal)"},
-{"id":"t_rx","n":"Radiografía de tórax","min":20,"r":"Sin consolidaciones ni derrame."}],
-"treatments":[
-{"id":"r_ssn","n":"Solución salina 0.9 % 1 L en 1 h","min":10,"goto":"hidratado","when":["inicial","choque"],"note":"Pasa la carga. Reevalúa perfusión y diuresis."},
-{"id":"r_ins","n":"Insulina regular en infusión 0.1 U/kg/h (5.5 U/h)","min":5,"goto":"corrigiendo","when":["hidratado"],"harm":{"when":["inicial","choque"],"msg":"Insulina antes de restituir volumen en una paciente hipovolémica: desplaza agua al intracelular y puede empeorar la hipotensión."},"note":"Infusión iniciada. Glucemia capilar cada hora."},
-{"id":"r_kcl","n":"KCl 20–30 mEq por litro de solución","min":5,"goto":"estable","when":["corrigiendo","hipokalemia"],"harm":{"when":["inicial","choque","hidratado"],"msg":"K⁺ por arriba de 5.0 mEq/L: todavía no se repone potasio."},"note":"Se agrega potasio a las soluciones."},
-{"id":"r_dx","n":"Agregar dextrosa 5 % y bajar insulina a 0.05 U/kg/h","min":5,"goto":"resuelto","when":["estable"],"harm":{"when":["inicial","choque","hidratado","corrigiendo","hipokalemia"],"msg":"La dextrosa se agrega cuando la glucosa baja de 250 mg/dL; antes retrasa la corrección."},"note":"Mantienes la insulina para seguir cerrando la cetosis sin hipoglucemia."},
-{"id":"r_d50","n":"Dextrosa 50 % 25 g IV en bolo","min":3,"goto":"resuelto","when":["hipoglucemia"],"harm":{"when":["inicial","choque","hidratado","corrigiendo","hipokalemia"],"msg":"Bolo de glucosa en una paciente hiperglucémica."},"note":"Recupera el estado de alerta en minutos."},
-{"id":"r_bic","n":"Bicarbonato de sodio 100 mEq IV","min":5,"harm":{"msg":"Con pH ≥ 7.0 el bicarbonato no está indicado: aumenta el riesgo de hipokalemia y no mejora el desenlace."},"note":"Se administra."},
-{"id":"r_ceft","n":"Ceftriaxona 1 g IV","min":5,"note":"Cubre el foco urinario probable."},
-{"id":"r_ond","n":"Ondansetrón 4 mg IV","min":3,"note":"Disminuye la náusea."},
-{"id":"r_alta","n":"Alta con insulina subcutánea","min":5,"harm":{"msg":"Alta con acidosis activa: la CAD no se ha resuelto."},"note":"Se suspende el egreso por indicación del adscrito."}],
-"diagnosis":{"options":["Cetoacidosis diabética moderada precipitada por pielonefritis y suspensión de insulina","Estado hiperglucémico hiperosmolar","Pancreatitis aguda","Gastroenteritis aguda con deshidratación","Cetoacidosis alcohólica"],"correct":0},
-"scoring":{"critical":[
-{"label":"Glucemia capilar en los primeros 15 min","a":["t_gc"],"by":15},
-{"label":"Gasometría en los primeros 30 min","a":["t_gaso"],"by":30},
-{"label":"Potasio sérico antes de iniciar insulina","a":["t_elec"],"before":"r_ins"},
-{"label":"Líquidos IV en la primera hora","a":["r_ssn"],"by":60},
-{"label":"Insulina en infusión tras reponer volumen","a":["r_ins"]},
-{"label":"Reponer potasio cuando bajó de 5.0","a":["r_kcl"]},
-{"label":"Dextrosa al bajar la glucemia","a":["r_dx","r_d50"]},
-{"label":"Buscar el precipitante (EGO o síntomas urinarios)","a":["t_ego","h5"]},
-{"label":"Tratar el foco infeccioso","a":["r_ceft"]}],
-"avoid":[{"state":"choque","label":"Evitó la hipoperfusión"},{"state":"hipokalemia","label":"Evitó la hipokalemia por insulina"},{"state":"hipoglucemia","label":"Evitó la hipoglucemia"}]},
-"debrief":{"summary":"Paciente con DM1 que suspendió la insulina y desarrolló una pielonefritis: dos precipitantes clásicos. pH 7.08 y HCO₃⁻ 11 la ubican en CAD moderada.",
-"points":["Diagnóstico: glucosa ≥ 200 mg/dL o diabetes conocida, cetonemia ≥ 3.0 mmol/L y pH < 7.30 o HCO₃⁻ < 18 mEq/L.","Gravedad por pH: leve 7.25–7.30, moderada 7.00–7.24, grave < 7.00.","El orden importa: volumen primero, potasio antes de insulina. Si K⁺ < 3.5, no inicies insulina hasta reponerlo.","K⁺ entre 3.5 y 5.0: 20–30 mEq por litro de solución. Por arriba de 5.0, solo vigilar.","Cuando la glucosa baja de 250 mg/dL: dextrosa y menor dosis de insulina, sin suspenderla.","Bicarbonato solo si pH < 7.0.","Resolución: pH ≥ 7.30, HCO₃⁻ ≥ 18 y cetonemia < 0.6 mmol/L."],
-"refs":["Umpierrez GE, et al. Hyperglycemic crises in adults with diabetes: a consensus report. Diabetes Care. 2024;47(8):1257–1275."]}},
-
-{"id":"iamcest-01","v":1,"title":"Hombre de 58 años con dolor opresivo en el pecho","specialty":"Cardiología · Urgencias","level":"Básico",
-"source":"Caso modelo basado en la guía ESC 2023 de síndromes coronarios agudos",
-"setting":"Urgencias de hospital con hemodinamia 24 h, 11:40 h",
-"patient":{"name":"Jorge M.","age":58,"sex":"M","weight":84,"cc":"Dolor torácico desde hace 50 minutos"},
-"intro":"Llega caminando, sudoroso, con el puño cerrado sobre el pecho.",
-"start":"inicial",
-"states":{
-"inicial":{"label":"Ingreso","rhythm":"st","v":{"hr":98,"sbp":150,"dbp":92,"rr":20,"spo2":95,"t":36.6},"d":"Diaforético y ansioso, dolor 8/10 que no cede.","worse":{"after":35,"to":"fv"}},
-"hipotension":{"label":"Hipotensión","rhythm":"st","v":{"hr":114,"sbp":80,"dbp":48,"rr":22,"spo2":94,"t":36.6},"d":"Pálido y mareado, casi se desvanece en la camilla.","worse":{"after":25,"to":"fv"}},
-"fv":{"label":"Fibrilación ventricular","rhythm":"fv","v":{"hr":0,"sbp":0,"dbp":0,"rr":0,"spo2":0,"t":36.5},"d":"Pierde el estado de alerta. No tiene pulso.","worse":{"after":8,"to":"muerte"}},
-"rosc":{"label":"Tras desfibrilación","rhythm":"st","v":{"hr":106,"sbp":116,"dbp":70,"rr":18,"spo2":94,"t":36.5},"d":"Recupera pulso y respira. Sigue con dolor.","worse":{"after":25,"to":"fv"}},
-"hemodinamia":{"label":"ICP primaria","goal":true,"v":{"hr":82,"sbp":128,"dbp":78,"rr":16,"spo2":97,"t":36.6},"d":"Angiografía: oclusión de la descendente anterior proximal. Se coloca stent con flujo TIMI 3. El dolor desaparece."},
-"trombolizado":{"label":"Tras fibrinólisis","goal":true,"v":{"hr":88,"sbp":132,"dbp":80,"rr":17,"spo2":96,"t":36.6},"d":"El dolor baja y el ST se resuelve parcialmente. Debe ir a angiografía en las siguientes 2–24 h."},
-"muerte":{"label":"Muerte","end":"muerte","rhythm":"asistolia","v":{"hr":0,"sbp":0,"dbp":0,"rr":0,"spo2":0,"t":36.4},"d":"Asistolia tras reanimación prolongada."}
+"intro": "La trae su madre. Está somnolienta pero responde, respira profundo y rápido, y su aliento huele a fruta.",
+"start": "inicial",
+"states": {
+"inicial": {
+"label": "Ingreso",
+"v": {
+"hr": 124,
+"sbp": 96,
+"dbp": 58,
+"rr": 30,
+"spo2": 98,
+"t": 37.4
 },
-"history":[
-{"id":"h1","q":"¿Cómo es el dolor?","a":"Opresivo, en el centro del pecho, «como si tuviera un peso encima». Se va al brazo izquierdo y a la mandíbula. Empezó en reposo hace 50 minutos."},
-{"id":"h2","q":"¿Qué más siente?","a":"Sudoración, náusea y un poco de falta de aire."},
-{"id":"h3","q":"¿Enfermedades previas y tabaquismo?","a":"Diabetes tipo 2 e hipertensión. Fuma 20 cigarros al día desde hace 30 años."},
-{"id":"h4","q":"¿Qué medicamentos toma?","a":"Metformina 850 mg cada 12 h y losartán 50 mg al día."},
-{"id":"h5","q":"¿Ha tomado otro medicamento en las últimas 48 h, incluido alguno para la erección?","a":"Un poco apenado: tomó sildenafil 50 mg anoche."},
-{"id":"h6","q":"¿Sangrados, cirugías o EVC recientes?","a":"Lo niega."},
-{"id":"h7","q":"¿El dolor es desgarrante o se va a la espalda?","a":"No, no se va a la espalda."},
-{"id":"h8","q":"¿Alergias?","a":"Ninguna conocida."}],
-"exam":[
-{"id":"e1","n":"Aspecto general","f":"Diaforético, ansioso, con el puño sobre el esternón (signo de Levine)."},
-{"id":"e2","n":"Cardiovascular","f":"Ruidos rítmicos, S4, sin soplos ni frote."},
-{"id":"e3","n":"Pulmonar","f":"Murmullo vesicular sin estertores. Killip I."},
-{"id":"e4","n":"Cuello","f":"Sin ingurgitación yugular."},
-{"id":"e5","n":"Presión en ambos brazos y pulsos","f":"150/92 derecho y 148/90 izquierdo. Pulsos simétricos en las cuatro extremidades."},
-{"id":"e6","n":"Extremidades","f":"Sin edema, llenado capilar de 2 s."}],
-"tests":[
-{"id":"t_ecg","n":"ECG de 12 derivaciones","min":3,"r":{"fv":"Fibrilación ventricular.","hemodinamia":"Resolución del ST > 50 %, ondas Q en V1–V3.","trombolizado":"Resolución parcial del ST.","*":"Ritmo sinusal 98 lpm. Elevación del ST de 3–4 mm en V1–V5 con depresión recíproca en II, III y aVF. IAMCEST anterior extenso."}},
-{"id":"t_trop","n":"Troponina I de alta sensibilidad","min":45,"r":"1 840 ng/L (normal < 26). Recuerda: no debe retrasar la reperfusión."},
-{"id":"t_qs","n":"Química y electrolitos","min":30,"r":"Glucosa 168 mg/dL · creatinina 1.0 · K⁺ 4.1 · Na⁺ 139"},
-{"id":"t_bh","n":"Biometría hemática","min":20,"r":"Hb 15.1 g/dL · leucocitos 11 200 · plaquetas 248 000"},
-{"id":"t_coag","n":"Tiempos de coagulación","min":30,"r":"TP 12 s · INR 1.0 · TTPa 29 s"},
-{"id":"t_rx","n":"Radiografía de tórax portátil","min":15,"r":"Sin congestión pulmonar. Mediastino de tamaño normal."},
-{"id":"t_eco","n":"Ecocardiograma a pie de cama","min":10,"r":"Hipocinesia anterior y apical, FEVI ≈ 40 %. Sin derrame pericárdico ni insuficiencia mitral significativa."},
-{"id":"t_dd","n":"Dímero D","min":40,"r":"0.3 µg/mL (normal)"}],
-"treatments":[
-{"id":"r_aas","n":"Ácido acetilsalicílico 300 mg masticable","min":2,"delay":10,"note":"Masticado y deglutido."},
-{"id":"r_tica","n":"Ticagrelor 180 mg VO (carga)","min":2,"delay":5,"note":"Carga de inhibidor P2Y12."},
-{"id":"r_hnf","n":"Heparina no fraccionada 70–100 U/kg IV en bolo","min":3,"delay":5,"note":"Anticoagulación para la ICP."},
-{"id":"r_icp","n":"Activar código infarto: ICP primaria","min":10,"goto":"hemodinamia","when":["inicial","rosc","hipotension"],"needs":["t_ecg"],"note":"Hemodinamia acepta al paciente."},
-{"id":"r_tnk","n":"Fibrinólisis con tenecteplasa","min":10,"goto":"trombolizado","when":["inicial","rosc","hipotension"],"needs":["t_ecg"],"harm":{"msg":"Con ICP disponible en menos de 120 min, la ICP primaria es la estrategia de reperfusión preferente."},"note":"Se administra el fibrinolítico."},
-{"id":"r_ntg","n":"Nitroglicerina 0.4 mg sublingual","min":3,"goto":"hipotension","when":["inicial","rosc"],"harm":{"msg":"Tomó sildenafil hace menos de 24 h: los nitratos están contraindicados por riesgo de hipotensión grave."},"note":"Se administra."},
-{"id":"r_ssn","n":"Bolo de solución salina 0.9 % 250 mL","min":5,"goto":"inicial","when":["hipotension"],"note":"Se pasa el bolo."},
-{"id":"r_mor","n":"Morfina 2–4 mg IV","min":3,"note":"El dolor baja a 6/10."},
-{"id":"r_o2","n":"Oxígeno por puntas nasales 3 L/min","min":2,"harm":{"when":["inicial","rosc","hemodinamia","trombolizado"],"msg":"SpO₂ ≥ 90 %: el oxígeno de rutina no está indicado en el infarto."},"note":"Se coloca oxígeno."},
-{"id":"r_bb","n":"Metoprolol 5 mg IV","min":3,"harm":{"when":["hipotension","fv"],"msg":"Betabloqueador IV en un paciente hipotenso o inestable."},"note":"FC baja ligeramente."},
-{"id":"r_desf","n":"Desfibrilación 200 J bifásica + RCP","min":2,"goto":"rosc","when":["fv"],"harm":{"when":["inicial","hipotension","rosc","hemodinamia","trombolizado"],"msg":"Descarga a un paciente con pulso."},"note":"Descarga entregada."}],
-"diagnosis":{"options":["IAMCEST anterior extenso (descendente anterior), Killip I","Disección aórtica tipo A","Tromboembolia pulmonar masiva","Pericarditis aguda","SICA sin elevación del ST"],"correct":0},
-"scoring":{"critical":[
-{"label":"ECG en los primeros 10 min","a":["t_ecg"],"by":10},
-{"label":"Aspirina","a":["r_aas"]},
-{"label":"Inhibidor P2Y12","a":["r_tica"]},
-{"label":"Anticoagulación","a":["r_hnf"]},
-{"label":"Preguntar por inhibidores de PDE5 antes de nitratos","a":["h5"],"before":"r_ntg"},
-{"label":"Activar ICP primaria en los primeros 30 min","a":["r_icp"],"by":30}],
-"avoid":[{"state":"hipotension","label":"Evitó la hipotensión por nitratos"},{"state":"fv","label":"Llegó a reperfusión antes de una arritmia letal"}]},
-"debrief":{"summary":"IAMCEST anterior en un centro con hemodinamia: la decisión que define el caso es activar la ICP primaria cuanto antes. La trampa es el sildenafil de anoche.",
-"points":["ECG de 12 derivaciones en los primeros 10 min del primer contacto.","ICP primaria si puede hacerse en menos de 120 min desde el diagnóstico; si no, fibrinólisis en los primeros 10 min.","Carga de aspirina (150–300 mg VO) y de un P2Y12 potente (ticagrelor o prasugrel).","HNF 70–100 U/kg en bolo durante la ICP primaria.","Oxígeno solo si SpO₂ < 90 %.","Nitratos contraindicados tras sildenafil o vardenafil (24 h) y tadalafil (48 h).","La troponina no debe retrasar la reperfusión cuando el ECG ya es diagnóstico."],
-"refs":["Byrne RA, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44(38):3720–3826."]}}
+"d": "Somnolienta, mucosas secas, respiraciones profundas y rápidas.",
+"worse": {
+"after": 60,
+"to": "choque"
+}
+},
+"choque": {
+"label": "Hipoperfusión",
+"v": {
+"hr": 142,
+"sbp": 78,
+"dbp": 42,
+"rr": 34,
+"spo2": 96,
+"t": 37.3
+},
+"d": "Pálida y fría, llenado capilar de 4 s. Contesta con monosílabos.",
+"worse": {
+"after": 45,
+"to": "paro"
+}
+},
+"hidratado": {
+"label": "Tras carga de líquidos",
+"v": {
+"hr": 108,
+"sbp": 110,
+"dbp": 66,
+"rr": 28,
+"spo2": 98,
+"t": 37.2
+},
+"d": "Mejor perfusión y empieza a orinar. Sigue con respiración profunda y náusea.",
+"worse": {
+"after": 180,
+"to": "choque"
+}
+},
+"corrigiendo": {
+"label": "Infusión de insulina",
+"v": {
+"hr": 98,
+"sbp": 114,
+"dbp": 70,
+"rr": 22,
+"spo2": 98,
+"t": 37.1
+},
+"d": "Más despierta, pide agua. Refiere calambres leves en las piernas.",
+"worse": {
+"after": 60,
+"to": "hipokalemia"
+}
+},
+"hipokalemia": {
+"label": "Hipokalemia",
+"rhythm": "ectopia",
+"v": {
+"hr": 112,
+"sbp": 108,
+"dbp": 64,
+"rr": 20,
+"spo2": 97,
+"t": 37.0
+},
+"d": "Debilidad marcada en extremidades y extrasístoles frecuentes en el monitor.",
+"worse": {
+"after": 40,
+"to": "paro"
+}
+},
+"estable": {
+"label": "Corrigiendo acidosis",
+"v": {
+"hr": 90,
+"sbp": 118,
+"dbp": 72,
+"rr": 18,
+"spo2": 99,
+"t": 37.0
+},
+"d": "Alerta, sin náusea. La glucemia sigue bajando.",
+"worse": {
+"after": 120,
+"to": "hipoglucemia"
+}
+},
+"hipoglucemia": {
+"label": "Hipoglucemia",
+"v": {
+"hr": 110,
+"sbp": 122,
+"dbp": 76,
+"rr": 18,
+"spo2": 99,
+"t": 36.8
+},
+"d": "Diaforética, temblorosa y confusa."
+},
+"resuelto": {
+"label": "CAD en resolución",
+"goal": true,
+"v": {
+"hr": 84,
+"sbp": 118,
+"dbp": 74,
+"rr": 16,
+"spo2": 99,
+"t": 36.9
+},
+"d": "Alerta, tolera líquidos. pH y bicarbonato en franca mejoría."
+},
+"paro": {
+"label": "Paro cardiorrespiratorio",
+"end": "muerte",
+"rhythm": "asistolia",
+"v": {
+"hr": 0,
+"sbp": 0,
+"dbp": 0,
+"rr": 0,
+"spo2": 0,
+"t": 36.5
+},
+"d": "Sin pulso. Se inicia RCP sin recuperación de la circulación."
+}
+},
+"history": [
+{
+"id": "h1",
+"q": "¿Desde cuándo y cómo empezó?",
+"a": "Hace dos días, con náusea y vómito unas 6 veces al día. Después, dolor en todo el abdomen."
+},
+{
+"id": "h2",
+"q": "¿Enfermedades previas?",
+"a": "Diabetes tipo 1 desde los 12 años."
+},
+{
+"id": "h3",
+"q": "¿Qué medicamentos usa y cómo se los ha aplicado?",
+"a": "Glargina 18 U en la noche y lispro con las comidas. Desde hace 3 días no se pone nada: «como no comía, pensé que no la necesitaba»."
+},
+{
+"id": "h4",
+"q": "¿Mucha sed u orina mucho?",
+"a": "Sí, toma agua todo el tiempo y orina muy seguido."
+},
+{
+"id": "h5",
+"q": "¿Molestias al orinar o fiebre?",
+"a": "Ardor al orinar desde hace 5 días. Se sintió caliente, no se midió la temperatura."
+},
+{
+"id": "h6",
+"q": "¿Fecha de última menstruación?",
+"a": "Hace dos semanas, ciclos regulares."
+},
+{
+"id": "h7",
+"q": "¿Alcohol o drogas?",
+"a": "Lo niega."
+},
+{
+"id": "h8",
+"q": "¿Alergias?",
+"a": "Ninguna conocida."
+}
+],
+"exam": [
+{
+"id": "e1",
+"n": "Aspecto general y conciencia",
+"f": "Somnolienta, Glasgow 14 (O3 V5 M6). Aliento afrutado."
+},
+{
+"id": "e2",
+"n": "Hidratación y piel",
+"f": "Mucosas orales secas, turgencia disminuida, llenado capilar de 3 s."
+},
+{
+"id": "e3",
+"n": "Respiratorio",
+"f": "Respiraciones profundas y regulares (Kussmaul). Campos pulmonares limpios."
+},
+{
+"id": "e4",
+"n": "Cardiovascular",
+"f": "Taquicardia rítmica, sin soplos. Pulsos periféricos débiles."
+},
+{
+"id": "e5",
+"n": "Abdomen",
+"f": "Dolor difuso a la palpación profunda, sin rebote ni rigidez. Peristalsis disminuida."
+},
+{
+"id": "e6",
+"n": "Puño percusión",
+"f": "Puño percusión derecha positiva."
+},
+{
+"id": "e7",
+"n": "Neurológico",
+"f": "Sin focalización. Pupilas isocóricas y reactivas."
+}
+],
+"tests": [
+{
+"id": "t_gc",
+"n": "Glucemia capilar",
+"min": 2,
+"r": {
+"inicial": "512 mg/dL",
+"choque": "548 mg/dL",
+"hidratado": "436 mg/dL",
+"corrigiendo": "318 mg/dL",
+"hipokalemia": "294 mg/dL",
+"estable": "224 mg/dL",
+"hipoglucemia": "52 mg/dL",
+"resuelto": "168 mg/dL",
+"*": "510 mg/dL"
+}
+},
+{
+"id": "t_gaso",
+"n": "Gasometría venosa",
+"min": 10,
+"r": {
+"inicial": "pH 7.08 · pCO₂ 22 · HCO₃⁻ 11 · lactato 2.1",
+"choque": "pH 7.02 · pCO₂ 20 · HCO₃⁻ 9 · lactato 4.8",
+"hidratado": "pH 7.11 · HCO₃⁻ 11",
+"corrigiendo": "pH 7.19 · HCO₃⁻ 13",
+"hipokalemia": "pH 7.21 · HCO₃⁻ 14",
+"estable": "pH 7.26 · HCO₃⁻ 15",
+"hipoglucemia": "pH 7.30 · HCO₃⁻ 17",
+"resuelto": "pH 7.33 · HCO₃⁻ 19",
+"*": "pH 7.08 · HCO₃⁻ 11"
+}
+},
+{
+"id": "t_elec",
+"n": "Electrolitos séricos",
+"min": 20,
+"r": {
+"inicial": "Na⁺ 131 · K⁺ 5.6 · Cl⁻ 97 mEq/L · brecha aniónica 23",
+"choque": "Na⁺ 130 · K⁺ 5.9 · Cl⁻ 96",
+"hidratado": "Na⁺ 134 · K⁺ 5.3 · Cl⁻ 104",
+"corrigiendo": "Na⁺ 136 · K⁺ 3.9 · Cl⁻ 106",
+"hipokalemia": "Na⁺ 137 · K⁺ 2.9 · Cl⁻ 107",
+"estable": "Na⁺ 137 · K⁺ 4.2 · Cl⁻ 107",
+"hipoglucemia": "Na⁺ 138 · K⁺ 4.0",
+"resuelto": "Na⁺ 138 · K⁺ 4.1 · Cl⁻ 106 · brecha aniónica 13",
+"*": "Na⁺ 131 · K⁺ 5.6"
+}
+},
+{
+"id": "t_ceto",
+"n": "β-hidroxibutirato sérico",
+"min": 20,
+"r": {
+"resuelto": "0.5 mmol/L",
+"estable": "1.4 mmol/L",
+"*": "5.8 mmol/L"
+}
+},
+{
+"id": "t_qs",
+"n": "Química sanguínea (BUN, creatinina)",
+"min": 30,
+"r": "BUN 32 mg/dL · creatinina 1.3 mg/dL · osmolaridad efectiva ≈ 290 mOsm/kg"
+},
+{
+"id": "t_bh",
+"n": "Biometría hemática",
+"min": 20,
+"r": "Leucocitos 16 200/µL (84 % neutrófilos) · Hb 14.8 g/dL · plaquetas 310 000"
+},
+{
+"id": "t_ego",
+"n": "Examen general de orina",
+"min": 20,
+"r": "Glucosa ++++ · cetonas +++ · leucocitos 25–30/campo · nitritos positivos · bacterias abundantes"
+},
+{
+"id": "t_ecg",
+"n": "Electrocardiograma",
+"min": 5,
+"r": {
+"inicial": "Taquicardia sinusal 124 lpm, ondas T ligeramente picudas.",
+"choque": "Taquicardia sinusal 142 lpm, T picudas.",
+"hipokalemia": "Aplanamiento de T, ondas U prominentes, extrasístoles ventriculares frecuentes.",
+"*": "Ritmo sinusal sin alteraciones agudas."
+}
+},
+{
+"id": "t_hcg",
+"n": "Prueba de embarazo (hCG)",
+"min": 15,
+"r": "Negativa"
+},
+{
+"id": "t_lip",
+"n": "Lipasa",
+"min": 30,
+"r": "58 U/L (normal)"
+},
+{
+"id": "t_rx",
+"n": "Radiografía de tórax",
+"min": 20,
+"r": "Sin consolidaciones ni derrame."
+}
+],
+"treatments": [
+{
+"id": "r_ssn",
+"n": "Solución salina 0.9 % 1 L en 1 h",
+"min": 10,
+"goto": "hidratado",
+"when": [
+"inicial",
+"choque"
+],
+"note": "Pasa la carga. Reevalúa perfusión y diuresis."
+},
+{
+"id": "r_ins",
+"n": "Insulina regular en infusión 0.1 U/kg/h (5.5 U/h)",
+"min": 5,
+"goto": "corrigiendo",
+"when": [
+"hidratado"
+],
+"harm": {
+"when": [
+"inicial",
+"choque"
+],
+"msg": "Insulina antes de restituir volumen en una paciente hipovolémica: desplaza agua al intracelular y puede empeorar la hipotensión."
+},
+"note": "Infusión iniciada. Glucemia capilar cada hora."
+},
+{
+"id": "r_kcl",
+"n": "KCl 20–30 mEq por litro de solución",
+"min": 5,
+"goto": "estable",
+"when": [
+"corrigiendo",
+"hipokalemia"
+],
+"harm": {
+"when": [
+"inicial",
+"choque",
+"hidratado"
+],
+"msg": "K⁺ por arriba de 5.0 mEq/L: todavía no se repone potasio."
+},
+"note": "Se agrega potasio a las soluciones."
+},
+{
+"id": "r_dx",
+"n": "Agregar dextrosa 5 % y bajar insulina a 0.05 U/kg/h",
+"min": 5,
+"goto": "resuelto",
+"when": [
+"estable"
+],
+"harm": {
+"when": [
+"inicial",
+"choque",
+"hidratado",
+"corrigiendo",
+"hipokalemia"
+],
+"msg": "La dextrosa se agrega cuando la glucosa baja de 250 mg/dL; antes retrasa la corrección."
+},
+"note": "Mantienes la insulina para seguir cerrando la cetosis sin hipoglucemia."
+},
+{
+"id": "r_d50",
+"n": "Dextrosa 50 % 25 g IV en bolo",
+"min": 3,
+"goto": "resuelto",
+"when": [
+"hipoglucemia"
+],
+"harm": {
+"when": [
+"inicial",
+"choque",
+"hidratado",
+"corrigiendo",
+"hipokalemia"
+],
+"msg": "Bolo de glucosa en una paciente hiperglucémica."
+},
+"note": "Recupera el estado de alerta en minutos."
+},
+{
+"id": "r_bic",
+"n": "Bicarbonato de sodio 100 mEq IV",
+"min": 5,
+"harm": {
+"msg": "Con pH ≥ 7.0 el bicarbonato no está indicado: aumenta el riesgo de hipokalemia y no mejora el desenlace."
+},
+"note": "Se administra."
+},
+{
+"id": "r_ceft",
+"n": "Ceftriaxona 1 g IV",
+"min": 5,
+"note": "Cubre el foco urinario probable."
+},
+{
+"id": "r_ond",
+"n": "Ondansetrón 4 mg IV",
+"min": 3,
+"note": "Disminuye la náusea."
+},
+{
+"id": "r_alta",
+"n": "Alta con insulina subcutánea",
+"min": 5,
+"harm": {
+"msg": "Alta con acidosis activa: la CAD no se ha resuelto."
+},
+"note": "Se suspende el egreso por indicación del adscrito."
+}
+],
+"diagnosis": {
+"options": [
+"Cetoacidosis diabética moderada precipitada por pielonefritis y suspensión de insulina",
+"Estado hiperglucémico hiperosmolar",
+"Pancreatitis aguda",
+"Gastroenteritis aguda con deshidratación",
+"Cetoacidosis alcohólica"
+],
+"correct": 0
+},
+"scoring": {
+"critical": [
+{
+"label": "Glucemia capilar en los primeros 15 min",
+"a": [
+"t_gc"
+],
+"by": 15
+},
+{
+"label": "Gasometría en los primeros 30 min",
+"a": [
+"t_gaso"
+],
+"by": 30
+},
+{
+"label": "Potasio sérico antes de iniciar insulina",
+"a": [
+"t_elec"
+],
+"before": "r_ins"
+},
+{
+"label": "Líquidos IV en la primera hora",
+"a": [
+"r_ssn"
+],
+"by": 60
+},
+{
+"label": "Insulina en infusión tras reponer volumen",
+"a": [
+"r_ins"
+]
+},
+{
+"label": "Reponer potasio cuando bajó de 5.0",
+"a": [
+"r_kcl"
+]
+},
+{
+"label": "Dextrosa al bajar la glucemia",
+"a": [
+"r_dx",
+"r_d50"
+]
+},
+{
+"label": "Buscar el precipitante (EGO o síntomas urinarios)",
+"a": [
+"t_ego",
+"h5"
+]
+},
+{
+"label": "Tratar el foco infeccioso",
+"a": [
+"r_ceft"
+]
+}
+],
+"avoid": [
+{
+"state": "choque",
+"label": "Evitó la hipoperfusión"
+},
+{
+"state": "hipokalemia",
+"label": "Evitó la hipokalemia por insulina"
+},
+{
+"state": "hipoglucemia",
+"label": "Evitó la hipoglucemia"
+}
+]
+},
+"debrief": {
+"summary": "Paciente con DM1 que suspendió la insulina y desarrolló una pielonefritis: dos precipitantes clásicos. pH 7.08 y HCO₃⁻ 11 la ubican en CAD moderada.",
+"points": [
+"Diagnóstico: glucosa ≥ 200 mg/dL o diabetes conocida, cetonemia ≥ 3.0 mmol/L y pH < 7.30 o HCO₃⁻ < 18 mEq/L.",
+"Gravedad por pH: leve 7.25–7.30, moderada 7.00–7.24, grave < 7.00.",
+"El orden importa: volumen primero, potasio antes de insulina. Si K⁺ < 3.5, no inicies insulina hasta reponerlo.",
+"K⁺ entre 3.5 y 5.0: 20–30 mEq por litro de solución. Por arriba de 5.0, solo vigilar.",
+"Cuando la glucosa baja de 250 mg/dL: dextrosa y menor dosis de insulina, sin suspenderla.",
+"Bicarbonato solo si pH < 7.0.",
+"Resolución: pH ≥ 7.30, HCO₃⁻ ≥ 18 y cetonemia < 0.6 mmol/L."
+],
+"refs": [
+"Umpierrez GE, et al. Hyperglycemic crises in adults with diabetes: a consensus report. Diabetes Care. 2024;47(8):1257–1275."
+]
+}
+},
+{
+"id": "iamcest-01",
+"v": 1,
+"title": "Hombre de 58 años con dolor opresivo en el pecho",
+"specialty": "Cardiología · Urgencias",
+"level": "Básico",
+"source": "Caso modelo basado en la guía ESC 2023 de síndromes coronarios agudos",
+"setting": "Urgencias de hospital con hemodinamia 24 h, 11:40 h",
+"patient": {
+"name": "Jorge M.",
+"age": 58,
+"sex": "M",
+"weight": 84,
+"cc": "Dolor torácico desde hace 50 minutos"
+},
+"intro": "Llega caminando, sudoroso, con el puño cerrado sobre el pecho.",
+"start": "inicial",
+"states": {
+"inicial": {
+"label": "Ingreso",
+"rhythm": "st",
+"v": {
+"hr": 98,
+"sbp": 150,
+"dbp": 92,
+"rr": 20,
+"spo2": 95,
+"t": 36.6
+},
+"d": "Diaforético y ansioso, dolor 8/10 que no cede.",
+"worse": {
+"after": 35,
+"to": "fv"
+}
+},
+"hipotension": {
+"label": "Hipotensión",
+"rhythm": "st",
+"v": {
+"hr": 114,
+"sbp": 80,
+"dbp": 48,
+"rr": 22,
+"spo2": 94,
+"t": 36.6
+},
+"d": "Pálido y mareado, casi se desvanece en la camilla.",
+"worse": {
+"after": 25,
+"to": "fv"
+}
+},
+"fv": {
+"label": "Fibrilación ventricular",
+"rhythm": "fv",
+"v": {
+"hr": 0,
+"sbp": 0,
+"dbp": 0,
+"rr": 0,
+"spo2": 0,
+"t": 36.5
+},
+"d": "Pierde el estado de alerta. No tiene pulso.",
+"worse": {
+"after": 8,
+"to": "muerte"
+}
+},
+"rosc": {
+"label": "Tras desfibrilación",
+"rhythm": "st",
+"v": {
+"hr": 106,
+"sbp": 116,
+"dbp": 70,
+"rr": 18,
+"spo2": 94,
+"t": 36.5
+},
+"d": "Recupera pulso y respira. Sigue con dolor.",
+"worse": {
+"after": 25,
+"to": "fv"
+}
+},
+"hemodinamia": {
+"label": "ICP primaria",
+"goal": true,
+"v": {
+"hr": 82,
+"sbp": 128,
+"dbp": 78,
+"rr": 16,
+"spo2": 97,
+"t": 36.6
+},
+"d": "Angiografía: oclusión de la descendente anterior proximal. Se coloca stent con flujo TIMI 3. El dolor desaparece."
+},
+"trombolizado": {
+"label": "Tras fibrinólisis",
+"goal": true,
+"v": {
+"hr": 88,
+"sbp": 132,
+"dbp": 80,
+"rr": 17,
+"spo2": 96,
+"t": 36.6
+},
+"d": "El dolor baja y el ST se resuelve parcialmente. Debe ir a angiografía en las siguientes 2–24 h."
+},
+"muerte": {
+"label": "Muerte",
+"end": "muerte",
+"rhythm": "asistolia",
+"v": {
+"hr": 0,
+"sbp": 0,
+"dbp": 0,
+"rr": 0,
+"spo2": 0,
+"t": 36.4
+},
+"d": "Asistolia tras reanimación prolongada."
+}
+},
+"history": [
+{
+"id": "h1",
+"q": "¿Cómo es el dolor?",
+"a": "Opresivo, en el centro del pecho, «como si tuviera un peso encima». Se va al brazo izquierdo y a la mandíbula. Empezó en reposo hace 50 minutos."
+},
+{
+"id": "h2",
+"q": "¿Qué más siente?",
+"a": "Sudoración, náusea y un poco de falta de aire."
+},
+{
+"id": "h3",
+"q": "¿Enfermedades previas y tabaquismo?",
+"a": "Diabetes tipo 2 e hipertensión. Fuma 20 cigarros al día desde hace 30 años."
+},
+{
+"id": "h4",
+"q": "¿Qué medicamentos toma?",
+"a": "Metformina 850 mg cada 12 h y losartán 50 mg al día."
+},
+{
+"id": "h5",
+"q": "¿Ha tomado otro medicamento en las últimas 48 h, incluido alguno para la erección?",
+"a": "Un poco apenado: tomó sildenafil 50 mg anoche."
+},
+{
+"id": "h6",
+"q": "¿Sangrados, cirugías o EVC recientes?",
+"a": "Lo niega."
+},
+{
+"id": "h7",
+"q": "¿El dolor es desgarrante o se va a la espalda?",
+"a": "No, no se va a la espalda."
+},
+{
+"id": "h8",
+"q": "¿Alergias?",
+"a": "Ninguna conocida."
+}
+],
+"exam": [
+{
+"id": "e1",
+"n": "Aspecto general",
+"f": "Diaforético, ansioso, con el puño sobre el esternón (signo de Levine)."
+},
+{
+"id": "e2",
+"n": "Cardiovascular",
+"f": "Ruidos rítmicos, S4, sin soplos ni frote."
+},
+{
+"id": "e3",
+"n": "Pulmonar",
+"f": "Murmullo vesicular sin estertores. Killip I."
+},
+{
+"id": "e4",
+"n": "Cuello",
+"f": "Sin ingurgitación yugular."
+},
+{
+"id": "e5",
+"n": "Presión en ambos brazos y pulsos",
+"f": "150/92 derecho y 148/90 izquierdo. Pulsos simétricos en las cuatro extremidades."
+},
+{
+"id": "e6",
+"n": "Extremidades",
+"f": "Sin edema, llenado capilar de 2 s."
+}
+],
+"tests": [
+{
+"id": "t_ecg",
+"n": "ECG de 12 derivaciones",
+"min": 3,
+"r": {
+"fv": "Fibrilación ventricular.",
+"hemodinamia": "Resolución del ST > 50 %, ondas Q en V1–V3.",
+"trombolizado": "Resolución parcial del ST.",
+"*": "Ritmo sinusal 98 lpm. Elevación del ST de 3–4 mm en V1–V5 con depresión recíproca en II, III y aVF. IAMCEST anterior extenso."
+}
+},
+{
+"id": "t_trop",
+"n": "Troponina I de alta sensibilidad",
+"min": 45,
+"r": "1 840 ng/L (normal < 26). Recuerda: no debe retrasar la reperfusión."
+},
+{
+"id": "t_qs",
+"n": "Química y electrolitos",
+"min": 30,
+"r": "Glucosa 168 mg/dL · creatinina 1.0 · K⁺ 4.1 · Na⁺ 139"
+},
+{
+"id": "t_bh",
+"n": "Biometría hemática",
+"min": 20,
+"r": "Hb 15.1 g/dL · leucocitos 11 200 · plaquetas 248 000"
+},
+{
+"id": "t_coag",
+"n": "Tiempos de coagulación",
+"min": 30,
+"r": "TP 12 s · INR 1.0 · TTPa 29 s"
+},
+{
+"id": "t_rx",
+"n": "Radiografía de tórax portátil",
+"min": 15,
+"r": "Sin congestión pulmonar. Mediastino de tamaño normal."
+},
+{
+"id": "t_eco",
+"n": "Ecocardiograma a pie de cama",
+"min": 10,
+"r": "Hipocinesia anterior y apical, FEVI ≈ 40 %. Sin derrame pericárdico ni insuficiencia mitral significativa."
+},
+{
+"id": "t_dd",
+"n": "Dímero D",
+"min": 40,
+"r": "0.3 µg/mL (normal)"
+}
+],
+"treatments": [
+{
+"id": "r_aas",
+"n": "Ácido acetilsalicílico 300 mg masticable",
+"min": 2,
+"delay": 10,
+"note": "Masticado y deglutido."
+},
+{
+"id": "r_tica",
+"n": "Ticagrelor 180 mg VO (carga)",
+"min": 2,
+"delay": 5,
+"note": "Carga de inhibidor P2Y12."
+},
+{
+"id": "r_hnf",
+"n": "Heparina no fraccionada 70–100 U/kg IV en bolo",
+"min": 3,
+"delay": 5,
+"note": "Anticoagulación para la ICP."
+},
+{
+"id": "r_icp",
+"n": "Activar código infarto: ICP primaria",
+"min": 10,
+"goto": "hemodinamia",
+"when": [
+"inicial",
+"rosc",
+"hipotension"
+],
+"needs": [
+"t_ecg"
+],
+"note": "Hemodinamia acepta al paciente."
+},
+{
+"id": "r_tnk",
+"n": "Fibrinólisis con tenecteplasa",
+"min": 10,
+"goto": "trombolizado",
+"when": [
+"inicial",
+"rosc",
+"hipotension"
+],
+"needs": [
+"t_ecg"
+],
+"harm": {
+"msg": "Con ICP disponible en menos de 120 min, la ICP primaria es la estrategia de reperfusión preferente."
+},
+"note": "Se administra el fibrinolítico."
+},
+{
+"id": "r_ntg",
+"n": "Nitroglicerina 0.4 mg sublingual",
+"min": 3,
+"goto": "hipotension",
+"when": [
+"inicial",
+"rosc"
+],
+"harm": {
+"msg": "Tomó sildenafil hace menos de 24 h: los nitratos están contraindicados por riesgo de hipotensión grave."
+},
+"note": "Se administra."
+},
+{
+"id": "r_ssn",
+"n": "Bolo de solución salina 0.9 % 250 mL",
+"min": 5,
+"goto": "inicial",
+"when": [
+"hipotension"
+],
+"note": "Se pasa el bolo."
+},
+{
+"id": "r_mor",
+"n": "Morfina 2–4 mg IV",
+"min": 3,
+"note": "El dolor baja a 6/10."
+},
+{
+"id": "r_o2",
+"n": "Oxígeno por puntas nasales 3 L/min",
+"min": 2,
+"harm": {
+"when": [
+"inicial",
+"rosc",
+"hemodinamia",
+"trombolizado"
+],
+"msg": "SpO₂ ≥ 90 %: el oxígeno de rutina no está indicado en el infarto."
+},
+"note": "Se coloca oxígeno."
+},
+{
+"id": "r_bb",
+"n": "Metoprolol 5 mg IV",
+"min": 3,
+"harm": {
+"when": [
+"hipotension",
+"fv"
+],
+"msg": "Betabloqueador IV en un paciente hipotenso o inestable."
+},
+"note": "FC baja ligeramente."
+},
+{
+"id": "r_desf",
+"n": "Desfibrilación 200 J bifásica + RCP",
+"min": 2,
+"goto": "rosc",
+"when": [
+"fv"
+],
+"harm": {
+"when": [
+"inicial",
+"hipotension",
+"rosc",
+"hemodinamia",
+"trombolizado"
+],
+"msg": "Descarga a un paciente con pulso."
+},
+"note": "Descarga entregada."
+}
+],
+"diagnosis": {
+"options": [
+"IAMCEST anterior extenso (descendente anterior), Killip I",
+"Disección aórtica tipo A",
+"Tromboembolia pulmonar masiva",
+"Pericarditis aguda",
+"SICA sin elevación del ST"
+],
+"correct": 0
+},
+"scoring": {
+"critical": [
+{
+"label": "ECG en los primeros 10 min",
+"a": [
+"t_ecg"
+],
+"by": 10
+},
+{
+"label": "Aspirina",
+"a": [
+"r_aas"
+]
+},
+{
+"label": "Inhibidor P2Y12",
+"a": [
+"r_tica"
+]
+},
+{
+"label": "Anticoagulación",
+"a": [
+"r_hnf"
+]
+},
+{
+"label": "Preguntar por inhibidores de PDE5 antes de nitratos",
+"a": [
+"h5"
+],
+"before": "r_ntg"
+},
+{
+"label": "Activar ICP primaria en los primeros 30 min",
+"a": [
+"r_icp"
+],
+"by": 30
+}
+],
+"avoid": [
+{
+"state": "hipotension",
+"label": "Evitó la hipotensión por nitratos"
+},
+{
+"state": "fv",
+"label": "Llegó a reperfusión antes de una arritmia letal"
+}
+]
+},
+"debrief": {
+"summary": "IAMCEST anterior en un centro con hemodinamia: la decisión que define el caso es activar la ICP primaria cuanto antes. La trampa es el sildenafil de anoche.",
+"points": [
+"ECG de 12 derivaciones en los primeros 10 min del primer contacto.",
+"ICP primaria si puede hacerse en menos de 120 min desde el diagnóstico; si no, fibrinólisis en los primeros 10 min.",
+"Carga de aspirina (150–300 mg VO) y de un P2Y12 potente (ticagrelor o prasugrel).",
+"HNF 70–100 U/kg en bolo durante la ICP primaria.",
+"Oxígeno solo si SpO₂ < 90 %.",
+"Nitratos contraindicados tras sildenafil o vardenafil (24 h) y tadalafil (48 h).",
+"La troponina no debe retrasar la reperfusión cuando el ECG ya es diagnóstico."
+],
+"refs": [
+"Byrne RA, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44(38):3720–3826."
+]
+}
+},
+{
+"id": "choque-septico-nac-01",
+"v": 1,
+"title": "Mujer de 72 años con fiebre, tos y confusión",
+"specialty": "Infectología · Urgencias",
+"level": "Intermedio",
+"source": "Caso modelo basado en las guías Surviving Sepsis Campaign 2021 y ATS/IDSA 2019 de neumonía adquirida en la comunidad",
+"setting": "Urgencias adultos, 21:30 h",
+"patient": {
+"name": "Rosa P.",
+"age": 72,
+"sex": "F",
+"weight": 60,
+"cc": "Fiebre, tos y confusión de 3 días"
+},
+"intro": "La trae su hija porque desde la tarde no la reconoce. Está caliente al tacto y respira rápido.",
+"start": "inicial",
+"states": {
+"inicial": {
+"label": "Ingreso",
+"v": {
+"hr": 118,
+"sbp": 84,
+"dbp": 48,
+"rr": 28,
+"spo2": 89,
+"t": 38.9
+},
+"d": "Desorientada, piel caliente, respiración rápida y superficial.",
+"worse": {
+"after": 45,
+"to": "choque"
+}
+},
+"post_liq": {
+"label": "Tras cristaloides",
+"v": {
+"hr": 110,
+"sbp": 88,
+"dbp": 49,
+"rr": 26,
+"spo2": 91,
+"t": 38.8
+},
+"d": "Mejora el llenado capilar, pero la PAM sigue en 62 mmHg. Orinó 20 mL en la última hora.",
+"worse": {
+"after": 60,
+"to": "choque"
+}
+},
+"choque": {
+"label": "Choque progresivo",
+"v": {
+"hr": 134,
+"sbp": 72,
+"dbp": 40,
+"rr": 32,
+"spo2": 86,
+"t": 39.1
+},
+"d": "Somnolienta, piel moteada en rodillas, extremidades frías. PAM 51 mmHg.",
+"worse": {
+"after": 40,
+"to": "paro"
+}
+},
+"vaso": {
+"label": "Con norepinefrina",
+"v": {
+"hr": 102,
+"sbp": 106,
+"dbp": 60,
+"rr": 26,
+"spo2": 92,
+"t": 38.7
+},
+"d": "PAM 75 mmHg con norepinefrina. Sigue febril, con estertores en la base derecha.",
+"worse": {
+"after": 60,
+"to": "choque"
+}
+},
+"estable": {
+"label": "Choque en control",
+"goal": true,
+"v": {
+"hr": 94,
+"sbp": 110,
+"dbp": 62,
+"rr": 22,
+"spo2": 94,
+"t": 38.1
+},
+"d": "PAM ≥ 65 mmHg, más despierta, diuresis 0.6 mL/kg/h. Lactato en descenso."
+},
+"paro": {
+"label": "Paro cardiorrespiratorio",
+"end": "muerte",
+"rhythm": "asistolia",
+"v": {
+"hr": 0,
+"sbp": 0,
+"dbp": 0,
+"rr": 0,
+"spo2": 0,
+"t": 38.5
+},
+"d": "Actividad eléctrica sin pulso que progresa a asistolia pese a la reanimación."
+}
+},
+"history": [
+{
+"id": "h1",
+"q": "¿Desde cuándo está enferma?",
+"a": "La hija cuenta 3 días de fiebre y tos con flema verdosa. Hoy en la tarde empezó a decir incoherencias."
+},
+{
+"id": "h2",
+"q": "¿Dolor en el pecho o falta de aire?",
+"a": "Dolor en el lado derecho del pecho que aumenta al respirar hondo. Se cansa al caminar al baño."
+},
+{
+"id": "h3",
+"q": "¿Enfermedades previas?",
+"a": "Diabetes tipo 2 e hipertensión desde hace 15 años."
+},
+{
+"id": "h4",
+"q": "¿Qué medicamentos toma?",
+"a": "Metformina 850 mg cada 12 h y enalapril 10 mg al día."
+},
+{
+"id": "h5",
+"q": "¿Alergias a medicamentos?",
+"a": "Ninguna conocida. Ha recibido penicilina antes sin problema."
+},
+{
+"id": "h6",
+"q": "¿Cuánto ha orinado hoy?",
+"a": "Muy poco; la hija dice que el pañal estaba casi seco en la tarde."
+},
+{
+"id": "h7",
+"q": "¿Hospitalizaciones o antibióticos en los últimos 3 meses?",
+"a": "Ninguna."
+},
+{
+"id": "h8",
+"q": "¿Vacunas de influenza y neumococo?",
+"a": "No se las ha aplicado."
+}
+],
+"exam": [
+{
+"id": "e1",
+"n": "Estado de conciencia",
+"f": "Glasgow 13 (O3 V4 M6), desorientada en tiempo y lugar."
+},
+{
+"id": "e2",
+"n": "Pulmonar",
+"f": "Estertores crepitantes y soplo tubario en la base derecha, matidez a la percusión en ese hemitórax."
+},
+{
+"id": "e3",
+"n": "Perfusión periférica",
+"f": "Llenado capilar de 4 s, extremidades frías, piel moteada en rodillas."
+},
+{
+"id": "e4",
+"n": "Cardiovascular",
+"f": "Taquicardia rítmica sin soplos. Sin ingurgitación yugular."
+},
+{
+"id": "e5",
+"n": "Abdomen",
+"f": "Blando, depresible, sin dolor ni datos de irritación peritoneal."
+},
+{
+"id": "e6",
+"n": "Piel y mucosas",
+"f": "Mucosas secas, sin petequias ni lesiones cutáneas."
+}
+],
+"tests": [
+{
+"id": "t_lac",
+"n": "Lactato sérico",
+"min": 10,
+"r": {
+"inicial": "4.2 mmol/L",
+"post_liq": "3.6 mmol/L",
+"choque": "6.8 mmol/L",
+"vaso": "3.1 mmol/L",
+"estable": "1.9 mmol/L",
+"*": "4.2 mmol/L"
+}
+},
+{
+"id": "t_hemo",
+"n": "Hemocultivos (2 sets)",
+"min": 5,
+"r": "Tomados de dos sitios. Resultado en 24–48 h."
+},
+{
+"id": "t_gaso",
+"n": "Gasometría arterial",
+"min": 10,
+"r": {
+"choque": "pH 7.21 · pCO₂ 30 · pO₂ 52 · HCO₃⁻ 12",
+"estable": "pH 7.34 · pCO₂ 34 · pO₂ 78 · HCO₃⁻ 18",
+"*": "pH 7.29 · pCO₂ 31 · pO₂ 58 · HCO₃⁻ 15"
+}
+},
+{
+"id": "t_bh",
+"n": "Biometría hemática",
+"min": 20,
+"r": "Leucocitos 19 800/µL, 12 % bandas · Hb 12.1 g/dL · plaquetas 132 000"
+},
+{
+"id": "t_qs",
+"n": "Química sanguínea y electrolitos",
+"min": 30,
+"r": "Creatinina 1.9 mg/dL (basal 0.9) · BUN 42 · glucosa 248 · Na⁺ 134 · K⁺ 4.6 · bilirrubina total 1.1"
+},
+{
+"id": "t_rx",
+"n": "Radiografía de tórax portátil",
+"min": 15,
+"r": "Consolidación del lóbulo inferior derecho con broncograma aéreo. Sin derrame significativo."
+},
+{
+"id": "t_pct",
+"n": "Procalcitonina",
+"min": 40,
+"r": "8.4 ng/mL"
+},
+{
+"id": "t_coag",
+"n": "Tiempos de coagulación",
+"min": 30,
+"r": "INR 1.4 · TTPa 34 s"
+},
+{
+"id": "t_ecg",
+"n": "Electrocardiograma",
+"min": 5,
+"r": "Taquicardia sinusal sin cambios isquémicos agudos."
+},
+{
+"id": "t_ego",
+"n": "Examen general de orina",
+"min": 20,
+"r": "Densidad 1.025, sin leucocituria ni nitritos."
+}
+],
+"treatments": [
+{
+"id": "r_o2",
+"n": "Oxígeno por puntas nasales para SpO₂ 92–96 %",
+"min": 2,
+"note": "La SpO₂ sube 2–3 puntos."
+},
+{
+"id": "r_hart",
+"n": "Solución Hartmann 30 mL/kg (1.8 L) en bolos",
+"min": 15,
+"effects": [
+{
+"when": [
+"inicial",
+"choque"
+],
+"goto": "post_liq"
+}
+],
+"note": "Se pasan los bolos reevaluando perfusión y estertores."
+},
+{
+"id": "r_ssn",
+"n": "Solución salina 0.9 % 30 mL/kg (1.8 L) en bolos",
+"min": 15,
+"effects": [
+{
+"when": [
+"inicial",
+"choque"
+],
+"goto": "post_liq",
+"note": "Funciona, aunque en volúmenes grandes se prefieren cristaloides balanceados."
+}
+],
+"note": "Se pasan los bolos."
+},
+{
+"id": "r_hes",
+"n": "Hidroxietilalmidón 500 mL",
+"min": 10,
+"harm": {
+"msg": "Los almidones aumentan la lesión renal y la necesidad de terapia de reemplazo renal: la guía recomienda no usarlos."
+},
+"note": "Se administra."
+},
+{
+"id": "r_abx",
+"n": "Ceftriaxona 2 g IV + azitromicina 500 mg IV",
+"min": 5,
+"delay": 20,
+"effects": [
+{
+"when": [
+"vaso"
+],
+"goto": "estable"
+}
+],
+"note": "Antibióticos iniciados para neumonía grave adquirida en la comunidad."
+},
+{
+"id": "r_nore",
+"n": "Norepinefrina 0.1 µg/kg/min, titular a PAM ≥ 65 mmHg",
+"min": 5,
+"effects": [
+{
+"when": [
+"post_liq",
+"choque"
+],
+"ifDone": [
+"r_abx"
+],
+"goto": "estable"
+},
+{
+"when": [
+"post_liq",
+"choque"
+],
+"goto": "vaso"
+},
+{
+"when": [
+"inicial"
+],
+"note": "Sin reanimación con volumen la respuesta es pobre; inícialo junto con los cristaloides."
+}
+],
+"note": "Infusión por vía periférica mientras se coloca un acceso central."
+},
+{
+"id": "r_dopa",
+"n": "Dopamina 10 µg/kg/min",
+"min": 5,
+"harm": {
+"msg": "La norepinefrina es el vasopresor de primera línea; la dopamina causa más arritmias."
+},
+"effects": [
+{
+"when": [
+"post_liq",
+"choque"
+],
+"goto": "vaso"
+}
+],
+"note": "Sube la PA, con extrasístoles frecuentes."
+},
+{
+"id": "r_hc",
+"n": "Hidrocortisona 50 mg IV cada 6 h",
+"min": 3,
+"harm": {
+"when": [
+"inicial",
+"post_liq"
+],
+"msg": "Aún no cumple la indicación: los esteroides se agregan si persiste el vasopresor (norepinefrina ≥ 0.25 µg/kg/min por ≥ 4 h)."
+},
+"note": "Se indica."
+},
+{
+"id": "r_insul",
+"n": "Insulina en esquema para glucosa ≥ 180 mg/dL",
+"min": 3,
+"note": "Meta de glucosa 144–180 mg/dL."
+},
+{
+"id": "r_sonda",
+"n": "Sonda Foley para medir diuresis horaria",
+"min": 5,
+"note": "Diuresis horaria para guiar la reanimación."
+}
+],
+"diagnosis": {
+"options": [
+"Choque séptico por neumonía adquirida en la comunidad del lóbulo inferior derecho",
+"Choque cardiogénico por infarto agudo",
+"Tromboembolia pulmonar de alto riesgo",
+"Estado hiperglucémico hiperosmolar",
+"Sepsis de origen urinario sin choque"
+],
+"correct": 0
+},
+"scoring": {
+"critical": [
+{
+"label": "Lactato en los primeros 30 min",
+"a": [
+"t_lac"
+],
+"by": 30
+},
+{
+"label": "Hemocultivos antes del antibiótico",
+"a": [
+"t_hemo"
+],
+"before": "r_abx"
+},
+{
+"label": "Antibiótico en la primera hora",
+"a": [
+"r_abx"
+],
+"by": 60
+},
+{
+"label": "Cristaloides 30 mL/kg en la primera hora",
+"a": [
+"r_hart",
+"r_ssn"
+],
+"by": 60
+},
+{
+"label": "Norepinefrina para PAM ≥ 65 mmHg",
+"a": [
+"r_nore"
+]
+},
+{
+"label": "Oxígeno con meta de SpO₂",
+"a": [
+"r_o2"
+],
+"by": 20
+},
+{
+"label": "Radiografía para confirmar el foco",
+"a": [
+"t_rx"
+]
+}
+],
+"avoid": [
+{
+"state": "choque",
+"label": "Evitó la progresión del choque"
+}
+]
+},
+"debrief": {
+"summary": "Neumonía grave con hipotensión, hipoperfusión y lactato de 4.2: choque séptico. Las tres decisiones que cambian el desenlace son antibiótico temprano (con cultivos previos sin retrasarlo), volumen y vasopresor para PAM ≥ 65.",
+"points": [
+"Choque séptico: vasopresor necesario para PAM ≥ 65 mmHg y lactato > 2 mmol/L pese a volumen adecuado.",
+"No uses qSOFA como única herramienta de tamizaje.",
+"Antibiótico en la primera hora si el choque es posible; hemocultivos antes, sin retrasar el antibiótico.",
+"Cristaloides 30 mL/kg en las primeras 3 h ante hipoperfusión; se prefieren los balanceados sobre la salina.",
+"Norepinefrina es el vasopresor de primera línea; puede iniciarse por vía periférica.",
+"No uses almidones. Hidrocortisona solo si el vasopresor persiste (norepinefrina ≥ 0.25 µg/kg/min por ≥ 4 h).",
+"Remide el lactato para guiar la reanimación.",
+"NAC grave sin factores de riesgo para Pseudomonas ni SARM: betalactámico más macrólido."
+],
+"refs": [
+"Evans L, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063–e1143.",
+"Metlay JP, et al. Diagnosis and Treatment of Adults with Community-acquired Pneumonia. Am J Respir Crit Care Med. 2019;200(7):e45–e67."
+]
+}
+},
+{
+"id": "crisis-asmatica-ped-01",
+"v": 1,
+"title": "Niño de 7 años que no puede terminar las frases",
+"specialty": "Pediatría · Neumología",
+"level": "Intermedio",
+"source": "Caso modelo basado en la estrategia GINA 2024 para crisis asmáticas en niños de 6 a 11 años",
+"setting": "Urgencias pediátricas, 02:15 h",
+"patient": {
+"name": "Mateo L.",
+"age": 7,
+"sex": "M",
+"weight": 22,
+"cc": "Dificultad para respirar desde hace 6 horas"
+},
+"intro": "Lo trae su mamá en brazos. Está sentado inclinado hacia adelante y se le oye silbar el pecho desde la puerta.",
+"start": "inicial",
+"states": {
+"inicial": {
+"label": "Ingreso",
+"v": {
+"hr": 142,
+"sbp": 102,
+"dbp": 64,
+"rr": 40,
+"spo2": 89,
+"t": 37.2
+},
+"d": "Habla en frases cortas, tiraje intercostal y supraclavicular, sibilancias espiratorias audibles.",
+"worse": {
+"after": 30,
+"to": "grave"
+}
+},
+"grave": {
+"label": "Crisis que empeora",
+"v": {
+"hr": 158,
+"sbp": 104,
+"dbp": 66,
+"rr": 48,
+"spo2": 85,
+"t": 37.3
+},
+"d": "Solo dice palabras sueltas, está agitado y usa todos los músculos accesorios. Entra poco aire.",
+"worse": {
+"after": 25,
+"to": "agotamiento"
+}
+},
+"agotamiento": {
+"label": "Agotamiento respiratorio",
+"v": {
+"hr": 168,
+"sbp": 96,
+"dbp": 58,
+"rr": 18,
+"spo2": 78,
+"t": 37.3
+},
+"d": "Somnoliento, tórax silencioso, respiraciones superficiales y lentas.",
+"worse": {
+"after": 15,
+"to": "paro"
+}
+},
+"respuesta": {
+"label": "Respuesta inicial",
+"v": {
+"hr": 134,
+"sbp": 100,
+"dbp": 62,
+"rr": 32,
+"spo2": 93,
+"t": 37.2
+},
+"d": "Habla en frases, menos tiraje. Persisten sibilancias en ambos campos.",
+"worse": {
+"after": 60,
+"to": "inicial"
+}
+},
+"estable": {
+"label": "Crisis controlada",
+"goal": true,
+"v": {
+"hr": 118,
+"sbp": 100,
+"dbp": 62,
+"rr": 26,
+"spo2": 95,
+"t": 37.1
+},
+"d": "Habla con normalidad y juega con el celular de su mamá. Sibilancias leves aisladas."
+},
+"uci": {
+"label": "Intubado en UCIP",
+"v": {
+"hr": 132,
+"sbp": 94,
+"dbp": 56,
+"rr": 22,
+"spo2": 92,
+"t": 37.2
+},
+"d": "Intubado con ventilación mecánica y trasladado a terapia intensiva pediátrica."
+},
+"paro": {
+"label": "Paro respiratorio",
+"end": "muerte",
+"rhythm": "asistolia",
+"v": {
+"hr": 0,
+"sbp": 0,
+"dbp": 0,
+"rr": 0,
+"spo2": 0,
+"t": 37.0
+},
+"d": "Paro respiratorio que evoluciona a paro cardiaco pese a la reanimación."
+}
+},
+"history": [
+{
+"id": "h1",
+"q": "¿Desde cuándo y cómo empezó?",
+"a": "Hace dos días empezó con mocos y tos. Desde la medianoche respira cada vez más rápido y no ha podido dormir."
+},
+{
+"id": "h2",
+"q": "¿Tiene asma diagnosticada?",
+"a": "Sí, desde los 4 años."
+},
+{
+"id": "h3",
+"q": "¿Qué tratamiento usa todos los días?",
+"a": "Usaba budesonida inhalada, pero la suspendieron hace 3 meses porque «ya estaba bien». Solo usa salbutamol cuando lo necesita."
+},
+{
+"id": "h4",
+"q": "¿Qué le dieron en casa?",
+"a": "4 disparos de salbutamol hace 2 horas, sin mejoría."
+},
+{
+"id": "h5",
+"q": "¿Hospitalizaciones o intubaciones por asma?",
+"a": "Una hospitalización el año pasado. Nunca lo han intubado ni ha estado en terapia intensiva."
+},
+{
+"id": "h6",
+"q": "¿Alergias a medicamentos o alimentos?",
+"a": "Ninguna."
+},
+{
+"id": "h7",
+"q": "¿Pudo haberse atragantado con algo?",
+"a": "No, empezó poco a poco con la gripa."
+},
+{
+"id": "h8",
+"q": "¿Vacunas al día?",
+"a": "Sí, completas para su edad."
+}
+],
+"exam": [
+{
+"id": "e1",
+"n": "Aspecto y estado de alerta",
+"f": "Alerta pero ansioso, sentado inclinado hacia adelante. Habla en frases cortas."
+},
+{
+"id": "e2",
+"n": "Trabajo respiratorio",
+"f": "Tiraje intercostal, subcostal y supraclavicular. Aleteo nasal."
+},
+{
+"id": "e3",
+"n": "Auscultación pulmonar",
+"f": "Sibilancias espiratorias difusas, espiración prolongada y entrada de aire disminuida en ambas bases. Sin estertores."
+},
+{
+"id": "e4",
+"n": "Cardiovascular",
+"f": "Taquicardia rítmica, pulsos periféricos presentes, llenado capilar de 2 s."
+},
+{
+"id": "e5",
+"n": "Piel",
+"f": "Sin cianosis central, sin urticaria ni angioedema."
+},
+{
+"id": "e6",
+"n": "Vía aérea superior",
+"f": "Sin estridor, sin sialorrea, orofaringe hiperémica."
+}
+],
+"tests": [
+{
+"id": "t_gaso",
+"n": "Gasometría capilar",
+"min": 10,
+"r": {
+"inicial": "pH 7.45 · pCO₂ 32 · HCO₃⁻ 22",
+"grave": "pH 7.37 · pCO₂ 42 · HCO₃⁻ 23. Una pCO₂ «normal» en un niño taquipneico indica fatiga.",
+"agotamiento": "pH 7.21 · pCO₂ 58 · HCO₃⁻ 23",
+"respuesta": "pH 7.43 · pCO₂ 33",
+"estable": "pH 7.41 · pCO₂ 36",
+"*": "pH 7.45 · pCO₂ 32"
+}
+},
+{
+"id": "t_pef",
+"n": "Flujo espiratorio máximo (PEF)",
+"min": 3,
+"r": {
+"inicial": "No logra hacer la maniobra completa.",
+"grave": "No logra hacer la maniobra.",
+"agotamiento": "No coopera.",
+"respuesta": "52 % del predicho.",
+"estable": "74 % del predicho.",
+"*": "No logra hacer la maniobra."
+}
+},
+{
+"id": "t_rx",
+"n": "Radiografía de tórax",
+"min": 20,
+"r": "Hiperinsuflación bilateral, engrosamiento peribronquial. Sin consolidación ni neumotórax."
+},
+{
+"id": "t_bh",
+"n": "Biometría hemática",
+"min": 20,
+"r": "Leucocitos 11 200/µL sin bandas · Hb 13.4 g/dL · plaquetas 290 000"
+},
+{
+"id": "t_viral",
+"n": "Panel viral respiratorio",
+"min": 60,
+"r": "Rinovirus/enterovirus positivo."
+},
+{
+"id": "t_glu",
+"n": "Glucemia capilar",
+"min": 2,
+"r": "112 mg/dL"
+}
+],
+"treatments": [
+{
+"id": "r_o2",
+"n": "Oxígeno con meta de SpO₂ 94–98 %",
+"min": 2,
+"note": "Mascarilla simple; la SpO₂ sube unos puntos."
+},
+{
+"id": "r_saba",
+"n": "Salbutamol IDM 100 µg con espaciador: 6 disparos cada 20 min por 1 h",
+"min": 5,
+"effects": [
+{
+"when": [
+"inicial"
+],
+"goto": "respuesta"
+},
+{
+"when": [
+"grave"
+],
+"goto": "inicial",
+"note": "Mejora parcial: sigue con trabajo respiratorio importante."
+},
+{
+"when": [
+"respuesta"
+],
+"note": "Se repite la dosis; mantiene la mejoría."
+}
+],
+"note": "Se administra con espaciador y mascarilla."
+},
+{
+"id": "r_ipra",
+"n": "Bromuro de ipratropio 250 µg nebulizado con el salbutamol",
+"min": 3,
+"delay": 10,
+"note": "Se agrega en la primera hora por ser una crisis moderada a grave."
+},
+{
+"id": "r_pred",
+"n": "Prednisolona 2 mg/kg VO (máx. 40 mg): 40 mg",
+"min": 3,
+"delay": 20,
+"effects": [
+{
+"when": [
+"respuesta"
+],
+"goto": "estable"
+}
+],
+"note": "El efecto del esteroide empieza en horas; evita la recaída."
+},
+{
+"id": "r_mg",
+"n": "Sulfato de magnesio 40 mg/kg IV en 20 min (880 mg)",
+"min": 20,
+"effects": [
+{
+"when": [
+"grave"
+],
+"goto": "inicial",
+"note": "Mejora el trabajo respiratorio."
+}
+],
+"harm": {
+"when": [
+"estable"
+],
+"msg": "Sin indicación: el magnesio IV es para crisis graves que no responden al tratamiento inicial."
+},
+"note": "Se administra en infusión."
+},
+{
+"id": "r_ventila",
+"n": "Intubación y ventilación mecánica",
+"min": 15,
+"effects": [
+{
+"when": [
+"agotamiento"
+],
+"goto": "uci"
+}
+],
+"harm": {
+"when": [
+"inicial",
+"respuesta",
+"estable",
+"grave"
+],
+"msg": "Intubar sin agotamiento ni falla al tratamiento máximo expone a barotrauma e hipotensión."
+},
+"note": "Secuencia rápida de intubación."
+},
+{
+"id": "r_midaz",
+"n": "Midazolam 0.1 mg/kg IV para la agitación",
+"min": 3,
+"harm": {
+"msg": "En una crisis asmática la agitación es hipoxemia: los sedantes deprimen el impulso respiratorio y están contraindicados."
+},
+"effects": [
+{
+"when": [
+"inicial",
+"grave"
+],
+"goto": "agotamiento"
+}
+],
+"note": "Se administra."
+},
+{
+"id": "r_amox",
+"n": "Amoxicilina 90 mg/kg/día",
+"min": 3,
+"harm": {
+"msg": "Sin datos de infección bacteriana: los antibióticos no están indicados de rutina en la crisis asmática."
+},
+"note": "Se indica."
+},
+{
+"id": "r_alta",
+"n": "Alta con salbutamol a demanda",
+"min": 5,
+"harm": {
+"when": [
+"inicial",
+"grave",
+"agotamiento",
+"respuesta"
+],
+"msg": "Egreso sin estabilidad clínica y sin esteroide sistémico ni tratamiento controlador."
+},
+"note": "Se suspende el egreso por indicación del adscrito."
+}
+],
+"diagnosis": {
+"options": [
+"Crisis asmática grave desencadenada por infección viral",
+"Bronquiolitis",
+"Neumonía bacteriana",
+"Cuerpo extraño en la vía aérea",
+"Anafilaxia"
+],
+"correct": 0
+},
+"scoring": {
+"critical": [
+{
+"label": "Valorar el trabajo respiratorio al llegar",
+"a": [
+"e2",
+"e1"
+],
+"by": 10
+},
+{
+"label": "Oxígeno con meta de 94–98 % en los primeros 10 min",
+"a": [
+"r_o2"
+],
+"by": 10
+},
+{
+"label": "Salbutamol en los primeros 10 min",
+"a": [
+"r_saba"
+],
+"by": 10
+},
+{
+"label": "Ipratropio en la primera hora",
+"a": [
+"r_ipra"
+],
+"by": 60
+},
+{
+"label": "Esteroide sistémico en la primera hora",
+"a": [
+"r_pred"
+],
+"by": 60
+},
+{
+"label": "Preguntar por el tratamiento controlador",
+"a": [
+"h3"
+]
+}
+],
+"avoid": [
+{
+"state": "grave",
+"label": "Evitó que la crisis empeorara"
+},
+{
+"state": "agotamiento",
+"label": "Evitó el agotamiento respiratorio"
+}
+]
+},
+"debrief": {
+"summary": "Crisis asmática grave (habla en frases cortas, SpO₂ 89 %, FC 142, uso de músculos accesorios) en un niño que suspendió su controlador. El tratamiento de la primera hora decide la evolución: oxígeno, salbutamol repetido con ipratropio y esteroide sistémico.",
+"points": [
+"Gravedad en niños de 6 a 11 años: habla en palabras, se sienta inclinado, agitación, FR > 30, uso de músculos accesorios, FC > 120 y SpO₂ < 90 % indican crisis grave.",
+"Salbutamol 4 a 10 disparos con espaciador cada 20 min durante la primera hora.",
+"Ipratropio añadido en crisis moderadas a graves reduce las hospitalizaciones.",
+"Oxígeno con meta de SpO₂ 94–98 % en niños.",
+"Prednisolona 1–2 mg/kg (máximo 40 mg en 6–11 años) en la primera hora.",
+"Sulfato de magnesio IV si no responde al tratamiento inicial.",
+"Señales de alarma: tórax silencioso, somnolencia y pCO₂ normal o alta en un niño taquipneico.",
+"No sedes y no des antibióticos de rutina. Al egreso: reiniciar el controlador y plan de acción por escrito."
+],
+"refs": [
+"Global Initiative for Asthma (GINA). Global Strategy for Asthma Management and Prevention, 2024 update. www.ginasthma.org"
+]
+}
+}
 ]
 </script>
 
@@ -395,10 +2273,14 @@ const TRI={'Básico':'#2e9d4f','Intermedio':'#f2b705','Avanzado':'#e4572e','Expe
 function stripPath(){let d='M0 60',x=0;const beat=[[18,60],[24,52],[30,60],[44,60],[48,66],[54,8],[60,82],[66,60],[84,60],[96,46],[108,60]];
   while(x<1200){for(const[a,y] of beat)d+=` L${x+a} ${y}`;d+=` L${x+160} 60`;x+=160}return d}
 function lib(){
-  stopMon();S=null;app.dataset.view='lib';
+  stopMon();stopRT();S=null;app.dataset.view='lib';
   const best=id=>{const s=(me()?.history||[]).filter(x=>x.caseId===id);return s.length?Math.max(...s.map(x=>x.score)):null};
   const list=all(),pad=n=>String(n).padStart(2,'0');
-  const cards=list.map((c,i)=>{const own=mine.some(m=>m.id===c.id),b=best(c.id),size=i===0?'big':(i>=3&&i%2===1?'wide':'');return `<article class="card ${size}" style="--i:${i};--tri:${TRI[c.level]||'#8a8a8a'}">
+  const tags=c=>String(c.specialty||'General').split('·').map(s=>s.trim()).filter(Boolean);
+  const specs=[...new Set(list.flatMap(tags))].sort((a,b)=>a.localeCompare(b,'es'));
+  const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const filtered=()=>list.filter(c=>(!LF.sp||tags(c).includes(LF.sp))&&(!LF.lv||c.level===LF.lv)&&(!LF.q||norm([c.title,c.specialty,c.patient?.cc,c.source,c.intro].join(' ')).includes(norm(LF.q))));
+  const cardsOf=arr=>arr.map((c,i)=>{const own=mine.some(m=>m.id===c.id),b=best(c.id),size=i===0?'big':(i>=3&&i%2===1?'wide':'');return `<article class="card ${size}" style="--i:${i};--tri:${TRI[c.level]||'#8a8a8a'}">
     <div class="row" style="justify-content:space-between;align-items:flex-start"><span class="num">${pad(i+1)}</span><span class="tri"><i></i>${esc(c.level||'')}</span></div>
     <span class="meta">${esc(c.specialty||'General')}</span>
     <h3>${esc(c.title)}</h3>
@@ -407,7 +2289,7 @@ function lib(){
     <div class="small mute">${esc(c.source||'')}${c._by||c.author?` · por ${esc(c._by||c.author)}`:''}${own?(c._pub?' · público':' · privado'):''}${c._shared?' · compartido contigo':''}</div>
     ${b!=null?`<div class="small"><b>Tu mejor puntaje: ${b}</b></div>`:''}
     <div class="row" style="margin-top:auto;padding-top:10px"><button class="pri" data-play="${esc(c.id)}">Iniciar caso</button>${c._shared&&me()?`<button data-keep="${esc(c.id)}">Guardar en mis casos</button>`:''}
-    <button class="ghost" data-copy="${esc(c.id)}">Copiar JSON</button>${own?`<button class="ghost" data-del="${esc(c.id)}">Eliminar</button>`:''}</div></article>`}).join('');
+    <button class="ghost" data-copy="${esc(c.id)}">Copiar JSON</button>${own?`<button class="ghost" data-del="${esc(c.id)}">Eliminar</button>`:''}</div></article>`}).join('')||`<div class="empty"><p class="num">00</p><p>Ningún caso coincide con tu búsqueda.</p><button id="clrf">Quitar filtros</button></div>`;
   const done=(me()?.history||[]).length;
   app.innerHTML=`<section class="hero">
     <div class="hero-txt">
@@ -428,25 +2310,38 @@ function lib(){
   </section>
   <svg class="divider" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 50 L420 50 L440 42 L455 50 L500 50 L510 56 L526 4 L542 66 L552 50 L610 50 L640 34 L670 50 L1200 50 L1200 70 L0 70 Z"/></svg>
   <section class="libsec">
-    <div class="libhead"><div><p class="eyebrow">Biblioteca · ${pad(list.length)} casos</p><h2 style="font-size:clamp(34px,4vw,52px)">Pacientes esperando en sala</h2></div>
-    <div class="legend small mute">${Object.entries(TRI).map(([k,c])=>`<span class="tri" style="--tri:${c}"><i></i>${k}</span>`).join('')}</div></div>
-    <div class="bento">${cards}</div>
+    <div class="libhead"><div><p class="eyebrow">Biblioteca · <span id="libn">${pad(filtered().length)}</span> de ${pad(list.length)} casos</p><h2 style="font-size:clamp(34px,4vw,52px)">Pacientes esperando en sala</h2></div>
+    <label class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="libq" type="search" placeholder="Buscar por diagnóstico, síntoma o fuente" value="${esc(LF.q)}" aria-label="Buscar casos"></label></div>
+    <div class="filters">
+      <div class="chips" role="group" aria-label="Especialidad"><span class="meta">Especialidad</span>${['',...specs].map(s=>`<button class="chip" data-sp="${esc(s)}" aria-pressed="${LF.sp===s}">${esc(s||'Todas')}</button>`).join('')}</div>
+      <div class="chips" role="group" aria-label="Dificultad"><span class="meta">Dificultad</span>${['',...Object.keys(TRI)].map(l=>`<button class="chip" data-lv="${esc(l)}" aria-pressed="${LF.lv===l}" style="--tri:${TRI[l]||'transparent'}">${l?'<i></i>':''}${esc(l||'Todas')}</button>`).join('')}</div>
+    </div>
+    <div class="bento" id="bento">${cardsOf(filtered())}</div>
   </section>`;
   for(const ns of [mine,BUILTIN])for(const c of ns)normalize(c);
   $('#rnd').onclick=()=>{const a=all();play(a[Math.floor(Math.random()*a.length)].id)};
   $('#toadd').onclick=add;$('#cta')&&($('#cta').onclick=()=>auth('new'));
-  app.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>play(b.dataset.play));
-  app.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const c=all().find(x=>x.id===b.dataset.copy);try{await navigator.clipboard.writeText(JSON.stringify(c,null,2));$('#lmsg').textContent='JSON copiado.'}catch(e){$('#lmsg').textContent='No se pudo copiar; usa «Agregar caso» para verlo.'}});
-  app.querySelectorAll('[data-keep]').forEach(b=>b.onclick=()=>{const c=shared.find(x=>x.id===b.dataset.keep);if(c){mine.push({...clean(c),_owner:active,_by:c._by||me().name,_pub:false});shared=[];saveMine();lib()}});
-  app.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(b.dataset.armed){mine=mine.filter(m=>m.id!==b.dataset.del);saveMine();lib()}else{b.dataset.armed=1;b.textContent='¿Seguro? Toca otra vez'}});
+  const bind=()=>{const B=$('#bento');
+  B.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>play(b.dataset.play));
+  B.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const c=all().find(x=>x.id===b.dataset.copy);try{await navigator.clipboard.writeText(JSON.stringify(clean(c),null,2));b.textContent='Copiado'}catch(e){b.textContent='No se pudo copiar'}});
+  B.querySelectorAll('[data-keep]').forEach(b=>b.onclick=()=>{const c=shared.find(x=>x.id===b.dataset.keep);if(c){mine.push({...clean(c),_owner:active,_by:c._by||me().name,_pub:false});shared=[];saveMine();lib()}});
+  B.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(b.dataset.armed){mine=mine.filter(m=>m.id!==b.dataset.del);saveMine();lib()}else{b.dataset.armed=1;b.textContent='¿Seguro? Toca otra vez'}});
+  const cl=$('#clrf');if(cl)cl.onclick=()=>{LF.q='';LF.sp='';LF.lv='';lib();$('#bento').scrollIntoView({block:'start'})}};
+  const refresh=()=>{const f=filtered();$('#bento').innerHTML=cardsOf(f);$('#libn').textContent=pad(f.length);
+    app.querySelectorAll('[data-sp]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sp===LF.sp));app.querySelectorAll('[data-lv]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lv===LF.lv));bind()};
+  $('#libq').oninput=e=>{LF.q=e.target.value;refresh()};
+  app.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{LF.sp=b.dataset.sp;refresh()});
+  app.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>{LF.lv=b.dataset.lv;refresh()});
+  bind();
 }
+const LF={q:'',sp:'',lv:''};
 
 /* ---------- Simulación ---------- */
 function play(id){
   const c=all().find(x=>x.id===id);if(!c)return lib();
-  app.dataset.view='sim';S={c,st:c.start,t:0,tin:0,done:[],log:[],visited:new Set([c.start]),harms:[],tab:'h',over:null,dx:null};
-  addLog('s',`${c.setting||''}. ${c.intro||''}`,'Llegada');
-  renderSim();startMon();
+  stopRT();app.dataset.view='sim';S={c,st:c.start,t:0,tin:0,done:[],log:[],visited:new Set([c.start]),harms:[],tab:'h',over:null,dx:null,pending:[],trend:[],rt:ls.get(RTK,false)};
+  addLog('s',`${c.setting||''}. ${c.intro||''}`,'Llegada');snap();
+  renderSim();startMon();if(S.rt)startRT();scrollTo(0,0);
 }
 const cur=()=>S.c.states[S.st];
 /* ---------- Sonido (Web Audio, sin archivos) ---------- */
@@ -471,20 +2366,32 @@ function stopSound(){clearInterval(snd.iv);snd.iv=0}
 function addLog(k,txt,title,harm){S.log.unshift({k,t:S.t,txt,title,harm})}
 function setState(id,auto){
   S.st=id;S.tin=0;S.visited.add(id);const s=cur();
-  addLog('s',s.d||'',(auto?'Evolución: ':'Respuesta: ')+(s.label||id));
+  addLog('s',s.d||'',(auto?'Evolución: ':'Respuesta: ')+(s.label||id));snap();
   if(s.end){S.over=s.end;if(s.end==='muerte')sfx.death()}
   else if(s.goal&&!auto)sfx.goal();
 }
+function snap(){const v=cur().v||{};S.trend.push({t:S.t,st:S.st,hr:v.hr||0,sbp:v.sbp||0,dbp:v.dbp||0,spo2:v.spo2||0,rr:v.rr||0})}
+function deliver(){const due=S.pending.filter(p=>p.due<=S.t);if(!due.length)return;S.pending=S.pending.filter(p=>p.due>S.t);
+  for(const p of due){const it=S.c.tests.find(x=>x.id===p.id);addLog('t',resolve(it.r),it.n+' · resultado')}sfx.tick()}
 function advance(m){
-  while(m>0&&!S.over){const s=cur();
-    if(s.worse&&S.tin+m>=s.worse.after){const step=Math.max(0,s.worse.after-S.tin);S.t+=step;m-=step;setState(s.worse.to,true)}
-    else{S.t+=m;S.tin+=m;m=0}}
+  const s0=cur();if(s0.worse&&S.tin>=s0.worse.after&&!S.over)setState(s0.worse.to,true);
+  for(let i=0;i<m&&!S.over;i++){S.t++;S.tin++;deliver();const s=cur();if(s.worse&&S.tin>=s.worse.after)setState(s.worse.to,true)}
 }
+/* Reloj en tiempo real: 1 min simulado cada 3 s */
+const RTK='pulso.rt.v1';let rtIv=0;
+function startRT(){stopRT();rtIv=setInterval(()=>{if(!S||S.over||app.dataset.view!=='sim')return stopRT();const k=S.log.length+'|'+S.st+'|'+S.pending.length;advance(1);
+  if(S.log.length+'|'+S.st+'|'+S.pending.length!==k||S.over)renderSim();else{const c=$('#clk');if(c)c.textContent=hhmm(S.t);const pd=$('#pend');if(pd)pd.innerHTML=pendHTML()}},3000)}
+function stopRT(){clearInterval(rtIv);rtIv=0}
+const pendHTML=()=>S.pending.length?S.pending.map(p=>`<span class="pchip">${esc(S.c.tests.find(x=>x.id===p.id)?.n||p.id)} <b>${Math.max(0,p.due-S.t)} min</b></span>`).join(''):'<span class="mute small">Sin órdenes pendientes</span>';
 function resolve(r){if(r&&typeof r==='object')return r[S.st]??r['*']??'';return r??''}
 function act(kind,it){
   if(S.over)return;
   const min=it.min??(kind==='h'?2:kind==='e'?3:5);
   if(it.needs&&!it.needs.every(n=>S.done.some(d=>d.id===n))){addLog('r','Necesitas antes: '+it.needs.map(n=>name(n)).join(', ')+'.',name(it.id));return renderSim()}
+  if(kind==='t'&&min>5){
+    if(S.pending.some(p=>p.id===it.id)){addLog('t','Ya está solicitado; el resultado llega en '+(S.pending.find(p=>p.id===it.id).due-S.t)+' min.',it.n);return renderSim()}
+    advance(1);if(S.over)return renderSim();S.done.push({id:it.id,t:S.t});S.pending.push({id:it.id,due:S.t+min-1});
+    addLog('t',`Solicitado. Resultado en ~${min} min.`,it.n+' · orden');sfx.tick();return renderSim()}
   advance(min);if(S.over)return renderSim();
   S.done.push({id:it.id,t:S.t});
   if(kind==='h')addLog('h',it.a,it.q);
@@ -495,7 +2402,10 @@ function act(kind,it){
     if(it.harm&&(!it.harm.when||it.harm.when.includes(S.st))){harm=it.harm.msg;S.harms.push({t:S.t,n:it.n,msg:harm})}
     addLog('r',it.note||'Indicado.',it.n,harm);harm?sfx.harm():sfx.tick();
     if(it.delay)S.tin=Math.max(0,S.tin-it.delay);
-    if(it.goto&&(!it.when||it.when.includes(S.st))&&it.goto!==S.st)setState(it.goto,false);
+    const did=id=>S.done.some(d=>d.id===id);
+    const fx=(it.effects||[]).find(e=>(!e.when||e.when.includes(S.st))&&(!e.ifDone||e.ifDone.every(did)));
+    if(fx){if(fx.note)addLog('r',fx.note,it.n);if(fx.goto&&fx.goto!==S.st)setState(fx.goto,false)}
+    else if(it.goto&&(!it.when||it.when.includes(S.st))&&it.goto!==S.st)setState(it.goto,false);
   }
   renderSim();
 }
@@ -517,11 +2427,14 @@ function renderSim(){
     <div class="state"><b>Motivo de consulta:</b> ${esc(p.cc||'')}<br><b>Ahora:</b> ${esc(s.d||'')}${banner}</div>
     <div class="row" style="margin-top:12px"><span class="mute small">Reevaluar:</span>
       ${[5,15,30].map(m=>`<button data-wait="${m}" ${S.over?'disabled':''}>Esperar ${m} min</button>`).join('')}
+      ${S.pending.length&&!S.over?`<button data-wait="${Math.max(1,Math.min(...S.pending.map(p=>p.due))-S.t)}">Esperar siguiente resultado</button>`:''}
+      <label class="row small" style="min-height:44px;gap:8px"><input type="checkbox" id="rt" ${S.rt?'checked':''} ${S.over?'disabled':''} style="width:20px;height:20px">Reloj en tiempo real</label>
       <span style="flex:1"></span><button class="pri" id="fin">${S.over?'Ver retroalimentación':'Terminar caso'}</button></div>
   </div>
   <div class="panel">
     <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${l}</button>`).join('')}</div>
     <div class="acts">${lists[S.tab].map(([id,n,m])=>`<button data-act="${esc(id)}" class="${S.done.some(d=>d.id===id)?'done':''}" ${S.over?'disabled':''}><span>${esc(n)}</span><span class="m">${m} min</span></button>`).join('')||'<p class="mute">Este caso no tiene opciones aquí.</p>'}</div>
+    <div class="pend"><span class="meta">Órdenes pendientes</span><div id="pend" class="row" style="gap:6px;margin-top:6px">${pendHTML()}</div></div>
     <h2 style="font-size:17px;margin:4px 0 0">Expediente</h2>
     <div class="feed">${S.log.map(e=>`<div class="ent k-${e.k}"><div class="t">${hhmm(e.t)} · ${esc(e.title||'')}</div><div>${esc(e.txt)}</div>${e.harm?`<div class="harm">⚠ ${esc(e.harm)}</div>`:''}</div>`).join('')}</div>
   </div></div></section>`;
@@ -529,6 +2442,7 @@ function renderSim(){
   app.querySelectorAll('[data-wait]').forEach(b=>b.onclick=()=>{const m=+b.dataset.wait;advance(m);if(!S.over&&cur().d)addLog('s',cur().d,'Reevaluación');renderSim()});
   app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const k=S.tab;const pool={h:c.history,e:c.exam,t:c.tests,r:c.treatments}[k];act(k,pool.find(x=>x.id===b.dataset.act))});
   $('#fin').onclick=()=>S.over?debrief():finishModal();
+  $('#rt').onchange=e=>{S.rt=e.target.checked;ls.set(RTK,S.rt);S.rt?startRT():stopRT()};
   $('#snd').onclick=()=>{snd.on=!snd.on;ls.set(SK,snd.on);if(snd.on){actx();sfx.tick()}renderSim()};
   vitals();bindCanvas();
 }
@@ -566,10 +2480,22 @@ function frame(ts){
 function staticDraw(){if(!ctx)return;const W=cvs.clientWidth,H=cvs.clientHeight;ctx.fillStyle='#05080a';ctx.fillRect(0,0,W,H);[[t=>H*.36-ecg(t)*H*.26,'#3ef07a'],[t=>H*.9-pleth(t)*H*.2,'#38d6f5']].forEach(([f,c])=>{ctx.strokeStyle=c;ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<W;i++){const y=f(i/110);i?ctx.lineTo(i,y):ctx.moveTo(i,y)}ctx.stroke()})}
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 function startMon(){stopMon();startSound();if(reduce.matches){staticDraw();raf=-1}else raf=requestAnimationFrame(frame)}
-function stopMon(){if(raf>0)cancelAnimationFrame(raf);raf=0;stopSound()}
+function stopMon(){if(raf>0)cancelAnimationFrame(raf);raf=0;stopSound();stopRT()}
 const ro=new ResizeObserver(()=>{if(S&&$('#cv')){bindCanvas();if(reduce.matches)staticDraw()}});ro.observe(document.body);
 
 /* ---------- Cierre y retroalimentación ---------- */
+let trendRO=null;
+function drawTrend(tr,end){const s=$('#trend');if(!s||!tr.length)return;
+  const draw=()=>{const W=s.clientWidth,H=s.clientHeight,L=34,R=12,T=10,B=26,max=Math.max(200,...tr.map(p=>Math.max(p.hr,p.sbp))),T1=Math.max(end,tr[tr.length-1].t,1);
+    const x=t=>L+(W-L-R)*t/T1,y=v=>T+(H-T-B)*(1-v/max);
+    const path=k=>{let d='';tr.forEach((p,i)=>{const X=x(p.t),Y=y(p[k]);d+=i?` H${X.toFixed(1)} V${Y.toFixed(1)}`:`M${X.toFixed(1)} ${Y.toFixed(1)}`});return d+` H${x(T1).toFixed(1)}`};
+    const ticks=[0,50,100,150,200].filter(v=>v<=max),tx=[];const step=T1<=30?5:T1<=90?15:T1<=240?30:60;for(let t=0;t<=T1;t+=step)tx.push(t);
+    s.innerHTML=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+      ${ticks.map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" stroke-opacity=".12"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${v}</text>`).join('')}
+      ${W>520?tx.map(t=>`<text x="${x(t)}" y="${H-8}" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">${t}′</text>`).join(''):`<text x="${L}" y="${H-8}" font-size="11" fill="currentColor" fill-opacity=".6">0′</text><text x="${W-R}" y="${H-8}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${T1}′</text>`}
+      ${tr.map((p,i)=>i&&p.st!==tr[i-1].st?`<line x1="${x(p.t)}" x2="${x(p.t)}" y1="${T}" y2="${H-B}" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="3 4"/>`:'').join('')}
+      ${[['hr','--c-hr'],['sbp','--c-bp'],['spo2','--c-sp'],['rr','--c-rr']].map(([k,c])=>`<path d="${path(k)}" fill="none" stroke="var(${c})" stroke-width="2.5" stroke-linejoin="round"/>`).join('')}</svg>`};
+  if(trendRO)trendRO.disconnect();trendRO=new ResizeObserver(draw);trendRO.observe(s);draw()}
 function finishModal(){
   const o=S.c.diagnosis.options||[];
   const ov=document.createElement('div');ov.className='overlay';
@@ -581,7 +2507,7 @@ function finishModal(){
   ov.querySelector('#mo').onclick=()=>{const r=ov.querySelector('input[name=dx]:checked');S.dx=r?+r.value:null;ov.remove();S.over=S.over||'fin';debrief()};
 }
 function debrief(){
-  stopMon();app.dataset.view='deb';
+  stopMon();stopRT();if(S&&S.trend&&S.trend[S.trend.length-1]?.t!==S.t)snap();app.dataset.view='deb';
   const c=S.c,when=id=>S.done.find(d=>d.id===id);
   const items=c.scoring.critical.map(k=>{
     const hit=(k.a||[]).map(when).filter(Boolean).sort((a,b)=>a.t-b.t)[0];
@@ -596,7 +2522,7 @@ function debrief(){
   let score=Math.round(100*got/tot)-10*S.harms.length-(S.over==='muerte'?30:0)+(c.diagnosis.options?.length?(dxOk?0:-10):0);
   score=Math.max(0,Math.min(100,score));
   const goal=[...S.visited].some(id=>c.states[id].goal);
-  let saved='';if(!S.saved&&me()){const p=me();p.history=p.history||[];p.history.unshift({caseId:c.id,title:c.title,score,date:new Date().toISOString(),dx:S.dx==null?null:dxOk,harms:S.harms.length,death:S.over==='muerte',min:S.t});saveAll();S.saved=true}
+  let saved='';if(!S.saved&&me()){const p=me();p.history=p.history||[];p.history.unshift({caseId:c.id,title:c.title,spec:c.specialty||'',score,date:new Date().toISOString(),dx:S.dx==null?null:dxOk,harms:S.harms.length,death:S.over==='muerte',min:S.t});saveAll();S.saved=true}
   saved=me()?'<p class="small mute">Guardado en tu historial.</p>':'<p class="small"><button id="savecta">Crea una cuenta para guardar tus puntajes</button></p>';
   const li=i=>`<li><span class="${i.ok?'y':'n'}">${i.ok?'✓':'✗'}</span><span>${esc(i.label)} <span class="mute small">${esc(i.why)}</span></span></li>`;
   app.innerHTML=`<section class="band">
@@ -612,10 +2538,15 @@ function debrief(){
     <h2>Acciones críticas</h2><ul class="chk">${list.map(li).join('')}</ul>
     ${S.harms.length?`<h2 style="margin-top:20px">Errores con riesgo (−10 c/u)</h2><ul class="chk">${S.harms.map(h=>`<li><span class="n">⚠</span><span><b>${esc(h.n)}</b> <span class="mute small">${hhmm(h.t)}</span><br>${esc(h.msg)}</span></li>`).join('')}</ul>`:''}
   </div></div>
+  <div class="trendbox"><div class="row" style="justify-content:space-between;align-items:end"><div><p class="eyebrow" style="margin-bottom:8px">Evolución del paciente</p><h2 style="margin:0">Signos vitales durante el caso</h2></div>
+    <div class="legend small"><span class="lg" style="--c:var(--c-hr)">FC</span><span class="lg" style="--c:var(--c-bp)">PAS</span><span class="lg" style="--c:var(--c-sp)">SpO₂</span><span class="lg" style="--c:var(--c-rr)">FR</span></div></div>
+    <div class="fig" id="trend" role="img" aria-label="Gráfica de signos vitales por minuto"></div>
+    <ol class="states">${S.trend.map((p,i)=>i&&p.st===S.trend[i-1].st?'':`<li><span>${hhmm(p.t)}</span>${esc(c.states[p.st]?.label||p.st)}</li>`).join('')}</ol></div>
   <div class="two" style="margin-top:28px"><div><h2>Puntos clave</h2><ul>${(c.debrief.points||[]).map(p=>`<li style="margin-bottom:6px">${esc(p)}</li>`).join('')}</ul>
   <h2 style="font-size:17px">Referencias</h2><ul class="small mute">${(c.debrief.refs||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="small mute">${esc(c.source||'')}</p></div>
   <div><h2>Tu línea de tiempo</h2><div class="feed" style="max-height:520px">${[...S.log].reverse().map(e=>`<div class="ent k-${e.k}"><div class="t">${hhmm(e.t)} · ${esc(e.title||'')}</div><div>${esc(e.txt)}</div>${e.harm?`<div class="harm">⚠ ${esc(e.harm)}</div>`:''}</div>`).join('')}</div></div></div>
   </section>`;
+  drawTrend(S.trend,S.t);
   $('#again').onclick=()=>play(c.id);$('#back').onclick=lib;$('#savecta')&&($('#savecta').onclick=()=>auth('new',()=>{const p=me();p.history=p.history||[];p.history.unshift({caseId:c.id,title:c.title,score,date:new Date().toISOString(),dx:S.dx==null?null:dxOk,harms:S.harms.length,death:S.over==='muerte',min:S.t});saveAll();S.saved=true;debrief()}));scrollTo(0,0);
 }
 
@@ -658,13 +2589,17 @@ function auth(mode,then){
 }
 const fmtD=s=>{try{return new Date(s).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})}catch(e){return s}};
 function profile(){
-  stopMon();S=null;app.dataset.view='me';const p=me();if(!p)return auth('in');
+  stopMon();S=null;app.dataset.view='me';scrollTo(0,0);const p=me();if(!p)return auth('in');
   const hs=p.history||[],avg=hs.length?Math.round(hs.reduce((a,b)=>a+b.score,0)/hs.length):null,bestS=hs.length?Math.max(...hs.map(x=>x.score)):null;
   const ok=hs.filter(x=>x.dx===true).length;
+  const bySpec={};for(const x of hs){const sp=String(x.spec||all().find(c=>c.id===x.caseId)?.specialty||'General').split('·')[0].trim();(bySpec[sp]=bySpec[sp]||[]).push(x.score)}
+  const specRows=Object.entries(bySpec).map(([k,v])=>[k,Math.round(v.reduce((a,b)=>a+b,0)/v.length),v.length]).sort((a,b)=>a[1]-b[1]);
   app.innerHTML=`<section class="band"><h1>${esc(p.name)}</h1><p class="mute" style="margin-top:-6px">Cuenta creada el ${fmtD(p.created)}</p>
   <div class="stats">${[['Casos resueltos',hs.length],['Promedio',avg??'—'],['Mejor puntaje',bestS??'—'],['Diagnósticos correctos',hs.length?ok+'/'+hs.length:'—']].map(([k,v])=>`<div class="stat"><span>${v}</span><small>${k}</small></div>`).join('')}</div>
   <div class="two" style="margin-top:28px"><div>
-    <h2>Historial</h2>
+    ${specRows.length?`<h2>Por especialidad</h2><div class="bars">${specRows.map(([k,a,n])=>`<div class="bar"><span>${esc(k)} <small class="mute">${n} caso${n>1?'s':''}</small></span><div class="track"><i style="width:${a}%;background:${a>=80?'var(--ok)':a>=60?'#d99a00':'var(--red)'}"></i></div><b>${a}</b></div>`).join('')}</div>
+    <p class="small mute" style="margin-top:6px">Ordenado de menor a mayor promedio: arriba está lo que más conviene repasar.</p>`:''}
+    <h2 style="margin-top:22px">Historial</h2>
     ${hs.length?`<table class="stack hist"><thead><tr><th>Fecha</th><th>Caso</th><th>Puntaje</th><th>Dx</th><th>Errores</th></tr></thead><tbody>${hs.map(x=>`<tr><td>${fmtD(x.date)}</td><td>${esc(x.title)}${x.death?' <span style="color:var(--red)">(falleció)</span>':''}</td><td class="num"><b>${x.score}</b></td><td>${x.dx===true?'✓':x.dx===false?'✗':'—'}</td><td class="num">${x.harms}</td></tr>`).join('')}</tbody></table>`:'<p class="mute">Aún no resuelves ningún caso. Tus puntajes aparecerán aquí.</p>'}
   </div><div>
     <h2>Mis casos</h2>
@@ -733,7 +2668,7 @@ function draft(a){const x=extract(a.abstract||''),first=(a.authors.split(/[ ,]/)
     debrief:{summary:'',points:[],refs:[cite(a)]},_found:x}}
 const PROMPT=`Convierte este material en un caso para Pulso (formato v1, JSON). Incluye estados que evolucionen con el tiempo, interrogatorio, exploración, estudios con resultados por estado, tratamientos con efectos y errores, acciones críticas, diagnóstico con distractores y retroalimentación con referencias. Material:`;
 function add(){
-  stopMon();S=null;app.dataset.view='add';
+  stopMon();S=null;app.dataset.view='add';scrollTo(0,0);
   if(!me()){app.innerHTML=`<section class="band"><h1>Agregar un caso</h1><p class="lede">Para agregar casos necesitas una cuenta. Así quedan guardados en tu perfil y puedes elegir si son públicos o privados.</p><div class="row" style="margin-top:16px"><button class="pri" id="a1">Crear cuenta</button><button id="a2">Ya tengo cuenta</button></div></section>`;$('#a1').onclick=()=>auth('new',add);$('#a2').onclick=()=>auth('in',add);return}
   const tpl=JSON.stringify({id:'mi-caso-01',v:1,title:'Título visible',specialty:'Área',level:'Básico',source:'Artículo o libro de donde sale',setting:'Urgencias',
   patient:{name:'Nombre',age:40,sex:'F',weight:70,cc:'Motivo de consulta'},intro:'Cómo llega.',start:'inicial',
@@ -806,7 +2741,7 @@ function add(){
 }
 
 $('#nav-lib').onclick=lib;$('#nav-add').onclick=add;$('#nav-me').onclick=()=>me()?profile():auth('in');
-nav();openShared().then(ok=>{if(!ok)lib()});loadRepo();
+{const rl=$('#repolink');if(rl)rl.href='https://github.com/'+LIB}nav();openShared().then(ok=>{if(!ok)lib()});loadRepo();
 }
 </script>
 </body>

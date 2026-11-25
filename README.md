@@ -4,6 +4,15 @@ App web de código abierto para estudiar con pacientes virtuales: interrogas, ex
 
 Es un solo archivo (`index.html`), sin servidor ni base de datos.
 
+### Qué incluye
+
+- **Simulación con tiempo:** cada acción consume minutos; los laboratorios tardan en llegar y se ven como órdenes pendientes; modo opcional de reloj en tiempo real (1 min simulado cada 3 s).
+- **Monitor vivo con sonido:** ECG, pletismografía, alarmas y pitido por latido.
+- **Retroalimentación:** puntaje, acciones críticas con el minuto en que se hicieron, errores con riesgo, gráfica de signos vitales, línea de tiempo, puntos clave y referencias.
+- **Biblioteca:** búsqueda y filtros por especialidad y dificultad.
+- **Cuentas locales:** historial, desempeño por especialidad, casos propios públicos o privados.
+- **Casos incluidos:** cetoacidosis diabética (ADA 2024), IAMCEST (ESC 2023), choque séptico por neumonía (SSC 2021) y crisis asmática grave pediátrica (GINA 2024).
+
 ## Publicarla en GitHub Pages
 
 1. Crea un repositorio nuevo (por ejemplo `pulso`) y sube todo el contenido de esta carpeta.
@@ -71,8 +80,8 @@ Mándale el material a Claude con esta instrucción:
 | `states` | Cada estado: `label`, `v` (hr, sbp, dbp, rr, spo2, t), `rhythm` (`sinus`, `st`, `ectopia`, `fv`, `asistolia`), `d` (descripción), `worse: {after, to}` (minutos sin intervención y estado al que empeora), `goal: true` (objetivo terapéutico), `end: "muerte"` |
 | `history` | `{id, q, a}` |
 | `exam` | `{id, n, f}` |
-| `tests` | `{id, n, min, r}`; `r` es texto o un objeto con un resultado por estado y `"*"` por defecto |
-| `treatments` | `{id, n, min, goto, when, harm: {when, msg}, delay, needs, note}` |
+| `tests` | `{id, n, min, r}`; `r` es texto o un objeto con un resultado por estado y `"*"` por defecto. Con `min` mayor a 5 el resultado llega después, como orden pendiente |
+| `treatments` | `{id, n, min, goto, when, effects, harm: {when, msg}, delay, needs, note}`. `effects` es una lista `{when, ifDone, goto, note}`: se aplica el primer efecto cuyo estado (`when`) y acciones previas (`ifDone`) coincidan |
 | `diagnosis` | `{options: [...], correct: índice}` |
 | `scoring.critical` | `{label, a: [ids], by: minutos, before: id, w: peso}` |
 | `scoring.avoid` | `{state, label}`: estados que el estudiante debe evitar |

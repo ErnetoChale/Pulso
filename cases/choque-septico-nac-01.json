@@ -1,0 +1,480 @@
+{
+  "id": "choque-septico-nac-01",
+  "v": 1,
+  "title": "Mujer de 72 años con fiebre, tos y confusión",
+  "specialty": "Infectología · Urgencias",
+  "level": "Intermedio",
+  "source": "Caso modelo basado en las guías Surviving Sepsis Campaign 2021 y ATS/IDSA 2019 de neumonía adquirida en la comunidad",
+  "setting": "Urgencias adultos, 21:30 h",
+  "patient": {
+    "name": "Rosa P.",
+    "age": 72,
+    "sex": "F",
+    "weight": 60,
+    "cc": "Fiebre, tos y confusión de 3 días"
+  },
+  "intro": "La trae su hija porque desde la tarde no la reconoce. Está caliente al tacto y respira rápido.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso",
+      "v": {
+        "hr": 118,
+        "sbp": 84,
+        "dbp": 48,
+        "rr": 28,
+        "spo2": 89,
+        "t": 38.9
+      },
+      "d": "Desorientada, piel caliente, respiración rápida y superficial.",
+      "worse": {
+        "after": 45,
+        "to": "choque"
+      }
+    },
+    "post_liq": {
+      "label": "Tras cristaloides",
+      "v": {
+        "hr": 110,
+        "sbp": 88,
+        "dbp": 49,
+        "rr": 26,
+        "spo2": 91,
+        "t": 38.8
+      },
+      "d": "Mejora el llenado capilar, pero la PAM sigue en 62 mmHg. Orinó 20 mL en la última hora.",
+      "worse": {
+        "after": 60,
+        "to": "choque"
+      }
+    },
+    "choque": {
+      "label": "Choque progresivo",
+      "v": {
+        "hr": 134,
+        "sbp": 72,
+        "dbp": 40,
+        "rr": 32,
+        "spo2": 86,
+        "t": 39.1
+      },
+      "d": "Somnolienta, piel moteada en rodillas, extremidades frías. PAM 51 mmHg.",
+      "worse": {
+        "after": 40,
+        "to": "paro"
+      }
+    },
+    "vaso": {
+      "label": "Con norepinefrina",
+      "v": {
+        "hr": 102,
+        "sbp": 106,
+        "dbp": 60,
+        "rr": 26,
+        "spo2": 92,
+        "t": 38.7
+      },
+      "d": "PAM 75 mmHg con norepinefrina. Sigue febril, con estertores en la base derecha.",
+      "worse": {
+        "after": 60,
+        "to": "choque"
+      }
+    },
+    "estable": {
+      "label": "Choque en control",
+      "goal": true,
+      "v": {
+        "hr": 94,
+        "sbp": 110,
+        "dbp": 62,
+        "rr": 22,
+        "spo2": 94,
+        "t": 38.1
+      },
+      "d": "PAM ≥ 65 mmHg, más despierta, diuresis 0.6 mL/kg/h. Lactato en descenso."
+    },
+    "paro": {
+      "label": "Paro cardiorrespiratorio",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 38.5
+      },
+      "d": "Actividad eléctrica sin pulso que progresa a asistolia pese a la reanimación."
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Desde cuándo está enferma?",
+      "a": "La hija cuenta 3 días de fiebre y tos con flema verdosa. Hoy en la tarde empezó a decir incoherencias."
+    },
+    {
+      "id": "h2",
+      "q": "¿Dolor en el pecho o falta de aire?",
+      "a": "Dolor en el lado derecho del pecho que aumenta al respirar hondo. Se cansa al caminar al baño."
+    },
+    {
+      "id": "h3",
+      "q": "¿Enfermedades previas?",
+      "a": "Diabetes tipo 2 e hipertensión desde hace 15 años."
+    },
+    {
+      "id": "h4",
+      "q": "¿Qué medicamentos toma?",
+      "a": "Metformina 850 mg cada 12 h y enalapril 10 mg al día."
+    },
+    {
+      "id": "h5",
+      "q": "¿Alergias a medicamentos?",
+      "a": "Ninguna conocida. Ha recibido penicilina antes sin problema."
+    },
+    {
+      "id": "h6",
+      "q": "¿Cuánto ha orinado hoy?",
+      "a": "Muy poco; la hija dice que el pañal estaba casi seco en la tarde."
+    },
+    {
+      "id": "h7",
+      "q": "¿Hospitalizaciones o antibióticos en los últimos 3 meses?",
+      "a": "Ninguna."
+    },
+    {
+      "id": "h8",
+      "q": "¿Vacunas de influenza y neumococo?",
+      "a": "No se las ha aplicado."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Estado de conciencia",
+      "f": "Glasgow 13 (O3 V4 M6), desorientada en tiempo y lugar."
+    },
+    {
+      "id": "e2",
+      "n": "Pulmonar",
+      "f": "Estertores crepitantes y soplo tubario en la base derecha, matidez a la percusión en ese hemitórax."
+    },
+    {
+      "id": "e3",
+      "n": "Perfusión periférica",
+      "f": "Llenado capilar de 4 s, extremidades frías, piel moteada en rodillas."
+    },
+    {
+      "id": "e4",
+      "n": "Cardiovascular",
+      "f": "Taquicardia rítmica sin soplos. Sin ingurgitación yugular."
+    },
+    {
+      "id": "e5",
+      "n": "Abdomen",
+      "f": "Blando, depresible, sin dolor ni datos de irritación peritoneal."
+    },
+    {
+      "id": "e6",
+      "n": "Piel y mucosas",
+      "f": "Mucosas secas, sin petequias ni lesiones cutáneas."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t_lac",
+      "n": "Lactato sérico",
+      "min": 10,
+      "r": {
+        "inicial": "4.2 mmol/L",
+        "post_liq": "3.6 mmol/L",
+        "choque": "6.8 mmol/L",
+        "vaso": "3.1 mmol/L",
+        "estable": "1.9 mmol/L",
+        "*": "4.2 mmol/L"
+      }
+    },
+    {
+      "id": "t_hemo",
+      "n": "Hemocultivos (2 sets)",
+      "min": 5,
+      "r": "Tomados de dos sitios. Resultado en 24–48 h."
+    },
+    {
+      "id": "t_gaso",
+      "n": "Gasometría arterial",
+      "min": 10,
+      "r": {
+        "choque": "pH 7.21 · pCO₂ 30 · pO₂ 52 · HCO₃⁻ 12",
+        "estable": "pH 7.34 · pCO₂ 34 · pO₂ 78 · HCO₃⁻ 18",
+        "*": "pH 7.29 · pCO₂ 31 · pO₂ 58 · HCO₃⁻ 15"
+      }
+    },
+    {
+      "id": "t_bh",
+      "n": "Biometría hemática",
+      "min": 20,
+      "r": "Leucocitos 19 800/µL, 12 % bandas · Hb 12.1 g/dL · plaquetas 132 000"
+    },
+    {
+      "id": "t_qs",
+      "n": "Química sanguínea y electrolitos",
+      "min": 30,
+      "r": "Creatinina 1.9 mg/dL (basal 0.9) · BUN 42 · glucosa 248 · Na⁺ 134 · K⁺ 4.6 · bilirrubina total 1.1"
+    },
+    {
+      "id": "t_rx",
+      "n": "Radiografía de tórax portátil",
+      "min": 15,
+      "r": "Consolidación del lóbulo inferior derecho con broncograma aéreo. Sin derrame significativo."
+    },
+    {
+      "id": "t_pct",
+      "n": "Procalcitonina",
+      "min": 40,
+      "r": "8.4 ng/mL"
+    },
+    {
+      "id": "t_coag",
+      "n": "Tiempos de coagulación",
+      "min": 30,
+      "r": "INR 1.4 · TTPa 34 s"
+    },
+    {
+      "id": "t_ecg",
+      "n": "Electrocardiograma",
+      "min": 5,
+      "r": "Taquicardia sinusal sin cambios isquémicos agudos."
+    },
+    {
+      "id": "t_ego",
+      "n": "Examen general de orina",
+      "min": 20,
+      "r": "Densidad 1.025, sin leucocituria ni nitritos."
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r_o2",
+      "n": "Oxígeno por puntas nasales para SpO₂ 92–96 %",
+      "min": 2,
+      "note": "La SpO₂ sube 2–3 puntos."
+    },
+    {
+      "id": "r_hart",
+      "n": "Solución Hartmann 30 mL/kg (1.8 L) en bolos",
+      "min": 15,
+      "effects": [
+        {
+          "when": [
+            "inicial",
+            "choque"
+          ],
+          "goto": "post_liq"
+        }
+      ],
+      "note": "Se pasan los bolos reevaluando perfusión y estertores."
+    },
+    {
+      "id": "r_ssn",
+      "n": "Solución salina 0.9 % 30 mL/kg (1.8 L) en bolos",
+      "min": 15,
+      "effects": [
+        {
+          "when": [
+            "inicial",
+            "choque"
+          ],
+          "goto": "post_liq",
+          "note": "Funciona, aunque en volúmenes grandes se prefieren cristaloides balanceados."
+        }
+      ],
+      "note": "Se pasan los bolos."
+    },
+    {
+      "id": "r_hes",
+      "n": "Hidroxietilalmidón 500 mL",
+      "min": 10,
+      "harm": {
+        "msg": "Los almidones aumentan la lesión renal y la necesidad de terapia de reemplazo renal: la guía recomienda no usarlos."
+      },
+      "note": "Se administra."
+    },
+    {
+      "id": "r_abx",
+      "n": "Ceftriaxona 2 g IV + azitromicina 500 mg IV",
+      "min": 5,
+      "delay": 20,
+      "effects": [
+        {
+          "when": [
+            "vaso"
+          ],
+          "goto": "estable"
+        }
+      ],
+      "note": "Antibióticos iniciados para neumonía grave adquirida en la comunidad."
+    },
+    {
+      "id": "r_nore",
+      "n": "Norepinefrina 0.1 µg/kg/min, titular a PAM ≥ 65 mmHg",
+      "min": 5,
+      "effects": [
+        {
+          "when": [
+            "post_liq",
+            "choque"
+          ],
+          "ifDone": [
+            "r_abx"
+          ],
+          "goto": "estable"
+        },
+        {
+          "when": [
+            "post_liq",
+            "choque"
+          ],
+          "goto": "vaso"
+        },
+        {
+          "when": [
+            "inicial"
+          ],
+          "note": "Sin reanimación con volumen la respuesta es pobre; inícialo junto con los cristaloides."
+        }
+      ],
+      "note": "Infusión por vía periférica mientras se coloca un acceso central."
+    },
+    {
+      "id": "r_dopa",
+      "n": "Dopamina 10 µg/kg/min",
+      "min": 5,
+      "harm": {
+        "msg": "La norepinefrina es el vasopresor de primera línea; la dopamina causa más arritmias."
+      },
+      "effects": [
+        {
+          "when": [
+            "post_liq",
+            "choque"
+          ],
+          "goto": "vaso"
+        }
+      ],
+      "note": "Sube la PA, con extrasístoles frecuentes."
+    },
+    {
+      "id": "r_hc",
+      "n": "Hidrocortisona 50 mg IV cada 6 h",
+      "min": 3,
+      "harm": {
+        "when": [
+          "inicial",
+          "post_liq"
+        ],
+        "msg": "Aún no cumple la indicación: los esteroides se agregan si persiste el vasopresor (norepinefrina ≥ 0.25 µg/kg/min por ≥ 4 h)."
+      },
+      "note": "Se indica."
+    },
+    {
+      "id": "r_insul",
+      "n": "Insulina en esquema para glucosa ≥ 180 mg/dL",
+      "min": 3,
+      "note": "Meta de glucosa 144–180 mg/dL."
+    },
+    {
+      "id": "r_sonda",
+      "n": "Sonda Foley para medir diuresis horaria",
+      "min": 5,
+      "note": "Diuresis horaria para guiar la reanimación."
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Choque séptico por neumonía adquirida en la comunidad del lóbulo inferior derecho",
+      "Choque cardiogénico por infarto agudo",
+      "Tromboembolia pulmonar de alto riesgo",
+      "Estado hiperglucémico hiperosmolar",
+      "Sepsis de origen urinario sin choque"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Lactato en los primeros 30 min",
+        "a": [
+          "t_lac"
+        ],
+        "by": 30
+      },
+      {
+        "label": "Hemocultivos antes del antibiótico",
+        "a": [
+          "t_hemo"
+        ],
+        "before": "r_abx"
+      },
+      {
+        "label": "Antibiótico en la primera hora",
+        "a": [
+          "r_abx"
+        ],
+        "by": 60
+      },
+      {
+        "label": "Cristaloides 30 mL/kg en la primera hora",
+        "a": [
+          "r_hart",
+          "r_ssn"
+        ],
+        "by": 60
+      },
+      {
+        "label": "Norepinefrina para PAM ≥ 65 mmHg",
+        "a": [
+          "r_nore"
+        ]
+      },
+      {
+        "label": "Oxígeno con meta de SpO₂",
+        "a": [
+          "r_o2"
+        ],
+        "by": 20
+      },
+      {
+        "label": "Radiografía para confirmar el foco",
+        "a": [
+          "t_rx"
+        ]
+      }
+    ],
+    "avoid": [
+      {
+        "state": "choque",
+        "label": "Evitó la progresión del choque"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "Neumonía grave con hipotensión, hipoperfusión y lactato de 4.2: choque séptico. Las tres decisiones que cambian el desenlace son antibiótico temprano (con cultivos previos sin retrasarlo), volumen y vasopresor para PAM ≥ 65.",
+    "points": [
+      "Choque séptico: vasopresor necesario para PAM ≥ 65 mmHg y lactato > 2 mmol/L pese a volumen adecuado.",
+      "No uses qSOFA como única herramienta de tamizaje.",
+      "Antibiótico en la primera hora si el choque es posible; hemocultivos antes, sin retrasar el antibiótico.",
+      "Cristaloides 30 mL/kg en las primeras 3 h ante hipoperfusión; se prefieren los balanceados sobre la salina.",
+      "Norepinefrina es el vasopresor de primera línea; puede iniciarse por vía periférica.",
+      "No uses almidones. Hidrocortisona solo si el vasopresor persiste (norepinefrina ≥ 0.25 µg/kg/min por ≥ 4 h).",
+      "Remide el lactato para guiar la reanimación.",
+      "NAC grave sin factores de riesgo para Pseudomonas ni SARM: betalactámico más macrólido."
+    ],
+    "refs": [
+      "Evans L, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063–e1143.",
+      "Metlay JP, et al. Diagnosis and Treatment of Adults with Community-acquired Pneumonia. Am J Respir Crit Care Med. 2019;200(7):e45–e67."
+    ]
+  }
+}
