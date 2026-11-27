@@ -51,6 +51,17 @@ Hay tres formas:
 
 El token se guarda solo en el navegador donde lo escribes. No lo pongas en ningún archivo del repositorio.
 
+## Imágenes
+
+Cada hallazgo de exploración, cada estudio y la presentación del paciente pueden llevar una imagen (radiografía, ECG, foto clínica, tomografía). Aparece en el expediente junto al resultado y se amplía con un toque.
+
+- **Subirlas:** «Mi perfil» → «Imágenes» en el caso. La app las reduce a 1400 px y las guarda en el navegador.
+- **Publicar con token (dueño):** las imágenes se suben como archivos a `cases/img/` y el caso las referencia.
+- **Enviar a la biblioteca (cualquier usuario):** el caso lleva marcadores `@1`, `@2`…; en GitHub el usuario arrastra las imágenes al issue en el orden indicado. La automatización revisa que estén todas, las descarga a `cases/img/` al aprobar el caso y reemplaza los marcadores.
+- **Enlace para compartir:** va sin imágenes subidas, porque no caben en un enlace.
+
+En el JSON, `img` acepta una ruta `cases/img/…`, una URL `https://` o una imagen incrustada (`data:image/…`), y puede ser un objeto con una imagen por estado (`{"inicial": "…", "*": "…"}`). `cap` es el pie de imagen. Usa solo imágenes propias, de dominio público o con licencia que permita compartirlas, y sin datos que identifiquen al paciente.
+
 ## Sonido
 
 El monitor hace un pitido por latido cuyo tono baja con la saturación, como un oxímetro real, y suena alarma media cuando algún signo sale de rango y alarma alta en paro. También hay tonos al recibir resultados, al cometer un error, al alcanzar el objetivo y si el paciente fallece. Se apaga con el botón «Sonido» del monitor. Todo se genera con Web Audio, sin archivos de audio.
@@ -87,6 +98,7 @@ Mándale el material a Claude con esta instrucción:
 | `diagnosis` | `{options: [...], correct: índice}` |
 | `scoring.critical` | `{label, a: [ids], by: minutos, before: id, w: peso}` |
 | `scoring.avoid` | `{state, label}`: estados que el estudiante debe evitar |
+| `img`, `cap` | En `patient`, `exam[]` y `tests[]`: imagen (texto o una por estado) y su pie |
 | `debrief` | `{summary, points: [...], refs: [...]}` |
 
 Puntaje: porcentaje de acciones críticas cumplidas, −10 por cada error con riesgo, −10 por diagnóstico incorrecto y −30 si el paciente muere.
