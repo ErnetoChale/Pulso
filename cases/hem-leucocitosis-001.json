@@ -1,0 +1,381 @@
+{
+  "id": "hem-leucocitosis-001",
+  "v": 1,
+  "title": "Evaluación sistemática de la leucocitosis",
+  "specialty": "Hematología",
+  "level": "Avanzado",
+  "source": "Walker CW, Hartman T, Pompa M. The evaluation of leukocytosis. JAAPA. 2026;39(1):26-32. doi:10.1097/01.JAA.0000000000000298",
+  "setting": "Consulta de Medicina Interna / Urgencias",
+  "patient": {
+    "name": "Roberto Hernández",
+    "age": 54,
+    "sex": "M",
+    "weight": 76,
+    "cc": "Fatiga progresiva, pérdida de peso y sensación de plenitud abdominal."
+  },
+  "intro": "Masculino de 54 años que acude por fatiga progresiva de tres meses de evolución, disminución del apetito y saciedad temprana. Refiere pérdida involuntaria de aproximadamente 5 kg y sudoración nocturna ocasional. Una biometría hemática solicitada durante una revisión de rutina reporta leucocitosis importante. Se encuentra hemodinámicamente estable, sin datos clínicos evidentes de infección. El objetivo es identificar la causa de la leucocitosis, reconocer datos de alarma y establecer el diagnóstico etiológico.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Evaluación inicial",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 88,
+        "sbp": 128,
+        "dbp": 78,
+        "rr": 17,
+        "spo2": 98,
+        "t": 36.8
+      },
+      "d": "Paciente consciente, orientado y cooperador. Refiere fatiga, pérdida ponderal y saciedad temprana. A la exploración presenta esplenomegalia palpable aproximadamente 4 cm por debajo del reborde costal izquierdo. No presenta adenopatías palpables, petequias ni equimosis. La primera biometría hemática muestra leucocitosis marcada.",
+      "worse": {
+        "after": 30,
+        "to": "demora"
+      }
+    },
+    "demora": {
+      "label": "Persistencia de la leucocitosis",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 94,
+        "sbp": 124,
+        "dbp": 76,
+        "rr": 18,
+        "spo2": 97,
+        "t": 37
+      },
+      "d": "El paciente continúa sin recibir una evaluación etiológica. Persiste la fatiga y la plenitud abdominal. La leucocitosis continúa sin explicación. La ausencia de fiebre no descarta una enfermedad hematológica. Se requiere completar la evaluación y evitar retrasar la referencia especializada."
+    },
+    "caracterizacion": {
+      "label": "Caracterización hematológica",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 86,
+        "sbp": 126,
+        "dbp": 78,
+        "rr": 17,
+        "spo2": 98,
+        "t": 36.8
+      },
+      "d": "La biometría hemática de control confirma leucocitosis persistente con predominio granulocítico, basofilia y trombocitosis. El frotis periférico muestra granulocitos en diferentes etapas de maduración. No se identifica incremento significativo de blastos. Los hallazgos sugieren una neoplasia mieloproliferativa."
+    },
+    "confirmacion": {
+      "label": "Confirmación molecular",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 84,
+        "sbp": 126,
+        "dbp": 78,
+        "rr": 16,
+        "spo2": 98,
+        "t": 36.7
+      },
+      "d": "El estudio molecular identifica la fusión BCR::ABL1. En el contexto de leucocitosis granulocítica persistente, basofilia y esplenomegalia, el resultado confirma leucemia mieloide crónica. Se requiere valoración hematológica para completar la clasificación y establecer el tratamiento."
+    },
+    "manejo": {
+      "label": "Tratamiento especializado",
+      "goal": true,
+      "rhythm": "sinus",
+      "v": {
+        "hr": 80,
+        "sbp": 122,
+        "dbp": 76,
+        "rr": 16,
+        "spo2": 98,
+        "t": 36.6
+      },
+      "d": "El paciente es valorado por Hematología. Se completa la caracterización de la enfermedad y se establece tratamiento dirigido con un inhibidor de tirosina cinasa, seleccionado de acuerdo con las características individuales del paciente. Se programa seguimiento hematológico y monitorización molecular."
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Desde cuándo presenta fatiga?",
+      "a": "Desde hace aproximadamente tres meses, con progresión gradual."
+    },
+    {
+      "id": "h2",
+      "q": "¿Ha presentado pérdida de peso involuntaria?",
+      "a": "Sí. Aproximadamente 5 kg durante los últimos tres meses."
+    },
+    {
+      "id": "h3",
+      "q": "¿Ha presentado sudoración nocturna o fiebre?",
+      "a": "Refiere sudoración nocturna ocasional. Niega fiebre persistente."
+    },
+    {
+      "id": "h4",
+      "q": "¿Ha presentado síntomas de infección reciente?",
+      "a": "Niega tos, disuria, diarrea, síntomas respiratorios o infecciones recientes."
+    },
+    {
+      "id": "h5",
+      "q": "¿Consume medicamentos actualmente?",
+      "a": "Niega consumo de corticosteroides, litio, beta-agonistas o factores estimulantes de colonias."
+    },
+    {
+      "id": "h6",
+      "q": "¿Tiene antecedente de tabaquismo?",
+      "a": "Exfumador. Suspendió el consumo hace ocho años."
+    },
+    {
+      "id": "h7",
+      "q": "¿Ha tenido exposición a sustancias químicas o radiación?",
+      "a": "Niega exposición conocida a benceno o radiación ionizante."
+    },
+    {
+      "id": "h8",
+      "q": "¿Ha presentado sangrado espontáneo o aparición de moretones?",
+      "a": "Niega sangrado espontáneo, petequias o equimosis."
+    },
+    {
+      "id": "h9",
+      "q": "¿Tiene antecedentes de enfermedades hematológicas?",
+      "a": "Niega antecedentes hematológicos conocidos."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Estado general",
+      "f": "Consciente, orientado, cooperador y hemodinámicamente estable."
+    },
+    {
+      "id": "e2",
+      "n": "Piel y tegumentos",
+      "f": "Sin petequias ni equimosis."
+    },
+    {
+      "id": "e3",
+      "n": "Sistema linfático",
+      "f": "Sin adenopatías palpables."
+    },
+    {
+      "id": "e4",
+      "n": "Abdomen",
+      "f": "Esplenomegalia palpable aproximadamente 4 cm por debajo del reborde costal izquierdo."
+    },
+    {
+      "id": "e5",
+      "n": "Cardiopulmonar",
+      "f": "Sin alteraciones clínicas relevantes."
+    },
+    {
+      "id": "e6",
+      "n": "Neurológico",
+      "f": "Sin alteración del estado mental ni focalización neurológica."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t1",
+      "n": "Biometría hemática completa con diferencial",
+      "min": 0,
+      "r": {
+        "inicial": "Leucocitos: 68,400 células/mm³. Neutrófilos: 78%. Linfocitos: 8%. Monocitos: 4%. Eosinófilos: 2%. Basófilos: 5%. Granulocitos inmaduros: 3%. Hemoglobina: 11.8 g/dL. Hematocrito: 35.4%. Plaquetas: 510,000/mm³.",
+        "demora": "Leucocitos: 71,200 células/mm³. Persiste la trombocitosis y anemia leve.",
+        "*": "Leucocitosis marcada con predominio granulocítico, basofilia, trombocitosis y anemia leve."
+      }
+    },
+    {
+      "id": "t2",
+      "n": "Frotis de sangre periférica",
+      "min": 10,
+      "r": {
+        "caracterizacion": "Predominio granulocítico con presencia de células en diferentes etapas de maduración. Basofilia y eosinófilos presentes. Sin incremento significativo de blastos circulantes. Morfología compatible con proliferación mieloide.",
+        "*": "Se observa proliferación granulocítica con desviación a la izquierda y basofilia."
+      }
+    },
+    {
+      "id": "t3",
+      "n": "Perfil metabólico y marcadores de recambio celular",
+      "min": 10,
+      "r": {
+        "caracterizacion": "Creatinina: 0.9 mg/dL. Urea: 28 mg/dL. Ácido úrico: 8.2 mg/dL. LDH elevada. Electrolitos sin alteraciones significativas.",
+        "*": "Función renal conservada, ácido úrico elevado y LDH elevada."
+      }
+    },
+    {
+      "id": "t4",
+      "n": "Estudio molecular BCR::ABL1",
+      "min": 30,
+      "r": {
+        "confirmacion": "POSITIVO. Se identifica la fusión BCR::ABL1, compatible con leucemia mieloide crónica en el contexto clínico apropiado.",
+        "*": "Estudio solicitado. Resultado pendiente."
+      }
+    },
+    {
+      "id": "t5",
+      "n": "Aspirado y biopsia de médula ósea con estudio citogenético",
+      "min": 45,
+      "r": {
+        "confirmacion": "Médula ósea hipercelular con hiperplasia granulocítica. Sin incremento significativo de blastos. Se requiere correlación con citogenética y evaluación hematológica para clasificación completa.",
+        "*": "Estudio pendiente de realización e interpretación especializada."
+      }
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r1",
+      "n": "Solicitar frotis periférico y repetir biometría hemática",
+      "min": 0,
+      "needs": [
+        "t1"
+      ],
+      "goto": "caracterizacion",
+      "when": [
+        "inicial",
+        "demora"
+      ],
+      "delay": 0,
+      "note": "Permite confirmar la leucocitosis, evaluar la línea celular predominante y reconocer alteraciones morfológicas."
+    },
+    {
+      "id": "r2",
+      "n": "Solicitar estudio molecular BCR::ABL1",
+      "min": 0,
+      "needs": [
+        "t2"
+      ],
+      "goto": "confirmacion",
+      "when": [
+        "caracterizacion"
+      ],
+      "delay": 0,
+      "note": "La detección de BCR::ABL1 permite confirmar la sospecha de leucemia mieloide crónica."
+    },
+    {
+      "id": "r3",
+      "n": "Solicitar valoración por Hematología y completar estudio medular",
+      "min": 0,
+      "needs": [
+        "t4"
+      ],
+      "goto": "manejo",
+      "when": [
+        "confirmacion"
+      ],
+      "delay": 0,
+      "note": "La valoración especializada permite completar la clasificación de la enfermedad, determinar la fase y seleccionar el tratamiento."
+    },
+    {
+      "id": "r4",
+      "n": "Iniciar antibióticos empíricos sin evidencia de infección",
+      "min": 0,
+      "harm": {
+        "msg": "No existen manifestaciones clínicas que justifiquen asumir una infección bacteriana. La leucocitosis debe investigarse de manera sistemática y el tratamiento antibiótico no resuelve una proliferación mieloide clonal."
+      }
+    },
+    {
+      "id": "r5",
+      "n": "Administrar corticosteroides como tratamiento de la leucocitosis",
+      "min": 0,
+      "harm": {
+        "msg": "Los corticosteroides no constituyen tratamiento de la leucemia mieloide crónica y pueden producir neutrofilia, dificultando la interpretación del recuento leucocitario."
+      }
+    },
+    {
+      "id": "r6",
+      "n": "Clasificar como leucocitosis reactiva y finalizar el estudio",
+      "min": 0,
+      "harm": {
+        "msg": "La pérdida ponderal, sudoración nocturna, esplenomegalia, basofilia y persistencia de la leucocitosis son datos de alarma. Omitir estudios complementarios puede retrasar el diagnóstico de una neoplasia hematológica."
+      }
+    },
+    {
+      "id": "r7",
+      "n": "Dar de alta sin seguimiento hematológico",
+      "min": 0,
+      "when": [
+        "confirmacion"
+      ],
+      "harm": {
+        "msg": "La leucemia mieloide crónica requiere seguimiento especializado, tratamiento dirigido y monitorización de la respuesta molecular."
+      }
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Reacción leucemoide secundaria a infección bacteriana",
+      "Leucemia mieloide crónica",
+      "Leucemia linfocítica crónica",
+      "Leucemia mieloide aguda",
+      "Leucocitosis reactiva inducida por corticosteroides"
+    ],
+    "correct": 1
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Identificar los síntomas constitucionales y la esplenomegalia como datos de alarma",
+        "a": [
+          "t1",
+          "r1"
+        ],
+        "by": 15
+      },
+      {
+        "label": "Confirmar la leucocitosis y solicitar evaluación morfológica mediante frotis",
+        "a": [
+          "t2"
+        ],
+        "by": 20
+      },
+      {
+        "label": "Solicitar BCR::ABL1 ante la sospecha de neoplasia mieloproliferativa",
+        "a": [
+          "t4",
+          "r2"
+        ],
+        "by": 60
+      },
+      {
+        "label": "Solicitar valoración hematológica y completar la caracterización diagnóstica",
+        "a": [
+          "r3",
+          "t5"
+        ],
+        "before": "r3"
+      }
+    ],
+    "avoid": [
+      {
+        "state": "demora",
+        "label": "Evitar retrasar la evaluación de una leucocitosis persistente con datos de alarma."
+      },
+      {
+        "state": "caracterizacion",
+        "label": "Evitar asumir una causa infecciosa o reactiva sin evidencia."
+      },
+      {
+        "state": "confirmacion",
+        "label": "Evitar finalizar la atención sin valoración hematológica."
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "La leucocitosis es un hallazgo de laboratorio con un diagnóstico diferencial amplio. Su evaluación requiere integrar interrogatorio, exploración física, biometría hemática con diferencial y frotis periférico. En este paciente, la leucocitosis marcada, el predominio granulocítico, la basofilia, la trombocitosis, la esplenomegalia y los síntomas constitucionales orientan hacia una neoplasia mieloproliferativa. La detección de BCR::ABL1 confirma la sospecha de leucemia mieloide crónica.",
+    "points": [
+      "La leucocitosis en adultos se define generalmente por un recuento superior a 11,000 células/mm³.",
+      "La neutrofilia corresponde a un recuento absoluto superior a 7,500 células/mm³.",
+      "La linfocitosis corresponde a un recuento absoluto superior a 4,000 células/mm³.",
+      "La monocitosis corresponde a un recuento absoluto superior a 1,000 células/mm³.",
+      "La eosinofilia corresponde a un recuento absoluto superior a 500 células/mm³.",
+      "La basofilia corresponde a un recuento absoluto superior a 200 células/mm³.",
+      "La basofilia asociada a leucocitosis granulocítica persistente obliga a considerar leucemia mieloide crónica.",
+      "El frotis periférico permite evaluar maduración celular, desviación a la izquierda y presencia de blastos.",
+      "BCR::ABL1 es el marcador molecular característico de la leucemia mieloide crónica.",
+      "Los inhibidores de tirosina cinasa constituyen la base del tratamiento dirigido.",
+      "La hiperleucocitosis se define como un recuento superior a 100,000 células/mm³. Cuando se acompaña de síntomas neurológicos o respiratorios debe sospecharse leucostasis, una emergencia hematológica.",
+      "La reacción leucemoide puede alcanzar cifras de 50,000 a 100,000 células/mm³, pero suele ser transitoria y relacionada con una causa reactiva."
+    ],
+    "refs": [
+      "Walker CW, Hartman T, Pompa M. The evaluation of leukocytosis. JAAPA. 2026;39(1):26-32. doi:10.1097/01.JAA.0000000000000298.",
+      "Riley LK, Rupert J. Evaluation of patients with leukocytosis. Am Fam Physician. 2015;92(11):1004-1011.",
+      "Cerny J, Rosmarin AG. Why does my patient have leukocytosis? Hematol Oncol Clin North Am. 2012;26(2):303-319. doi:10.1016/j.hoc.2012.01.001.",
+      "Gerds AT, Gotlib J, Ali H, et al. Myeloproliferative neoplasms, Version 3.2022. J Natl Compr Canc Netw. 2022;20(9):1033-1062. doi:10.6004/jnccn.2022.0046."
+    ]
+  },
+  "author": "Ernesto Chale",
+  "submittedBy": "ErnetoChale"
+}
