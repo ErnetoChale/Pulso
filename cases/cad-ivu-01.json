@@ -560,5 +560,12 @@
     "refs": [
       "Umpierrez GE, et al. Hyperglycemic crises in adults with diabetes: a consensus report. Diabetes Care. 2024;47(8):1257–1275."
     ]
+  },
+  "disposition": {
+    "correct": [
+      3,
+      4
+    ],
+    "why": "Requiere infusión de insulina con glucemia horaria y electrolitos cada 2–4 h."
   }
 }

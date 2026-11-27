@@ -470,5 +470,12 @@
     "refs": [
       "Global Initiative for Asthma (GINA). Global Strategy for Asthma Management and Prevention, 2024 update. www.ginasthma.org"
     ]
+  },
+  "disposition": {
+    "correct": [
+      1,
+      2
+    ],
+    "why": "Observar 1–3 h tras la última dosis; con crisis grave y hospitalización previa, hospitalizar es razonable."
   }
 }

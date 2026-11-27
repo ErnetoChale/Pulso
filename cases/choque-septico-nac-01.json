@@ -476,5 +476,11 @@
       "Evans L, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063–e1143.",
       "Metlay JP, et al. Diagnosis and Treatment of Adults with Community-acquired Pneumonia. Am J Respir Crit Care Med. 2019;200(7):e45–e67."
     ]
+  },
+  "disposition": {
+    "correct": [
+      4
+    ],
+    "why": "Choque séptico con vasopresor: necesita monitoreo invasivo y titulación continua."
   }
 }

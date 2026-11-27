@@ -7,6 +7,9 @@ Es un solo archivo (`index.html`), sin servidor ni base de datos.
 ### Qué incluye
 
 - **Simulación con tiempo:** cada acción consume minutos; los laboratorios tardan en llegar y se ven como órdenes pendientes; modo opcional de reloj en tiempo real (1 min simulado cada 3 s).
+- **Expediente clínico:** pulsera del paciente (las alergias se revelan al interrogarlas), buscador de órdenes, pestañas de Expediente, Resultados, Signos (hoja de signos vitales), Órdenes y Notas, y notas de enfermería automáticas cuando el paciente cambia.
+- **Laboratorios en tabla:** los resultados con formato `Analito valor unidad · …` se muestran con valores de referencia y flechas ↑↓, sin cambiar el JSON.
+- **Cierre del caso:** diagnóstico y destino del paciente (alta, piso, intermedios, UCI, quirófano/hemodinamia), ambos calificados.
 - **Monitor vivo con sonido:** ECG, pletismografía, alarmas y pitido por latido.
 - **Retroalimentación:** puntaje, acciones críticas con el minuto en que se hicieron, errores con riesgo, gráfica de signos vitales, línea de tiempo, puntos clave y referencias.
 - **Biblioteca:** búsqueda y filtros por especialidad y dificultad.
@@ -95,6 +98,7 @@ Mándale el material a Claude con esta instrucción:
 | `exam` | `{id, n, f}` |
 | `tests` | `{id, n, min, r}`; `r` es texto o un objeto con un resultado por estado y `"*"` por defecto. Con `min` mayor a 5 el resultado llega después, como orden pendiente |
 | `treatments` | `{id, n, min, goto, when, effects, harm: {when, msg}, delay, needs, note}`. `effects` es una lista `{when, ifDone, goto, note}`: se aplica el primer efecto cuyo estado (`when`) y acciones previas (`ifDone`) coincidan |
+| `disposition` | Opcional: `{options, correct, why}`; `correct` puede ser un índice o una lista. Sin `options` se usa la lista estándar de destinos |
 | `diagnosis` | `{options: [...], correct: índice}` |
 | `scoring.critical` | `{label, a: [ids], by: minutos, before: id, w: peso}` |
 | `scoring.avoid` | `{state, label}`: estados que el estudiante debe evitar |

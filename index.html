@@ -151,7 +151,7 @@ td.num{text-align:right;white-space:nowrap}.hist{font-size:15px}
 .bento .card.big{grid-column:span 7;grid-row:span 2;padding:32px}
 .bento .card.big h3{font-size:clamp(30px,3.4vw,44px)}
 .bento .card.wide{grid-column:span 7}
-.num{font:600 italic 44px/1 var(--disp);color:var(--red)}
+.card .num,.empty .num{font:600 italic 44px/1 var(--disp);color:var(--red)}
 .card .meta{font:500 11px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .card .intro{font-size:17px;border-left:1px solid var(--line);padding-left:14px;margin:6px 0}
 .card .row button{font-size:15px}
@@ -204,6 +204,27 @@ footer.foot a{color:var(--ink)}
 .pillbtn:focus-within{outline:3px solid var(--red);outline-offset:2px}
 .ico{vertical-align:-2px;color:var(--mute)}
 @media(max-width:520px){.slot{grid-template-columns:minmax(0,1fr)}.sthumb{width:100%;height:140px}}
+.band-pt{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;border:1px solid var(--line);border-left:6px solid var(--red);background:var(--panel);padding:12px 16px;margin-bottom:14px}
+.avatar{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--bg);font:800 20px var(--disp)}
+.who2 h2{margin:0;font-size:28px}
+.facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 16px;margin:0;padding-top:10px;border-top:1px solid var(--line)}
+.facts dt{font:500 11px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}.facts dd{margin:0;font-size:15px;line-height:1.3}.facts dd.warn{color:var(--red);font-weight:700}
+@media(max-width:560px){.facts{grid-template-columns:minmax(0,1fr)}}
+.osearch{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:0 14px;margin:12px 0 6px;background:var(--bg)}
+.osearch input{border:0;background:transparent;min-height:42px;font-size:16px;width:100%;outline:none}.osearch:focus-within{outline:3px solid var(--red);outline-offset:2px}
+.acts .meta{font-size:10px;margin-right:4px}
+.ctabs{margin-top:4px}
+#chart{padding-top:10px}
+.lab{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px;background:var(--bg);border:1px solid var(--line)}
+.lab th{font:500 11px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+.lab td{padding:5px 8px;border-bottom:1px solid var(--line)}.lab td.num{text-align:right;white-space:nowrap}.lab th:not(:first-child){text-align:right}
+.lab tr.ab td{color:var(--red)}.lab .fl{font-weight:700}
+.flow{width:100%;border-collapse:collapse;font-size:14px}.flow th{font:500 11px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:right;padding:6px}.flow th:first-child,.flow td:first-child{text-align:left}
+.flow td{padding:6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}.flow td.abv{color:var(--red);font-weight:700}
+.ord,.route{list-style:none;padding:0;margin:0;display:grid;gap:6px}.ord li,.route li{display:grid;grid-template-columns:80px minmax(0,1fr);gap:10px;padding:8px 10px;border:1px solid var(--line);background:var(--bg)}
+.ord li span,.route li span{font-weight:700;color:var(--mute);font-size:14px}
+.ent.k-n{border-color:var(--c-rr)}
+.notesbox{white-space:pre-wrap;border:1px solid var(--line);background:var(--panel);padding:14px}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 @keyframes fade{from{opacity:0}}
 @keyframes draw{to{stroke-dashoffset:0}}
@@ -789,6 +810,13 @@ footer.foot a{color:var(--ink)}
 "refs": [
 "Umpierrez GE, et al. Hyperglycemic crises in adults with diabetes: a consensus report. Diabetes Care. 2024;47(8):1257–1275."
 ]
+},
+"disposition": {
+"correct": [
+3,
+4
+],
+"why": "Requiere infusión de insulina con glucemia horaria y electrolitos cada 2–4 h."
 }
 },
 {
@@ -1264,6 +1292,12 @@ footer.foot a{color:var(--ink)}
 "refs": [
 "Byrne RA, et al. 2023 ESC Guidelines for the management of acute coronary syndromes. Eur Heart J. 2023;44(38):3720–3826."
 ]
+},
+"disposition": {
+"correct": [
+5
+],
+"why": "ICP primaria y después unidad coronaria."
 }
 },
 {
@@ -1744,6 +1778,12 @@ footer.foot a{color:var(--ink)}
 "Evans L, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063–e1143.",
 "Metlay JP, et al. Diagnosis and Treatment of Adults with Community-acquired Pneumonia. Am J Respir Crit Care Med. 2019;200(7):e45–e67."
 ]
+},
+"disposition": {
+"correct": [
+4
+],
+"why": "Choque séptico con vasopresor: necesita monitoreo invasivo y titulación continua."
 }
 },
 {
@@ -2218,6 +2258,13 @@ footer.foot a{color:var(--ink)}
 "refs": [
 "Global Initiative for Asthma (GINA). Global Strategy for Asthma Management and Prevention, 2024 update. www.ginasthma.org"
 ]
+},
+"disposition": {
+"correct": [
+1,
+2
+],
+"why": "Observar 1–3 h tras la última dosis; con crisis grave y hospitalización previa, hospitalizar es razonable."
 }
 }
 ]
@@ -2299,7 +2346,28 @@ function lightbox(src,cap){const ov=document.createElement('div');ov.className='
   ov.querySelector('img').src=src;ov.querySelector('img').alt=cap||'Imagen del caso';ov.querySelector('figcaption').textContent=cap||'';
   const close=()=>{ov.remove();removeEventListener('keydown',k)},k=e=>{if(e.key==='Escape')close()};
   ov.onclick=e=>{if(e.target===ov||e.target.classList.contains('lbx'))close()};addEventListener('keydown',k);document.body.append(ov);ov.querySelector('.lbx').focus()}
-const entHTML=(e,i)=>`<div class="ent k-${e.k}"><div class="t">${hhmm(e.t)} · ${esc(e.title||'')}</div><div>${esc(e.txt)}</div>${e.img?`<button class="thumb" data-li="${i}" aria-label="Ampliar imagen: ${esc(e.cap||e.title||'')}"><img src="${esc(e.img)}" alt="${esc(e.cap||e.title||'')}" loading="lazy"><span>${esc(e.cap||'Ampliar')}</span></button>`:''}${e.harm?`<div class="harm">⚠ ${esc(e.harm)}</div>`:''}</div>`;
+/* Laboratorios: reconoce "Analito valor unidad · …" y lo muestra con referencia y bandera */
+const REF=[[/^ph$/,7.35,7.45,''],[/^pco2$/,35,45,'mmHg'],[/^po2$/,80,100,'mmHg'],[/^hco3/,22,26,'mEq/L'],[/^lactato/,0.5,2,'mmol/L'],
+  [/^na\b|^sodio/,135,145,'mEq/L'],[/^k\b|^potasio/,3.5,5,'mEq/L'],[/^cl\b|^cloro/,98,107,'mEq/L'],[/brecha anionica|anion gap/,8,12,'mEq/L'],
+  [/^glucosa|^glucemia/,70,100,'mg/dL'],[/^bun/,7,20,'mg/dL'],[/^creatinina/,0.6,1.2,'mg/dL'],[/^hb\b|^hemoglobina/,12,17,'g/dL'],
+  [/^leucocitos/,4500,11000,'/µL'],[/^plaquetas/,150000,450000,'/µL'],[/^inr/,0.8,1.2,''],[/^tp\b/,11,13.5,'s'],[/^ttpa/,25,35,'s'],
+  [/troponina/,0,26,'ng/L'],[/procalcitonina/,0,0.5,'ng/mL'],[/hidroxibutirato|cetonemia/,0,0.6,'mmol/L'],[/^lipasa/,13,60,'U/L'],
+  [/osmolaridad/,275,295,'mOsm/kg'],[/bilirrubina/,0.3,1.2,'mg/dL'],[/^bandas/,0,5,'%']];
+const keyOf=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[⁺⁻]/g,'').replace(/₂/g,'2').replace(/₃/g,'3').replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
+const num=s=>parseFloat(String(s).replace(/[\s\u202f\u2009]/g,'').replace(',','.'));
+function labRows(txt,testName){
+  const [main,...rest]=String(txt).split(/\.\s+(?=[A-ZÁÉÍÓÚÑ«¿])/);const note=rest.join('. ');
+  const segs=main.replace(/\.$/,'').split(/\s*·\s*/),rows=[];
+  for(const sg of segs){let m=sg.match(/^([A-Za-zÁÉÍÓÚáéíóúñÑ₀-₉⁺⁻%][^\d]*?)\s*[=:≈]?\s*([<>]?\s*\d[\d\s\u202f.,]*)\s*([^\d(]*?)\s*(\(.*\))?$/);
+    if(!m&&segs.length===1){const s2=sg.match(/^([<>]?\s*\d[\d\s\u202f.,]*)\s*([^\d(]*?)\s*(\(.*\))?$/);if(s2)m=[0,testName,s2[1],s2[2],s2[3]]}
+    if(!m)return null;
+    const label=m[1].trim(),v=num(m[2].replace(/[<>]/g,'')),k=keyOf(label),ref=REF.find(r=>r[0].test(k))||REF.find(r=>r[0].test(keyOf(testName)));
+    if(isNaN(v))return null;
+    rows.push({label,val:m[2].trim(),u:(m[3]||'').trim()||(ref?ref[3]:''),extra:m[4]||'',ref:ref?(ref[1]===0?'< '+ref[2]:ref[1].toLocaleString('es-MX')+'–'+ref[2].toLocaleString('es-MX')):'',flag:ref?(v>ref[2]?'H':v<ref[1]?'L':''):''})}
+  if(!rows.length||(rows.length<2&&!rows[0].ref))return null;return{rows,note}}
+function labHTML(txt,testName){const L=labRows(txt,testName);if(!L)return `<div>${esc(txt)}</div>`;
+  return `<table class="lab"><thead><tr><th>Analito</th><th>Resultado</th><th>Referencia</th></tr></thead><tbody>${L.rows.map(r=>`<tr class="${r.flag?'ab':''}"><td>${esc(r.label)}</td><td class="num"><b>${esc(r.val)}</b> ${esc(r.u)} ${r.flag?`<span class="fl">${r.flag==='H'?'↑':'↓'}</span>`:''}${r.extra?`<div class="small mute">${esc(r.extra)}</div>`:''}</td><td class="num mute">${esc(r.ref)}</td></tr>`).join('')}</tbody></table>${L.note?`<p class="small" style="margin:6px 0 0">${esc(L.note)}</p>`:''}`}
+const entHTML=(e,i)=>`<div class="ent k-${e.k}"><div class="t">${hhmm(e.t)} · ${esc(e.title||'')}</div>${e.k==='t'&&!/· orden$/.test(e.title||'')?labHTML(e.txt,(e.title||'').replace(/ · resultado$/,'')):`<div>${esc(e.txt)}</div>`}${e.img?`<button class="thumb" data-li="${i}" aria-label="Ampliar imagen: ${esc(e.cap||e.title||'')}"><img src="${esc(e.img)}" alt="${esc(e.cap||e.title||'')}" loading="lazy"><span>${esc(e.cap||'Ampliar')}</span></button>`:''}${e.harm?`<div class="harm">⚠ ${esc(e.harm)}</div>`:''}</div>`;
 const bindThumbs=root=>root.querySelectorAll('[data-li]').forEach(b=>b.onclick=()=>{const e=S.log[+b.dataset.li];if(e)lightbox(e.img,e.cap||e.title)});
 const app=$('#app');
 let S=null,raf=0;
@@ -2413,9 +2481,18 @@ function startSound(){stopSound();snd.t0=performance.now()/1000;snd.lastBeat=-1;
 function stopSound(){clearInterval(snd.iv);snd.iv=0}
 function addLog(k,txt,title,harm,img,cap){S.log.unshift({k,t:S.t,txt,title,harm,img,cap})}
 const imgOf=it=>{const v=it&&it.img;if(!v)return null;return typeof v==='string'?v:(v[S.st]??v['*']??null)};
+function nurseNote(a,b){if(!a||!b||!b.hr)return '';const d=[];
+  if(Math.abs((b.hr||0)-(a.hr||0))>=10)d.push(`FC ${a.hr} → ${b.hr}`);
+  if(Math.abs((b.sbp||0)-(a.sbp||0))>=10)d.push(`PA ${a.sbp}/${a.dbp} → ${b.sbp}/${b.dbp}`);
+  if(Math.abs((b.spo2||0)-(a.spo2||0))>=3)d.push(`SpO₂ ${a.spo2} → ${b.spo2} %`);
+  if(Math.abs((b.rr||0)-(a.rr||0))>=4)d.push(`FR ${a.rr} → ${b.rr}`);
+  if(Math.abs((b.t||0)-(a.t||0))>=0.5)d.push(`T ${a.t} → ${b.t} °C`);
+  return d.length?d.join(' · ')+'.':''}
 function setState(id,auto){
+  const prevV=S.c.states[S.st]?.v;
   S.st=id;S.tin=0;S.visited.add(id);const s=cur();
   addLog('s',s.d||'',(auto?'Evolución: ':'Respuesta: ')+(s.label||id));snap();
+  if(!s.end){const nn=nurseNote(prevV,s.v);if(nn){const w=s.v.sbp<(prevV?.sbp||0)-9||s.v.spo2<(prevV?.spo2||0)-2||s.v.hr>(prevV?.hr||0)+9;addLog('n',(w?'Avisa al médico: ':'Reporta: ')+nn,'Enfermería')}}
   if(s.end){S.over=s.end;if(s.end==='muerte')sfx.death()}
   else if(s.goal&&!auto)sfx.goal();
 }
@@ -2461,19 +2538,40 @@ function act(kind,it){
 function name(id){const c=S.c;const x=[...c.history.map(h=>({id:h.id,n:h.q})),...c.exam,...c.tests,...c.treatments].find(a=>a.id===id);return x?x.n:id}
 const hhmm=m=>`T+${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
 
+function bandHTML(){const c=S.c,p=c.patient,ini=String(p.name||'P').split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const ah=c.history.find(x=>/alerg/i.test(x.q)),asked=ah&&S.done.some(d=>d.id===ah.id);
+  const alg=p.allergies||(asked?ah.a:(ah?'Sin interrogar':'No registradas'));const risky=asked&&!/ningun|niega|no conoc/i.test(ah.a);
+  return `<div class="band-pt"><span class="avatar" aria-hidden="true">${esc(ini)}</span>
+    <div class="who2"><h2>${esc(p.name||'Paciente')}</h2><div class="mute">${esc(p.age??'')} años · ${esc(p.sex==='F'?'Femenino':p.sex==='M'?'Masculino':p.sex||'')}${p.weight?` · ${esc(p.weight)} kg`:''}</div></div>
+    <dl class="facts"><div><dt>Ubicación</dt><dd>${esc(c.setting||'—')}</dd></div><div><dt>Alergias</dt><dd class="${asked?(risky?'warn':''):'mute'}">${esc(alg)}</dd></div><div><dt>Motivo</dt><dd>${esc(p.cc||'—')}</dd></div></dl></div>`}
+const actsHTML=()=>{const c=S.c,q=keyOf(S.q||'');
+  const cat={h:['Interrogatorio',c.history.map(x=>[x.id,x.q,x.min??2])],e:['Exploración',c.exam.map(x=>[x.id,x.n,x.min??3,x.img])],t:['Estudios',c.tests.map(x=>[x.id,x.n,x.min??5,x.img])],r:['Tratamiento',c.treatments.map(x=>[x.id,x.n,x.min??5])]};
+  const items=q?Object.entries(cat).flatMap(([k,[l,a]])=>a.filter(x=>keyOf(x[1]).includes(q)).map(x=>[k,l,...x])):cat[S.tab][1].map(x=>[S.tab,'',...x]);
+  return items.map(([k,l,id,n,m,im])=>`<button data-act="${esc(id)}" data-k="${k}" class="${S.done.some(d=>d.id===id)?'done':''}" ${S.over?'disabled':''}><span>${l?`<small class="meta">${l}</small> `:''}${esc(n)}${im?' <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="incluye imagen"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>':''}</span><span class="m">${m} min</span></button>`).join('')||`<p class="mute">${q?'Ninguna orden coincide.':'Este caso no tiene opciones aquí.'}</p>`};
+function chartHTML(){const c=S.c,tab=S.ctab||'exp';
+  if(tab==='exp')return `<div class="feed">${S.log.map(entHTML).join('')}</div>`;
+  if(tab==='res'){const seen=new Set(),out=[];for(const e of S.log){if(e.k!=='t'||/· orden$/.test(e.title||''))continue;const n=(e.title||'').replace(/ · resultado$/,'');if(seen.has(n))continue;seen.add(n);out.push(e)}
+    return out.length?`<div class="feed">${out.map(e=>`<div class="ent k-t"><div class="t">${esc(e.title.replace(/ · resultado$/,''))} · ${hhmm(e.t)}</div>${labHTML(e.txt,e.title.replace(/ · resultado$/,''))}</div>`).join('')}</div>`:'<p class="mute">Todavía no hay resultados.</p>'}
+  if(tab==='sig'){const ab=(k,v)=>k==='hr'?v>100||v<60:k==='sbp'?v<90||v>160:k==='spo2'?v<92:k==='rr'?v>22||v<10:k==='t'?v>=38||v<36:false;
+    const rows=S.trend.filter((p,i)=>!i||p.st!==S.trend[i-1].st).map(p=>({...p,t2:c.states[p.st]?.v?.t}));
+    return `<div class="scroll"><table class="flow"><thead><tr><th>Hora</th><th>FC</th><th>PA</th><th>FR</th><th>SpO₂</th><th>Temp</th></tr></thead><tbody>${rows.map(p=>`<tr><td>${hhmm(p.t)}</td>${[['hr',p.hr],['sbp',p.sbp?p.sbp+'/'+p.dbp:'—'],['rr',p.rr],['spo2',p.spo2],['t',p.t2]].map(([k,v])=>`<td class="num ${ab(k,k==='sbp'?p.sbp:v)?'abv':''}">${v??'—'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+  if(tab==='ord'){const tx=S.done.filter(d=>c.treatments.some(x=>x.id===d.id)).map(d=>[d.t,c.treatments.find(x=>x.id===d.id).n]);
+    return `<p class="meta" style="margin:4px 0">Tratamientos indicados</p>${tx.length?`<ol class="ord">${tx.map(([t,n])=>`<li><span>${hhmm(t)}</span>${esc(n)}</li>`).join('')}</ol>`:'<p class="mute small">Ninguno todavía.</p>'}
+      <p class="meta" style="margin:14px 0 4px">Estudios pendientes</p><div class="row" style="gap:6px">${pendHTML()}</div>`}
+  return `<label class="fld">Tus notas y diagnóstico diferencial<textarea id="notes" placeholder="Ej.: DDx: CAD vs EHH. Pendiente K⁺ antes de insulina…" style="min-height:220px">${esc(S.notes||'')}</textarea></label><p class="small mute">Se muestran en la retroalimentación al cerrar el caso.</p>`}
 function renderSim(){
   const c=S.c,p=c.patient,s=cur();
-  const lists={h:c.history.map(x=>[x.id,x.q,x.min??2]),e:c.exam.map(x=>[x.id,x.n,x.min??3,x.img]),t:c.tests.map(x=>[x.id,x.n,x.min??5,x.img]),r:c.treatments.map(x=>[x.id,x.n,x.min??5])};
+  const _lists={h:c.history.map(x=>[x.id,x.q,x.min??2]),e:c.exam.map(x=>[x.id,x.n,x.min??3,x.img]),t:c.tests.map(x=>[x.id,x.n,x.min??5,x.img]),r:c.treatments.map(x=>[x.id,x.n,x.min??5])};
   const tabs=[['h','Interrogatorio'],['e','Exploración'],['t','Estudios'],['r','Tratamiento']];
   const banner=S.over==='muerte'?`<div class="banner bad">El paciente falleció a los ${S.t} min. Revisa la retroalimentación.</div>`:s.goal?`<div class="banner good">Objetivo terapéutico alcanzado. Puedes cerrar el caso con tu diagnóstico.</div>`:'';
   app.innerHTML=`<section class="band"><div class="sim">
   <div>
-    <div class="pt"><h2>${esc(p.name||'Paciente')}</h2><span class="mute">${esc(p.age??'')} años · ${esc(p.sex||'')}${p.weight?` · ${esc(p.weight)} kg`:''}</span><span class="tag">${esc(c.setting||'')}</span></div>
+    ${bandHTML()}
     <div class="mon" role="img" aria-label="Monitor de signos vitales">
       <div class="monbar"><span>${esc(s.label||S.st)}</span><span class="row" style="gap:10px"><button class="sndbtn" id="snd" aria-pressed="${snd.on}" title="${snd.on?'Silenciar':'Activar sonido'}">${snd.on?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>Sonido':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m22 9-6 6M16 9l6 6"/></svg>Silencio'}</button><span id="clk">${hhmm(S.t)}</span></span></div>
       <div class="scr"><div class="wave"><canvas id="cv"></canvas></div><div class="vit" id="vit"></div></div>
     </div>
-    <div class="state"><b>Motivo de consulta:</b> ${esc(p.cc||'')}<br><b>Ahora:</b> ${esc(s.d||'')}${banner}</div>
+    <div class="state"><b>Ahora:</b> ${esc(s.d||'')}${banner}</div>
     <div class="row" style="margin-top:12px"><span class="mute small">Reevaluar:</span>
       ${[5,15,30].map(m=>`<button data-wait="${m}" ${S.over?'disabled':''}>Esperar ${m} min</button>`).join('')}
       ${S.pending.length&&!S.over?`<button data-wait="${Math.max(1,Math.min(...S.pending.map(p=>p.due))-S.t)}">Esperar siguiente resultado</button>`:''}
@@ -2481,15 +2579,20 @@ function renderSim(){
       <span style="flex:1"></span><button class="pri" id="fin">${S.over?'Ver retroalimentación':'Terminar caso'}</button></div>
   </div>
   <div class="panel">
-    <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${l}</button>`).join('')}</div>
-    <div class="acts">${lists[S.tab].map(([id,n,m,im])=>`<button data-act="${esc(id)}" class="${S.done.some(d=>d.id===id)?'done':''}" ${S.over?'disabled':''}><span>${esc(n)}${im?' <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="incluye imagen"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>':''}</span><span class="m">${m} min</span></button>`).join('')||'<p class="mute">Este caso no tiene opciones aquí.</p>'}</div>
+    <label class="osearch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="oq" type="search" placeholder="Buscar orden: insulina, gasometría, ECG…" value="${esc(S.q||'')}" aria-label="Buscar orden" ${S.over?'disabled':''}></label>
+    <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${!S.q&&S.tab===k}" data-tab="${k}">${l}</button>`).join('')}</div>
+    <div class="acts" id="acts">${actsHTML()}</div>
     <div class="pend"><span class="meta">Órdenes pendientes</span><div id="pend" class="row" style="gap:6px;margin-top:6px">${pendHTML()}</div></div>
-    <h2 style="font-size:17px;margin:4px 0 0">Expediente</h2>
-    <div class="feed">${S.log.map(entHTML).join('')}</div>
+    <div class="tabs ctabs" role="tablist" aria-label="Expediente">${[['exp','Expediente'],['res','Resultados'],['sig','Signos'],['ord','Órdenes'],['not','Notas']].map(([k,l])=>`<button role="tab" aria-selected="${(S.ctab||'exp')===k}" data-ct="${k}">${l}</button>`).join('')}</div>
+    <div id="chart">${chartHTML()}</div>
   </div></div></section>`;
-  app.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;renderSim()});
+  app.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.q='';renderSim()});
+  app.querySelectorAll('[data-ct]').forEach(b=>b.onclick=()=>{S.ctab=b.dataset.ct;renderSim()});
+  const nt=$('#notes');if(nt)nt.oninput=()=>{S.notes=nt.value};
+  const bindActs=()=>app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;const pool={h:c.history,e:c.exam,t:c.tests,r:c.treatments}[k];act(k,pool.find(x=>x.id===b.dataset.act))});
+  $('#oq').oninput=e=>{S.q=e.target.value;$('#acts').innerHTML=actsHTML();app.querySelectorAll('[data-tab]').forEach(t=>t.setAttribute('aria-selected',!S.q&&t.dataset.tab===S.tab));bindActs()};
   app.querySelectorAll('[data-wait]').forEach(b=>b.onclick=()=>{const m=+b.dataset.wait;advance(m);if(!S.over&&cur().d)addLog('s',cur().d,'Reevaluación');renderSim()});
-  app.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{const k=S.tab;const pool={h:c.history,e:c.exam,t:c.tests,r:c.treatments}[k];act(k,pool.find(x=>x.id===b.dataset.act))});
+  bindActs();
   $('#fin').onclick=()=>S.over?debrief():finishModal();bindThumbs(app);
   $('#rt').onchange=e=>{S.rt=e.target.checked;ls.set(RTK,S.rt);S.rt?startRT():stopRT()};
   $('#snd').onclick=()=>{snd.on=!snd.on;ls.set(SK,snd.on);if(snd.on){actx();sfx.tick()}renderSim()};
@@ -2545,15 +2648,20 @@ function drawTrend(tr,end){const s=$('#trend');if(!s||!tr.length)return;
       ${tr.map((p,i)=>i&&p.st!==tr[i-1].st?`<line x1="${x(p.t)}" x2="${x(p.t)}" y1="${T}" y2="${H-B}" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="3 4"/>`:'').join('')}
       ${[['hr','--c-hr'],['sbp','--c-bp'],['spo2','--c-sp'],['rr','--c-rr']].map(([k,c])=>`<path d="${path(k)}" fill="none" stroke="var(${c})" stroke-width="2.5" stroke-linejoin="round"/>`).join('')}</svg>`};
   if(trendRO)trendRO.disconnect();trendRO=new ResizeObserver(draw);trendRO.observe(s);draw()}
+const DISP=['Alta a domicilio','Observación en urgencias','Hospitalización en piso','Unidad de cuidados intermedios','Terapia intensiva (UCI)','Quirófano o sala de hemodinamia'];
+const dispOpts=c=>c.disposition?.options||DISP;
+const dispOk=(c,i)=>{const k=c.disposition?.correct;if(k==null||i==null)return null;return Array.isArray(k)?k.includes(i):k===i};
 function finishModal(){
-  const o=S.c.diagnosis.options||[];
+  const o=S.c.diagnosis.options||[],dp=dispOpts(S.c);
   const ov=document.createElement('div');ov.className='overlay';
-  ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt"><h2 id="mt">¿Cuál es tu diagnóstico?</h2>
+  ov.innerHTML=`<div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="mt"><p class="eyebrow" style="margin-bottom:8px">Cierre del caso · 01</p><h2 id="mt">¿Cuál es tu diagnóstico?</h2>
   ${o.map((t,i)=>`<label class="opt"><input type="radio" name="dx" value="${i}"><span>${esc(t)}</span></label>`).join('')||'<p class="mute">Este caso no tiene opciones de diagnóstico.</p>'}
+  <p class="eyebrow" style="margin:22px 0 8px">Cierre del caso · 02</p><h2>¿A dónde va el paciente?</h2>
+  <div class="dispo">${dp.map((t,i)=>`<label class="opt"><input type="radio" name="dp" value="${i}"><span>${esc(t)}</span></label>`).join('')}</div>
   <div class="row" style="margin-top:14px"><button class="ghost" id="mc">Seguir con el caso</button><span style="flex:1"></span><button class="pri" id="mo">Cerrar caso</button></div></div>`;
   document.body.append(ov);
   ov.querySelector('#mc').onclick=()=>ov.remove();
-  ov.querySelector('#mo').onclick=()=>{const r=ov.querySelector('input[name=dx]:checked');S.dx=r?+r.value:null;ov.remove();S.over=S.over||'fin';debrief()};
+  ov.querySelector('#mo').onclick=()=>{const r=ov.querySelector('input[name=dx]:checked');S.dx=r?+r.value:null;const r2=ov.querySelector('input[name=dp]:checked');S.dp=r2?+r2.value:null;ov.remove();S.over=S.over||'fin';debrief()};
 }
 function debrief(){
   stopMon();stopRT();if(S&&S.trend&&S.trend[S.trend.length-1]?.t!==S.t)snap();app.dataset.view='deb';
@@ -2568,7 +2676,8 @@ function debrief(){
   const avoid=c.scoring.avoid.map(a=>({label:a.label,ok:!S.visited.has(a.state),why:S.visited.has(a.state)?'ocurrió':'',w:a.w||1}));
   const list=[...items,...avoid],tot=list.reduce((a,b)=>a+b.w,0)||1,got=list.filter(i=>i.ok).reduce((a,b)=>a+b.w,0);
   const dxOk=S.dx!=null&&S.dx===c.diagnosis.correct;
-  let score=Math.round(100*got/tot)-10*S.harms.length-(S.over==='muerte'?30:0)+(c.diagnosis.options?.length?(dxOk?0:-10):0);
+  const dpOk=dispOk(c,S.dp);
+  let score=Math.round(100*got/tot)-10*S.harms.length-(S.over==='muerte'?30:0)+(c.diagnosis.options?.length?(dxOk?0:-10):0)+(c.disposition&&S.over!=='muerte'?(dpOk?0:-10):0);
   score=Math.max(0,Math.min(100,score));
   const goal=[...S.visited].some(id=>c.states[id].goal);
   let saved='';if(!S.saved&&me()){const p=me();p.history=p.history||[];p.history.unshift({caseId:c.id,title:c.title,spec:c.specialty||'',score,date:new Date().toISOString(),dx:S.dx==null?null:dxOk,harms:S.harms.length,death:S.over==='muerte',min:S.t});saveAll();S.saved=true}
@@ -2581,6 +2690,7 @@ function debrief(){
     <div class="row" style="align-items:flex-end;gap:18px"><div class="score">${score}</div><div class="mute" style="padding-bottom:10px">de 100 · ${S.t} min simulados<br>${S.over==='muerte'?'El paciente falleció':goal?'Alcanzaste el objetivo terapéutico':'No se alcanzó el objetivo terapéutico'}</div></div>
     <p><b>Tu diagnóstico:</b> ${S.dx!=null?esc(c.diagnosis.options[S.dx]):'sin respuesta'} ${S.dx!=null?(dxOk?'<span class="y" style="color:var(--ok)">✓ correcto</span>':'<span style="color:var(--red)">✗</span>'):''}<br>
     <b>Diagnóstico del caso:</b> ${esc(c.diagnosis.options?.[c.diagnosis.correct]||'')}</p>
+    ${S.over!=='muerte'?`<p><b>Tu destino:</b> ${S.dp!=null?esc(dispOpts(c)[S.dp]):'sin respuesta'} ${dpOk===true?'<span style="color:var(--ok)">✓ adecuado</span>':dpOk===false?'<span style="color:var(--red)">✗</span>':''}${c.disposition?`<br><b>Destino recomendado:</b> ${esc([].concat(c.disposition.correct).map(i=>dispOpts(c)[i]).join(' o '))}${c.disposition.why?` <span class="mute">— ${esc(c.disposition.why)}</span>`:''}`:''}</p>`:''}
     <p>${esc(c.debrief.summary||'')}</p>
     <div class="row"><button class="pri" id="again">Repetir caso</button><button id="back">Biblioteca</button></div>${saved}
   </div><div>
@@ -2591,6 +2701,8 @@ function debrief(){
     <div class="legend small"><span class="lg" style="--c:var(--c-hr)">FC</span><span class="lg" style="--c:var(--c-bp)">PAS</span><span class="lg" style="--c:var(--c-sp)">SpO₂</span><span class="lg" style="--c:var(--c-rr)">FR</span></div></div>
     <div class="fig" id="trend" role="img" aria-label="Gráfica de signos vitales por minuto"></div>
     <ol class="states">${S.trend.map((p,i)=>i&&p.st===S.trend[i-1].st?'':`<li><span>${hhmm(p.t)}</span>${esc(c.states[p.st]?.label||p.st)}</li>`).join('')}</ol></div>
+  <div class="two" style="margin-top:28px"><div><h2>Ruta recomendada</h2><ol class="route">${[...c.scoring.critical].sort((a,b)=>(a.by??999)-(b.by??999)).map(k=>`<li><span>${k.by!=null?'≤ '+k.by+' min':'—'}</span>${esc(k.label)}</li>`).join('')}</ol></div>
+  <div>${S.notes?`<h2>Tus notas</h2><div class="notesbox">${esc(S.notes)}</div>`:`<h2>Tus notas</h2><p class="mute">No escribiste notas en este caso. Usa la pestaña «Notas» del expediente para tu diagnóstico diferencial.</p>`}</div></div>
   <div class="two" style="margin-top:28px"><div><h2>Puntos clave</h2><ul>${(c.debrief.points||[]).map(p=>`<li style="margin-bottom:6px">${esc(p)}</li>`).join('')}</ul>
   <h2 style="font-size:17px">Referencias</h2><ul class="small mute">${(c.debrief.refs||[]).map(r=>`<li>${esc(r)}</li>`).join('')}</ul><p class="small mute">${esc(c.source||'')}</p></div>
   <div><h2>Tu línea de tiempo</h2><div class="feed" style="max-height:520px">${S.log.map((e,i)=>[e,i]).reverse().map(([e,i])=>entHTML(e,i)).join('')}</div></div></div>
