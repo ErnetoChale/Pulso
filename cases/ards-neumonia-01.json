@@ -1,0 +1,249 @@
+{
+  "id": "ards-neumonia-01",
+  "v": 1,
+  "title": "Disnea e hipoxemia en neumonía grave",
+  "specialty": "Neumología / Medicina Crítica",
+  "level": "Intermedio",
+  "source": "Calfee CS, McAuley DF. Acute Respiratory Distress Syndrome. N Engl J Med 2026;395:2027-42.",
+  "setting": "Urgencias",
+  "patient": {
+    "name": "María López",
+    "age": 58,
+    "sex": "F",
+    "weight": 72,
+    "cc": "Disnea progresiva, fiebre y tos de 3 días de evolución"
+  },
+  "intro": "Mujer de 58 años que acude a urgencias por disnea progresiva, fiebre de hasta 39 °C y tos productiva de 3 días. A la llegada está taquipneica, con saturación de 88% con mascarilla reservorio a 10 L/min, y radiografía de tórax con infiltrados bilaterales.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso en urgencias",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 118,
+        "sbp": 102,
+        "dbp": 64,
+        "rr": 28,
+        "spo2": 88,
+        "t": 38.8
+      },
+      "d": "Taquipnea, uso de musculatura accesoria, crepitantes bilaterales. Radiografía con opacidades bilaterales. Sospecha de neumonía grave con criterios de ARDS.",
+      "worse": {
+        "after": 25,
+        "to": "grave"
+      }
+    },
+    "grave": {
+      "label": "Hipoxemia refractaria",
+      "v": {
+        "hr": 132,
+        "sbp": 88,
+        "dbp": 52,
+        "rr": 36,
+        "spo2": 82,
+        "t": 39.1
+      },
+      "d": "Aumento del trabajo respiratorio, desaturación persistente a pesar de oxígeno, acidosis respiratoria incipiente y riesgo de intubación urgente.",
+      "worse": {
+        "after": 20,
+        "to": "muerte"
+      }
+    },
+    "mejor": {
+      "label": "Mejoría clínica",
+      "goal": true,
+      "v": {
+        "hr": 96,
+        "sbp": 116,
+        "dbp": 70,
+        "rr": 20,
+        "spo2": 95,
+        "t": 37.8
+      },
+      "d": "Mejoría de la oxigenación y del trabajo respiratorio tras tratamiento antibiótico precoz, soporte respiratorio adecuado y ventilación protectora si precisa."
+    },
+    "muerte": {
+      "label": "Muerte",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 37
+      }
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Cuándo comenzaron los síntomas y cómo han progresado?",
+      "a": "Fiebre y tos de 3 días, con disnea que ha empeorado en las últimas 12 horas."
+    },
+    {
+      "id": "h2",
+      "q": "¿Antecedentes de cardiopatía, insuficiencia cardíaca o sobrecarga de líquidos?",
+      "a": "No refiere cardiopatía conocida ni ingresos previos por insuficiencia cardíaca."
+    },
+    {
+      "id": "h3",
+      "q": "¿Factores de riesgo recientes: cirugía, trauma, aspiración, transfusión o sepsis?",
+      "a": "No cirugía reciente ni trauma. Cuadro compatible con neumonía como desencadenante."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Respiratorio",
+      "f": "Taquipnea, uso de musculatura accesoria, crepitantes bibasales y saturación baja con oxígeno suplementario."
+    },
+    {
+      "id": "e2",
+      "n": "Hemodinámico",
+      "f": "Taquicardia, presión arterial limítrofe, extremidades frías. Sin ingurgitación yugular clara."
+    },
+    {
+      "id": "e3",
+      "n": "Neurológico",
+      "f": "Consciente, orientada, ansiosa por disnea."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t1",
+      "n": "Gasometría arterial",
+      "min": 10,
+      "r": {
+        "inicial": "PaO2 58 mmHg con FiO2 0.8; PaO2/FiO2 ≈ 72 mmHg. Acidosis respiratoria leve.",
+        "*": "Hipoxemia grave persistente en estados avanzados."
+      }
+    },
+    {
+      "id": "t2",
+      "n": "Radiografía de tórax",
+      "min": 10,
+      "r": {
+        "inicial": "Opacidades bilaterales difusas, sin derrame significativo.",
+        "*": "Opacidades bilaterales persistentes."
+      }
+    },
+    {
+      "id": "t3",
+      "n": "Ecocardiograma básico",
+      "min": 20,
+      "r": {
+        "inicial": "Función sistólica conservada; no signos claros de edema cardiogénico como causa principal.",
+        "*": "Sin cambios significativos."
+      }
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r1",
+      "n": "Soporte respiratorio con oxigenoterapia de alto flujo y valoración precoz de intubación con ventilación protectora",
+      "min": 10,
+      "goto": "mejor",
+      "when": [
+        "inicial",
+        "grave"
+      ],
+      "delay": 0,
+      "needs": [
+        "t1",
+        "t2"
+      ],
+      "note": "Se optimiza la oxigenación, se evita la lesión pulmonar inducida por ventilación y se prepara intubación si hay deterioro."
+    },
+    {
+      "id": "r2",
+      "n": "Antibiótico empírico precoz y cultivos dirigidos",
+      "min": 15,
+      "goto": "mejor",
+      "when": [
+        "inicial",
+        "grave"
+      ],
+      "delay": 0,
+      "note": "Tratamiento de la causa subyacente, clave en ARDS por neumonía."
+    },
+    {
+      "id": "r3",
+      "n": "Ventilación con volumen tidal alto y presiones elevadas",
+      "min": 10,
+      "harm": {
+        "msg": "La ventilación con volúmenes tidales altos y presiones elevadas aumenta la lesión pulmonar inducida por ventilación (volutrauma, barotrauma y biotrauma). En ARDS se recomienda ventilación protectora con volumen tidal bajo."
+      }
+    },
+    {
+      "id": "r4",
+      "n": "Diuréticos agresivos en fase inicial de shock",
+      "min": 10,
+      "harm": {
+        "msg": "En fase de shock o inestabilidad hemodinámica, la diuresis agresiva puede empeorar la perfusión. La estrategia conservadora de líquidos se aplica tras resolver el shock."
+      }
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "ARDS por neumonía grave",
+      "Edema agudo de pulmón cardiogénico",
+      "Tromboembolismo pulmonar masivo"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Solicitar gasometría arterial en los primeros 15 minutos",
+        "a": [
+          "t1"
+        ],
+        "by": 15
+      },
+      {
+        "label": "Obtener radiografía de tórax antes de ajustar el tratamiento",
+        "a": [
+          "t2"
+        ],
+        "before": "r1"
+      },
+      {
+        "label": "Iniciar antibiótico empírico precoz",
+        "a": [
+          "r2"
+        ],
+        "by": 60
+      }
+    ],
+    "avoid": [
+      {
+        "state": "grave",
+        "label": "Evitó el deterioro a hipoxemia refractaria"
+      },
+      {
+        "state": "muerte",
+        "label": "Evitó la muerte"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "Se trata de una paciente con neumonía grave que desarrolla ARDS. El manejo clave incluye identificar y tratar la causa desencadenante, optimizar la oxigenación, aplicar ventilación protectora si requiere intubación, evitar volumen tidal alto y presiones elevadas, y considerar posición prono en ARDS moderado-grave.",
+    "points": [
+      "El ARDS se define por inicio agudo, hipoxemia, opacidades bilaterales no explicadas completamente por fallo cardíaco o sobrecarga de líquidos.",
+      "La causa subyacente debe identificarse y tratarse precozmente, especialmente en neumonía o sepsis.",
+      "La ventilación protectora con volumen tidal bajo y presión meseta ≤30 cm H2O reduce la mortalidad.",
+      "La posición prono está indicada en ARDS moderado-grave con PaO2/FiO2 <150 mmHg.",
+      "La estrategia conservadora de líquidos se aplica tras resolver el shock."
+    ],
+    "refs": [
+      "Calfee CS, McAuley DF. Acute Respiratory Distress Syndrome. N Engl J Med 2026;395:2027-42.",
+      "ARDS Definition Task Force. Berlin definition of ARDS.",
+      "Acute Respiratory Distress Syndrome Network. Ventilation with lower tidal volumes as compared with traditional tidal volumes for acute lung injury and the acute respiratory distress syndrome. N Engl J Med 2000.",
+      "PROSEVA trial. Prone positioning in severe acute respiratory distress syndrome. N Engl J Med 2013."
+    ]
+  },
+  "author": "Ernesto Chale",
+  "submittedBy": "ErnetoChale"
+}
