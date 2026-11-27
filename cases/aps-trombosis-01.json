@@ -1,0 +1,260 @@
+{
+  "id": "aps-trombosis-01",
+  "v": 1,
+  "title": "Trombosis venosa recurrente en mujer joven",
+  "specialty": "Reumatología / Hematología",
+  "level": "Intermedio",
+  "source": "El Hasbani G, Schreiber K, Rodríguez-Pintó I, et al. Antiphospholipid syndrome: epidemiology and outcomes in the evolving criteria era. Nat Rev Rheumatol. 2026.",
+  "setting": "Urgencias",
+  "patient": {
+    "name": "Laura Jiménez",
+    "age": 32,
+    "sex": "F",
+    "weight": 65,
+    "cc": "Dolor e inflamación en pierna derecha de 2 días de evolución"
+  },
+  "intro": "Mujer de 32 años que acude a urgencias por dolor, edema y eritema en miembro inferior derecho de 2 días de evolución. Refiere un episodio similar hace 2 años en la misma pierna, diagnosticado de trombosis venosa profunda (TVP) y tratado con anticoagulación durante 6 meses. No tiene factores de riesgo trombótico evidentes (no cirugía reciente, no inmovilización prolongada, no anticonceptivos orales). Antecedente de un aborto espontáneo a las 10 semanas hace 3 años.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Ingreso en urgencias",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 98,
+        "sbp": 118,
+        "dbp": 72,
+        "rr": 20,
+        "spo2": 97,
+        "t": 36.8
+      },
+      "d": "Miembro inferior derecho con edema, eritema y dolor a la palpación en pantorrilla. Signo de Homans positivo. Sin disnea ni dolor torácico. Sospecha de TVP recurrente.",
+      "worse": {
+        "after": 45,
+        "to": "grave"
+      }
+    },
+    "grave": {
+      "label": "Deterioro",
+      "v": {
+        "hr": 120,
+        "sbp": 95,
+        "dbp": 60,
+        "rr": 28,
+        "spo2": 90,
+        "t": 37.2
+      },
+      "d": "Disnea súbita, dolor torácico pleurítico y desaturación. Sospecha de tromboembolismo pulmonar (TEP). Inestabilidad hemodinámica incipiente.",
+      "worse": {
+        "after": 20,
+        "to": "muerte"
+      }
+    },
+    "mejor": {
+      "label": "Mejoría",
+      "goal": true,
+      "v": {
+        "hr": 88,
+        "sbp": 120,
+        "dbp": 75,
+        "rr": 18,
+        "spo2": 98,
+        "t": 36.8
+      },
+      "d": "Mejoría clínica tras inicio de anticoagulación y diagnóstico etiológico. Estable hemodinámicamente, sin signos de insuficiencia respiratoria."
+    },
+    "muerte": {
+      "label": "Muerte",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 37
+      }
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Ha tenido episodios previos de trombosis?",
+      "a": "Sí, TVP en miembro inferior derecho hace 2 años, sin factor desencadenante claro. Tratada con anticoagulación durante 6 meses."
+    },
+    {
+      "id": "h2",
+      "q": "¿Antecedentes obstétricos?",
+      "a": "Un aborto espontáneo a las 10 semanas hace 3 años. No ha tenido otros embarazos."
+    },
+    {
+      "id": "h3",
+      "q": "¿Antecedentes de enfermedades autoinmunes o lupus?",
+      "a": "No refiere diagnóstico previo de lupus ni otras enfermedades autoinmunes. No ha tenido manifestaciones cutáneas, articulares ni renales."
+    },
+    {
+      "id": "h4",
+      "q": "¿Toma anticonceptivos orales u otros fármacos?",
+      "a": "No toma anticonceptivos orales. No otros fármacos habituales."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Vascular periférico",
+      "f": "Edema, eritema y dolor en pantorrilla derecha. Signo de Homans positivo. Pulsos distales conservados."
+    },
+    {
+      "id": "e2",
+      "n": "Respiratorio",
+      "f": "Eupneica en reposo, sin dolor torácico. Auscultación pulmonar normal."
+    },
+    {
+      "id": "e3",
+      "n": "Cardiovascular",
+      "f": "Taquicardia leve. Sin soplos ni signos de insuficiencia cardíaca."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t1",
+      "n": "Ecografía Doppler de miembro inferior derecho",
+      "min": 20,
+      "r": {
+        "inicial": "Trombosis venosa profunda en vena poplítea y tibial posterior derecha. Confirmación de TVP recurrente.",
+        "*": "TVP confirmada."
+      }
+    },
+    {
+      "id": "t2",
+      "n": "Angio-TC de tórax",
+      "min": 30,
+      "r": {
+        "inicial": "No realizada inicialmente. Indicada si hay sospecha clínica de TEP.",
+        "*": "En estado grave: defectos de repleción en arterias pulmonares compatibles con TEP."
+      }
+    },
+    {
+      "id": "t3",
+      "n": "Anticuerpos antifosfolípidos (anticoagulante lúpico, anticardiolipina, anti-β2-glicoproteína I)",
+      "min": 60,
+      "r": {
+        "inicial": "Anticoagulante lúpico positivo. Anticardiolipina IgG positiva a título moderado-alto (>40 unidades). Anti-β2-glicoproteína I IgG positiva.",
+        "*": "Resultados positivos persistentes en segunda determinación a las 12 semanas."
+      }
+    },
+    {
+      "id": "t4",
+      "n": "Segunda determinación de anticuerpos antifosfolípidos (12 semanas después)",
+      "min": 60,
+      "r": {
+        "inicial": "Pendiente.",
+        "*": "Anticoagulante lúpico positivo, anticardiolipina IgG positiva y anti-β2-glicoproteína I IgG positiva. Persistencia confirmada."
+      }
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r1",
+      "n": "Inicio de anticoagulación con heparina de bajo peso molecular a dosis terapéutica",
+      "min": 10,
+      "goto": "mejor",
+      "when": [
+        "inicial",
+        "grave"
+      ],
+      "delay": 0,
+      "needs": [
+        "t1"
+      ],
+      "note": "Tratamiento de la TVP aguda. En contexto de APS, la anticoagulación debe mantenerse a largo plazo, con reevaluación del riesgo trombótico."
+    },
+    {
+      "id": "r2",
+      "n": "Solicitud de anticuerpos antifosfolípidos y confirmación de persistencia",
+      "min": 15,
+      "goto": "mejor",
+      "when": [
+        "inicial"
+      ],
+      "delay": 0,
+      "note": "El diagnóstico de APS requiere positividad persistente de anticuerpos antifosfolípidos (idealmente confirmada a las 12 semanas) junto con manifestaciones clínicas compatibles."
+    },
+    {
+      "id": "r3",
+      "n": "Alta hospitalaria sin anticoagulación prolongada",
+      "min": 10,
+      "harm": {
+        "msg": "En APS con trombosis venosa recurrente, la anticoagulación a largo plazo es fundamental para prevenir recurrencias. Suspenderla aumenta el riesgo de nuevo evento trombótico."
+      }
+    },
+    {
+      "id": "r4",
+      "n": "Inicio de anticonceptivos orales combinados para regular ciclo",
+      "min": 10,
+      "harm": {
+        "msg": "Los anticonceptivos orales combinados aumentan el riesgo trombótico, especialmente en pacientes con APS. Deben evitarse en favor de métodos no hormonales o progestágenos solos."
+      }
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Síndrome antifosfolípido (APS) con trombosis venosa recurrente",
+      "Trombofilia hereditaria (déficit de antitrombina III, proteína C o S)",
+      "Trombosis venosa profunda idiopática sin APS"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Solicitar ecografía Doppler en los primeros 30 minutos",
+        "a": [
+          "t1"
+        ],
+        "by": 30
+      },
+      {
+        "label": "Solicitar anticuerpos antifosfolípidos antes de iniciar anticoagulación (si es posible)",
+        "a": [
+          "t3"
+        ],
+        "before": "r1"
+      },
+      {
+        "label": "Confirmar persistencia de anticuerpos a las 12 semanas",
+        "a": [
+          "t4"
+        ],
+        "by": 20160
+      }
+    ],
+    "avoid": [
+      {
+        "state": "grave",
+        "label": "Evitó el deterioro a tromboembolismo pulmonar"
+      },
+      {
+        "state": "muerte",
+        "label": "Evitó la muerte"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "Paciente joven con TVP recurrente sin factores de riesgo trombótico convencionales y antecedente de aborto espontáneo. La positividad persistente de anticuerpos antifosfolípidos (anticoagulante lúpico, anticardiolipina y anti-β2-glicoproteína I) confirma el diagnóstico de síndrome antifosfolípido. El manejo incluye anticoagulación a largo plazo, evitar factores de riesgo trombótico y seguimiento multidisciplinario.",
+    "points": [
+      "El APS se define por trombosis o morbilidad obstétrica junto con positividad persistente de anticuerpos antifosfolípidos (confirmada idealmente a las 12 semanas).",
+      "La positividad aislada de anticuerpos antifosfolípidos no establece el diagnóstico; se requiere correlación clínica y persistencia.",
+      "En APS trombótico, la anticoagulación a largo plazo es la piedra angular del tratamiento.",
+      "Deben evitarse los anticonceptivos orales combinados en pacientes con APS por el aumento del riesgo trombótico.",
+      "El APS es una enfermedad multisistémica que requiere seguimiento por equipos multidisciplinarios."
+    ],
+    "refs": [
+      "El Hasbani G, Schreiber K, Rodríguez-Pintó I, et al. Antiphospholipid syndrome: epidemiology and outcomes in the evolving criteria era. Nat Rev Rheumatol. 2026.",
+      "Miyakis S, Lockshin MD, Atsumi T, et al. International consensus statement on an update of the classification criteria for definite antiphospholipid syndrome (APS). J Thromb Haemost. 2006.",
+      "Barbhaiya M, Zuily S, Naden R, et al. The 2023 ACR/EULAR antiphospholipid syndrome classification criteria. Arthritis Rheumatol. 2023."
+    ]
+  },
+  "author": "Ernesto Chale",
+  "submittedBy": "ErnetoChale"
+}
