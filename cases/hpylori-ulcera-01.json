@@ -1,0 +1,350 @@
+{
+  "id": "hpylori-ulcera-01",
+  "v": 1,
+  "title": "Dispepsia, úlcera gástrica e infección por Helicobacter pylori",
+  "specialty": "Gastroenterología",
+  "level": "Intermedio",
+  "source": "Li H, Megraud F, Marshall BJ. Helicobacter pylori Infection — Advances, Challenges, and the Road Ahead. N Engl J Med. 2026;395:1621-33.",
+  "setting": "Consulta de Atención Primaria / Urgencias",
+  "patient": {
+    "name": "Carlos Ruiz",
+    "age": 38,
+    "sex": "M",
+    "weight": 78,
+    "cc": "Dolor epigástrico urente de 2 meses de evolución, pirosis y plenitud posprandial"
+  },
+  "intro": "Varón de 38 años que acude a consulta por dolor epigástrico urente de 2 meses de evolución, que mejora parcialmente con la ingesta y empeora en ayunas. Refiere pirosis ocasional, eructos y sensación de plenitud posprandial. No presenta signos de alarma: sin disfagia, sin pérdida de peso, sin vómitos persistentes, sin sangrado digestivo, sin anemia y sin masa abdominal palpable. No ha recibido tratamiento previo para H. pylori. No toma AINEs, aspirina ni corticoides. No antecedentes familiares de cáncer gástrico. No fumador, consumo ocasional de alcohol.",
+  "start": "inicial",
+  "states": {
+    "inicial": {
+      "label": "Consulta inicial",
+      "rhythm": "sinus",
+      "v": {
+        "hr": 76,
+        "sbp": 120,
+        "dbp": 78,
+        "rr": 16,
+        "spo2": 98,
+        "t": 36.6
+      },
+      "d": "Paciente estable, afebril, hemodinámicamente compensado. Dolor a la palpación profunda en epigastrio, sin masas ni organomegalias. Sin signos de irritación peritoneal. Sin signos de alarma. Sospecha de dispepsia no investigada con posible infección por H. pylori.",
+      "worse": {
+        "after": 180,
+        "to": "complicacion"
+      }
+    },
+    "complicacion": {
+      "label": "Hemorragia digestiva alta por úlcera péptica",
+      "v": {
+        "hr": 112,
+        "sbp": 98,
+        "dbp": 60,
+        "rr": 22,
+        "spo2": 96,
+        "t": 37
+      },
+      "d": "Dolor abdominal intenso súbito, melena, hematemesis en escasa cuantía y palidez cutánea. Taquicardia e hipotensión limítrofe. Sospecha de hemorragia digestiva alta por úlcera péptica complicada. Requiere evaluación urgente, reanimación con volumen y endoscopia digestiva alta.",
+      "worse": {
+        "after": 30,
+        "to": "muerte"
+      }
+    },
+    "mejor": {
+      "label": "Mejoría y erradicación confirmada",
+      "goal": true,
+      "v": {
+        "hr": 78,
+        "sbp": 118,
+        "dbp": 76,
+        "rr": 16,
+        "spo2": 98,
+        "t": 36.6
+      },
+      "d": "Paciente con diagnóstico de infección por H. pylori y úlcera gástrica, tratado con terapia cuádruple basada en bismuto durante 14 días y con control de síntomas. Erradicación confirmada mediante test de aliento con urea marcada tras el tratamiento. Úlcera cicatrizada en endoscopia de control."
+    },
+    "muerte": {
+      "label": "Muerte",
+      "end": "muerte",
+      "rhythm": "asistolia",
+      "v": {
+        "hr": 0,
+        "sbp": 0,
+        "dbp": 0,
+        "rr": 0,
+        "spo2": 0,
+        "t": 37
+      }
+    }
+  },
+  "history": [
+    {
+      "id": "h1",
+      "q": "¿Cuándo comenzaron los síntomas y cómo han progresado?",
+      "a": "Dolor epigástrico urente de 2 meses de evolución, de intensidad moderada, que mejora parcialmente con la ingesta y empeora en ayunas y por la noche. Se acompaña de pirosis ocasional y plenitud posprandial."
+    },
+    {
+      "id": "h2",
+      "q": "¿Ha tenido episodios previos de úlcera, sangrado digestivo o dispepsia?",
+      "a": "No refiere úlcera previa ni sangrado digestivo. No dispepsia previa significativa. Este es el primer episodio."
+    },
+    {
+      "id": "h3",
+      "q": "¿Toma AINEs, aspirina, corticoides o algún fármaco gastrolesivo?",
+      "a": "No toma AINEs, aspirina ni corticoides. No otros fármacos gastrolesivos."
+    },
+    {
+      "id": "h4",
+      "q": "¿Antecedentes familiares de cáncer gástrico o úlcera péptica?",
+      "a": "Sin antecedentes familiares de cáncer gástrico. Padre con úlcera péptica hace años."
+    },
+    {
+      "id": "h5",
+      "q": "¿Ha recibido tratamiento previo para H. pylori?",
+      "a": "No ha recibido tratamiento previo para H. pylori. No ha tenido test previos."
+    },
+    {
+      "id": "h6",
+      "q": "¿Presenta signos de alarma digestivos?",
+      "a": "No disfagia, no pérdida de peso, no vómitos persistentes, no hematemesis, no melena, no anemia conocida, no masa abdominal palpable."
+    },
+    {
+      "id": "h7",
+      "q": "¿Consumo de tabaco, alcohol u otros tóxicos?",
+      "a": "No fumador. Consumo ocasional de alcohol (cerveza los fines de semana)."
+    },
+    {
+      "id": "h8",
+      "q": "¿Antecedentes de infección por H. pylori en familiares convivientes?",
+      "a": "Desconoce si otros familiares convivientes están infectados. No se han realizado test previos en el entorno familiar."
+    }
+  ],
+  "exam": [
+    {
+      "id": "e1",
+      "n": "Abdominal",
+      "f": "Dolor a la palpación profunda en epigastrio. No masas ni organomegalias. Sin signos de irritación peritoneal. Ruidos hidroaéreos presentes."
+    },
+    {
+      "id": "e2",
+      "n": "General",
+      "f": "Sin palidez cutánea, sin ictericia, sin adenopatías. Afebril. Buen estado general."
+    },
+    {
+      "id": "e3",
+      "n": "Digestivo",
+      "f": "Sin disfagia, sin vómitos, sin melena ni hematemesis. Abdomen blando, depresible."
+    },
+    {
+      "id": "e4",
+      "n": "Cardiovascular",
+      "f": "Ruidos cardíacos rítmicos, sin soplos. Pulsos periféricos conservados. Sin signos de hipovolemia."
+    }
+  ],
+  "tests": [
+    {
+      "id": "t1",
+      "n": "Test de aliento con urea marcada (13C)",
+      "min": 30,
+      "r": {
+        "inicial": "Positivo para H. pylori. Sensibilidad y especificidad del 95-100%.",
+        "*": "Positivo."
+      }
+    },
+    {
+      "id": "t2",
+      "n": "Endoscopia digestiva alta con biopsia",
+      "min": 60,
+      "r": {
+        "inicial": "Úlcera gástrica antral de 1 cm, con bordes regulares. Gastritis crónica activa. Biopsia: H. pylori positivo. Sin signos de malignidad.",
+        "*": "Úlcera gástrica confirmada. En estado de complicación: úlcera con estigmas de sangrado reciente."
+      }
+    },
+    {
+      "id": "t3",
+      "n": "Hemograma completo",
+      "min": 20,
+      "r": {
+        "inicial": "Hemoglobina 14.2 g/dL, sin anemia. Leucocitos 7.200/µL, plaquetas 250 × 10³/µL. Sin alteraciones significativas.",
+        "*": "En estado de complicación: hemoglobina 9.8 g/dL, descenso significativo."
+      }
+    },
+    {
+      "id": "t4",
+      "n": "Test de antígeno en heces para H. pylori",
+      "min": 30,
+      "r": {
+        "inicial": "No realizado inicialmente. Alternativa no invasiva al test de aliento.",
+        "*": "Positivo en caso de no haberse realizado test de aliento."
+      }
+    },
+    {
+      "id": "t5",
+      "n": "Test de aliento con urea marcada post-tratamiento (confirmación de erradicación)",
+      "min": 30,
+      "r": {
+        "inicial": "Pendiente. Debe realizarse al menos 4 semanas después de completar el tratamiento y sin IBP.",
+        "*": "Negativo. Erradicación confirmada."
+      }
+    },
+    {
+      "id": "t6",
+      "n": "Test de susceptibilidad antimicrobiana (cultivo o molecular)",
+      "min": 120,
+      "r": {
+        "inicial": "No realizado inicialmente. Indicado en caso de fracaso terapéutico o antes de tratamiento en áreas de alta resistencia.",
+        "*": "Útil para guiar terapia de rescate si falla la primera línea."
+      }
+    }
+  ],
+  "treatments": [
+    {
+      "id": "r1",
+      "n": "Terapia cuádruple basada en bismuto durante 14 días (IBP + bismuto + tetraciclina + metronidazol)",
+      "min": 30,
+      "goto": "mejor",
+      "when": [
+        "inicial"
+      ],
+      "delay": 0,
+      "needs": [
+        "t1",
+        "t2"
+      ],
+      "note": "Primera línea empírica más recomendada actualmente. Eficacia de erradicación de aproximadamente 90% en pacientes adherentes. Efectividad no afectada por resistencia a claritromicina o levofloxacino. Puede causar náuseas, mareo, sabor metálico, vómitos y dolor abdominal, aunque los efectos adversos graves que obligan a suspender el tratamiento son raros."
+    },
+    {
+      "id": "r2",
+      "n": "Terapia dual de alta dosis durante 14 días (IBP a dosis doble o vonoprazan + amoxicilina)",
+      "min": 30,
+      "goto": "mejor",
+      "when": [
+        "inicial"
+      ],
+      "delay": 0,
+      "needs": [
+        "t1"
+      ],
+      "note": "Alternativa empírica de primera línea en pacientes sin alergia a penicilina. Buena eficacia. El vonoprazan (P-CAB) puede usarse en terapias duales y triples según la guía ACG 2024."
+    },
+    {
+      "id": "r3",
+      "n": "Terapia triple basada en claritromicina sin test de susceptibilidad",
+      "min": 20,
+      "harm": {
+        "msg": "La resistencia a claritromicina supera el 15% en la mayoría de las regiones del mundo y alcanza el 30% en Asia-Pacífico, lo que ha hecho obsoleta la terapia triple empírica basada en claritromicina sin test de susceptibilidad. Se debe evitar su uso empírico."
+      }
+    },
+    {
+      "id": "r4",
+      "n": "Omeprazol en monoterapia sin erradicación",
+      "min": 10,
+      "harm": {
+        "msg": "El tratamiento con IBP en monoterapia alivia los síntomas pero no erradica H. pylori. La infección persistente mantiene el riesgo de úlcera, recidiva y cáncer gástrico. Se debe indicar terapia de erradicación."
+      }
+    },
+    {
+      "id": "r5",
+      "n": "Terapia triple basada en metronidazol o levofloxacino sin test de susceptibilidad",
+      "min": 20,
+      "harm": {
+        "msg": "La resistencia a metronidazol (61% en Asia-Pacífico) y levofloxacino (35%) es elevada. Las terapias triples basadas en estos antibióticos solo deben usarse si se confirma sensibilidad mediante test de susceptibilidad."
+      }
+    },
+    {
+      "id": "r6",
+      "n": "Terapia de rescate con rifabutina o furazolidona tras fracaso de primera línea",
+      "min": 30,
+      "goto": "mejor",
+      "when": [
+        "inicial"
+      ],
+      "delay": 0,
+      "needs": [
+        "t6"
+      ],
+      "note": "Indicada en caso de fracaso de primera línea. La terapia triple con rifabutina ha sido sugerida como primera línea por la ACG 2024 en EE.UU., pero la Maastricht VI/Florence la reserva como tercera línea. La furazolidona se recomienda en infecciones refractarias según guías chinas."
+    }
+  ],
+  "diagnosis": {
+    "options": [
+      "Infección por Helicobacter pylori con úlcera gástrica",
+      "Dispepsia funcional sin infección por H. pylori",
+      "Úlcera gástrica por AINEs",
+      "Cáncer gástrico incipiente"
+    ],
+    "correct": 0
+  },
+  "scoring": {
+    "critical": [
+      {
+        "label": "Solicitar test de aliento con urea en los primeros 30 minutos",
+        "a": [
+          "t1"
+        ],
+        "by": 30
+      },
+      {
+        "label": "Solicitar hemograma completo en los primeros 30 minutos",
+        "a": [
+          "t3"
+        ],
+        "by": 30
+      },
+      {
+        "label": "Realizar endoscopia digestiva alta con biopsia",
+        "a": [
+          "t2"
+        ],
+        "by": 120
+      },
+      {
+        "label": "Prescribir terapia de erradicación con cuádruple terapia basada en bismuto",
+        "a": [
+          "r1"
+        ],
+        "by": 1440
+      },
+      {
+        "label": "Confirmar erradicación con test de aliento post-tratamiento",
+        "a": [
+          "t5"
+        ],
+        "by": 20160
+      }
+    ],
+    "avoid": [
+      {
+        "state": "complicacion",
+        "label": "Evitó complicación ulcerosa (hemorragia digestiva alta)"
+      },
+      {
+        "state": "muerte",
+        "label": "Evitó la muerte"
+      }
+    ]
+  },
+  "debrief": {
+    "summary": "Varón joven con dispepsia no investigada, sin signos de alarma, en quien se diagnostica infección por H. pylori mediante test de aliento y se confirma úlcera gástrica por endoscopia. El tratamiento de elección actual es la terapia cuádruple basada en bismuto durante 14 días, que logra erradicación en aproximadamente 90% de los pacientes y es eficaz independientemente de la resistencia a claritromicina o levofloxacino. Se debe evitar la terapia triple empírica con claritromicina por la alta prevalencia de resistencia. La erradicación de H. pylori reduce el riesgo de recidiva ulcerosa y de cáncer gástrico. La erradicación debe confirmarse mediante test de aliento o antígeno en heces al menos 4 semanas después de completar el tratamiento.",
+    "points": [
+      "La infección por H. pylori es la causa principal de gastritis crónica activa, úlcera péptica y cáncer gástrico; está clasificada como carcinógeno de clase I por la OMS.",
+      "El test de aliento con urea y el test de antígeno en heces tienen alta sensibilidad y especificidad (95-100%) y son adecuados para el cribado y diagnóstico no invasivo en adultos.",
+      "La endoscopia está indicada en pacientes con signos de alarma (disfagia, pérdida de peso, vómitos persistentes, sangrado digestivo, anemia ferropénica o masa abdominal) o mayores de 45 años con factores de riesgo.",
+      "La terapia cuádruple basada en bismuto es el tratamiento empírico de primera línea recomendado actualmente, con alta eficacia y efectividad independiente de la resistencia a claritromicina y levofloxacino.",
+      "La terapia triple basada en claritromicina sin test de susceptibilidad ya no se recomienda empíricamente debido a la alta prevalencia mundial de resistencia (>15%).",
+      "La terapia dual de alta dosis con IBP o vonoprazan más amoxicilina es una alternativa empírica eficaz en pacientes sin alergia a penicilina.",
+      "El test de susceptibilidad antimicrobiana debe guiar el tratamiento cuando esté disponible, especialmente antes de la primera línea según la Maastricht VI/Florence, y siempre en caso de fracaso terapéutico.",
+      "La erradicación de H. pylori reduce el riesgo de úlcera, recidiva y cáncer gástrico, y debe confirmarse mediante test de aliento o antígeno en heces tras el tratamiento.",
+      "La estrategia de cribado y tratamiento poblacional (screen-and-treat) es costo-efectiva en áreas de alta prevalencia y alta incidencia de cáncer gástrico, como Asia Oriental.",
+      "La estrategia basada en la familia (family-based testing) es una alternativa costo-efectiva que aborda la transmisión intrafamiliar, especialmente en grupos de alto riesgo como inmigrantes de regiones de alta incidencia."
+    ],
+    "refs": [
+      "Li H, Megraud F, Marshall BJ. Helicobacter pylori Infection — Advances, Challenges, and the Road Ahead. N Engl J Med. 2026;395:1621-33.",
+      "Malfertheiner P, Megraud F, Rokkas T, et al. Management of Helicobacter pylori infection: the Maastricht VI/Florence consensus report. Gut. 2022;71(9):1724-1762.",
+      "Chey WD, Leontiadis GI, Howden CW, et al. ACG Clinical Guideline: Treatment of Helicobacter pylori Infection. Am J Gastroenterol. 2024;119(9):1734-1759.",
+      "Liou JM, Malfertheiner P, Lee YC, et al. Screening and eradication of Helicobacter pylori for gastric cancer prevention: the Taipei global consensus. Gut. 2020;69(12):2093-2112.",
+      "Sugano K, Tack J, Kuipers EJ, et al. Kyoto global consensus report on Helicobacter pylori gastritis. Gut. 2015;64(9):1353-1367."
+    ]
+  },
+  "author": "Ernesto Chale",
+  "submittedBy": "ErnetoChale"
+}
